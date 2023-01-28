@@ -2,9 +2,9 @@
 -- Company: 
 -- Engineer: 
 -- 
--- Create Date: 01/14/2023 10:07:35 PM
+-- Create Date: 01/27/2023 07:53:14 PM
 -- Design Name: 
--- Module Name: shift_register - Custom_Arch
+-- Module Name: rotate_right - Custom_Arch
 -- Project Name: 
 -- Target Devices: 
 -- Tool Versions: 
@@ -21,7 +21,7 @@
 
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
-
+use IEEE.NUMERIC_STD.ALL;
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
 --use IEEE.NUMERIC_STD.ALL;
@@ -31,13 +31,20 @@ use IEEE.STD_LOGIC_1164.ALL;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
-entity shift_register is
---  Port ( );
-end shift_register;
+entity rotate_right is
+    generic
+    (
+        WIDTH   :   integer
+    );
+    port
+    (
+        A   : in std_logic_vector(WIDTH-1 downto 0);    -- Value to shift
+        B   : in std_logic_vector(WIDTH-1 downto 0);    -- Value to shift A by
+        Y   : out std_logic_vector(WIDTH-1 downto 0)    -- Output
+    );
+end rotate_right;
 
-architecture Custom_Arch of shift_register is
-
+architecture Custom_Arch of rotate_right is
 begin
-
-
+    Y <= std_logic_vector(unsigned(A) ror to_integer(unsigned(B)));
 end Custom_Arch;

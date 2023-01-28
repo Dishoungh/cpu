@@ -38,18 +38,34 @@ entity mux is
     );
     port
     (
-        a   : in std_logic_vector(WIDTH-1 downto 0);
-        b   : in std_logic_vector(WIDTH-1 downto 0);
-        sel : in std_logic;
-        o   : out std_logic_vector(WIDTH-1 downto 0)
+        A   : in std_logic_vector(WIDTH-1 downto 0);
+        B   : in std_logic_vector(WIDTH-1 downto 0);
+        Sel : in std_logic;
+        O   : out std_logic_vector(WIDTH-1 downto 0)
     );
 end mux;
 
 architecture Custom_Arch of mux is
 
+    component one_bit_mux is
+        port
+        (
+            A   : in std_logic;
+            B   : in std_logic;
+            Sel : in std_logic;
+            O   : out std_logic
+        );
+    end component;
+    
 begin
-    -- VHDL's version of a case statement
-    with sel select
-        o <= a when '0',
-             b when others;
+    -- Generate n Multiplexers
+    gen: for i in 0 to (WIDTH-1) generate
+        subcomponent: one_bit_mux port map
+        (
+            A   => A(i),
+            B   => B(i),
+            Sel => Sel,
+            O   => O(i)
+        );
+    end generate;
 end Custom_Arch;

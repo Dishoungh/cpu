@@ -2,9 +2,9 @@
 -- Company: 
 -- Engineer: 
 -- 
--- Create Date: 01/22/2023 10:11:07 PM
+-- Create Date: 01/27/2023 07:53:14 PM
 -- Design Name: 
--- Module Name: multiplier - Custom_Arch
+-- Module Name: rotate_left - Custom_Arch
 -- Project Name: 
 -- Target Devices: 
 -- Tool Versions: 
@@ -31,23 +31,20 @@ use IEEE.NUMERIC_STD.ALL;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
-
--- Use this for help: https://technobyte.org/multiplier-vhdl-dataflow-behavioral-structural/
-
-entity multiplier is
+entity rotate_left is
     generic
     (
-        WIDTH  : integer
+        WIDTH   :   integer
     );
     port
     (
-        A   : in std_logic_vector((WIDTH/2)-1 downto 0);
-        B   : in std_logic_vector((WIDTH/2)-1 downto 0);
-        Y   : out std_logic_vector(WIDTH-1 downto 0)
+        A   : in std_logic_vector(WIDTH-1 downto 0);    -- Value to shift
+        B   : in std_logic_vector(WIDTH-1 downto 0);    -- Value to shift A by
+        Y   : out std_logic_vector(WIDTH-1 downto 0)    -- Output
     );
-end multiplier;
+end rotate_left;
 
-architecture Custom_Arch of multiplier is
+architecture Custom_Arch of rotate_left is
 begin
-    Y <= std_logic_vector(signed(A) * signed(B));
+    Y <= std_logic_vector(unsigned(A) rol to_integer(unsigned(B)));
 end Custom_Arch;

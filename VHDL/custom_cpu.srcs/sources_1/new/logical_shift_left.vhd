@@ -2,9 +2,9 @@
 -- Company: 
 -- Engineer: 
 -- 
--- Create Date: 01/14/2023 10:07:35 PM
+-- Create Date: 01/27/2023 08:11:10 PM
 -- Design Name: 
--- Module Name: divider - Custom_Arch
+-- Module Name: logical_shift_left - Custom_Arch
 -- Project Name: 
 -- Target Devices: 
 -- Tool Versions: 
@@ -21,7 +21,7 @@
 
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
-
+use IEEE.NUMERIC_STD.ALL;
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
 --use IEEE.NUMERIC_STD.ALL;
@@ -31,13 +31,22 @@ use IEEE.STD_LOGIC_1164.ALL;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
-entity divider is
---  Port ( );
-end divider;
+entity logical_shift_left is
+    generic
+    (
+        WIDTH   :   integer
+    );
+    port
+    (
+        A   : in std_logic_vector(WIDTH-1 downto 0);    -- Value to shift
+        B   : in std_logic_vector(WIDTH-1 downto 0);    -- Value to shift A by
+        Y   : out std_logic_vector(WIDTH-1 downto 0)    -- Output
+    );
+end logical_shift_left;
 
-architecture Custom_Arch of divider is
-
-begin
-
-
+architecture Custom_Arch of logical_shift_left is
+ 
+begin    
+    -- Using barrel shifting
+    Y <= std_logic_vector(shift_left(unsigned(A), to_integer(unsigned(B))));
 end Custom_Arch;

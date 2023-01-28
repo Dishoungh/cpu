@@ -2,9 +2,9 @@
 -- Company: 
 -- Engineer: 
 -- 
--- Create Date: 01/22/2023 10:11:07 PM
+-- Create Date: 01/18/2023 08:05:16 PM
 -- Design Name: 
--- Module Name: multiplier - Custom_Arch
+-- Module Name: one-bit_demux - Custom_Arch
 -- Project Name: 
 -- Target Devices: 
 -- Tool Versions: 
@@ -21,7 +21,7 @@
 
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
-use IEEE.NUMERIC_STD.ALL;
+
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
 --use IEEE.NUMERIC_STD.ALL;
@@ -31,23 +31,19 @@ use IEEE.NUMERIC_STD.ALL;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
-
--- Use this for help: https://technobyte.org/multiplier-vhdl-dataflow-behavioral-structural/
-
-entity multiplier is
-    generic
-    (
-        WIDTH  : integer
-    );
+entity one_bit_demux is
     port
     (
-        A   : in std_logic_vector((WIDTH/2)-1 downto 0);
-        B   : in std_logic_vector((WIDTH/2)-1 downto 0);
-        Y   : out std_logic_vector(WIDTH-1 downto 0)
+        A   : in std_logic;
+        Sel : in std_logic;
+        O1  : out std_logic;
+        O2  : out std_logic
     );
-end multiplier;
+end one_bit_demux;
 
-architecture Custom_Arch of multiplier is
+architecture Custom_Arch of one_bit_demux is
+
 begin
-    Y <= std_logic_vector(signed(A) * signed(B));
+    O1 <= A and (not Sel);
+    O2 <= A and Sel;
 end Custom_Arch;

@@ -1,0 +1,3 @@
+# Ignore all generated Vivado log files
+*.jou
+*.log
