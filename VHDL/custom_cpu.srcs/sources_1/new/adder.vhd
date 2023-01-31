@@ -68,7 +68,8 @@ begin
     
     -- Generate FA array
     gen: for i in 0 to (WIDTH-1) generate
-        subcomponent: full_adder port map
+        subcomponent: full_adder
+        port map
         (
             A       => A(i),
             B       => B(i),

@@ -2,9 +2,9 @@
 -- Company: 
 -- Engineer: 
 -- 
--- Create Date: 01/18/2023 08:05:16 PM
+-- Create Date: 01/28/2023 10:06:16 PM
 -- Design Name: 
--- Module Name: one-bit_mux - Custom_Arch
+-- Module Name: 2_to_1-mux - Custom_Arch
 -- Project Name: 
 -- Target Devices: 
 -- Tool Versions: 
@@ -31,23 +31,22 @@ use IEEE.STD_LOGIC_1164.ALL;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
-entity one_bit_mux is
+entity mux_2_to_1 is
+    generic
+    (
+        WIDTH   :   integer
+    );
     port
     (
-        A   : in std_logic;
-        B   : in std_logic;
-        Sel : in std_logic;
-        O   : out std_logic
+        A       :   in std_logic;
+        B       :   in std_logic;
+        Sel     :   in std_logic;
+        Output  :   out std_logic
     );
-end one_bit_mux;
+end mux_2_to_1;
 
-architecture Custom_Arch of one_bit_mux is
+architecture Custom_Arch of mux_2_to_1 is
 
-    signal nSA : std_logic;
-    signal SB  : std_logic;
-    
 begin
-    nSA <= A and (not Sel);
-    SB  <= B and Sel;
-    O   <= nSA or SB;
+    Output  <=  ((not Sel) and A) or (Sel and B);
 end Custom_Arch;

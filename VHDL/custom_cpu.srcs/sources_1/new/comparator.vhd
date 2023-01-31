@@ -38,8 +38,7 @@ entity comparator is
     );
     port
     (
-        A   : in std_logic_vector(WIDTH-1 downto 0);    -- A input
-        B   : in std_logic_vector(WIDTH-1 downto 0);    -- B input
+        A   : in std_logic_vector(WIDTH-1 downto 0);    -- Input from subtractor (this assumes A is the difference between two numbers)
         G   : out std_logic;                            -- A greater than B
         L   : out std_logic;                            -- A less than B
         E   : out std_logic                             -- A equal to B    
@@ -47,9 +46,9 @@ entity comparator is
 end comparator;
 
 architecture Custom_Arch of comparator is
-
+    
 begin
-    G <= '1' when (A > B) else '0';
-    L <= '1' when (A < B) else '0';
-    E <= '1' when (A = B) else '0';
+    G <= '1' when (A(WIDTH-1) = '0') else '0'; -- Must be greater if difference is positive (MSB = 0)
+    L <= '1' when (A(WIDTH-1) = '1') else '0'; -- Must be less if difference is negative (MSB = 1)
+    E <= '1' when (A = "0") else '0'; -- Must be equal if difference is zero
 end Custom_Arch;

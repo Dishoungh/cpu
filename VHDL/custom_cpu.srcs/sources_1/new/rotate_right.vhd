@@ -31,7 +31,7 @@ use IEEE.NUMERIC_STD.ALL;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
-entity rotate_right is
+entity right_rotate is
     generic
     (
         WIDTH   :   integer
@@ -42,9 +42,9 @@ entity rotate_right is
         B   : in std_logic_vector(WIDTH-1 downto 0);    -- Value to shift A by
         Y   : out std_logic_vector(WIDTH-1 downto 0)    -- Output
     );
-end rotate_right;
+end right_rotate;
 
-architecture Custom_Arch of rotate_right is
+architecture Custom_Arch of right_rotate is
 begin
     Y <= std_logic_vector(unsigned(A) ror to_integer(unsigned(B)));
 end Custom_Arch;
