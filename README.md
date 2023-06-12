@@ -1,2 +1,2 @@
-# CPU-HDL
-Writing a custom CPU architecture in HDL (VHDL and Verilog)
+# CPU
+Designing a custom 16-bit CPU architecture
