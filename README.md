@@ -1,2 +1,8 @@
-# CPU
-Designing a custom 16-bit CPU architecture
+# Overview
+
+Why am I doing this? Literally no reason.
+
+I like hardware and I like learning about computer architecture so I want to apply it and hone my skills in this space. That's literally it. Yes, I'm reinventing the wheel, but as long as I'm learning, that's all that matters to me. I plan on this README documenting everything I've done to create this.
+
+Inspirations I'm using for this design:
+
