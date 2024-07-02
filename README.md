@@ -351,20 +351,12 @@ My base ALU is now complete with all of the base RV32I operations included. If I
 
 ## Memory (Program and Data)
 
-Up next is the memory. To be honest, at this point in the project, I don't know how (architecturally speaking) the CPU goes from power up to running an OS yet. I'll get to it whenever it's most relevant, but right now I want to try to make this a Von Neumann type architecture.
-
-
+Up next is the memory.
 
 ## Branching
 
+[Add this later]
+
 ## Control Unit and Datapath
 
-
-
-
-
-
-
-
-
-
+[Add this later]
