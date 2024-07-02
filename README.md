@@ -351,7 +351,9 @@ My base ALU is now complete with all of the base RV32I operations included. If I
 
 ## Memory (Program and Data)
 
-Up next is the memory.
+Up next is the memory. I'm not implementing CPU caching yet. That will be done later. For now, I'm creating a simple memory structure where the main memory in this case is just normal, byte-addressable RAM that I can select to either load or store a byte, half word (16 bits) or a full word (32 bits).
+
+**[I'm currently working on how to implement this in Logisim]**
 
 ## Branching
 
