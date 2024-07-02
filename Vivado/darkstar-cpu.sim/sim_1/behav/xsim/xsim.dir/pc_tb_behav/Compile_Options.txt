@@ -1,1 +1,0 @@
---incr --debug "typical" --relax --mt "8" -L "xil_defaultlib" -L "secureip" -L "xpm" --snapshot "pc_tb_behav" "xil_defaultlib.pc_tb" -log "elaborate.log" 
