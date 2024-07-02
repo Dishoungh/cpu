@@ -216,7 +216,7 @@ These are special type instructions for operating systems (ECALL and EBREAK). EC
 
 ## Instructions Table
 
-Now that I've studied the base instruction types, I want to expand the list of instructions from page 554 of the spec sheet. I don't feel like formatting that in Markdown so I've done it [here in Excel](./RISC-V-Instructions.xlsx). I'm excluding instructions like the FENCE/FENCE.TSO, PAUSE, ECALL, and EBREAK instructions and I'll probably add those in later. Also, since the JALR instruction follows more closely to the I-type format than a J-type, I put it in the I-type category.
+I want to expand the list of instructions from page 554 of the spec sheet. I don't feel like formatting that in Markdown so I've done it [here in Excel](./RISC-V-Instructions.xlsx). I'm excluding instructions like the FENCE/FENCE.TSO, PAUSE, ECALL, and EBREAK instructions and I'll probably add those in later. Also, since the JALR instruction follows more closely to the I-type format than a J-type, I put it in the I-type category.
 
 # Part II: Implementing the Base RISC-V ISA
 
@@ -358,5 +358,9 @@ Up next is the memory.
 [Add this later]
 
 ## Control Unit and Datapath
+
+[Add this later]
+
+# Special Thanks
 
 [Add this later]
