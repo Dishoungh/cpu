@@ -12,19 +12,19 @@ I'm using the [Unprivileged RISC-V Instruction Set Manual (Volume 1)](./unpriv-i
 
 # Table of Contents
 
+[I will add this in later]
+
 # Prerequisite Material
 
-Prepping for this, someone directed to me to a game on Steam called [Turing Complete](https://store.steampowered.com/app/1444480/Turing_Complete/), which is a puzzle game to help you learn about CPU architecture design. It's surprisingly really good and I enjoyed it to as Digital Logic review. It also has a Sandbox mode to where I can design my CPU there. Normally, it's $20. However, if you are looking something for free, there are plenty of resources online. A few I can personally recommend are:
+Prepping for this, someone directed to me to a game on Steam called [Turing Complete](https://store.steampowered.com/app/1444480/Turing_Complete/), which is a puzzle game to help you learn about CPU architecture design. It's surprisingly really good and I enjoyed it to as Digital Logic review. It also has a Sandbox mode to where I can design my CPU there. Normally, it's $20 (at the time of this edit). However, if you are looking something for free, there are plenty of resources online. A few I can personally recommend are:
 
 - [All About Circuits](https://www.allaboutcircuits.com/textbook/digital/)
 - [GeeksforGeeks](https://www.geeksforgeeks.org/digital-electronics-logic-design-tutorials/)
 - [Neso Academy - Digital Electronics YouTube Playlist](https://www.youtube.com/playlist?list=PLBlnK6fEyqRjMH3mWf6kwqiTbT798eAOm)
 
-For the rest of this README, I will assume you have at least some basic digital design knowledge for the purposes of conciseness so I don't go in-depth with literally everything I'm dong.
-
 # Part I: Learning the RISC-V ISA (RV32I)
 
-I am new to RISC-V and I'll try my best to summarize the RISC-V base spec with the most important details to help me design my CPU. Let's keep it real, you're not reading and memorizing the whole 670-page spec.
+I am new to RISC-V and I'll try my best to summarize the RISC-V base spec with the most important details to help me design my CPU.
 
 ## Registers Table
 
@@ -80,7 +80,7 @@ There are 6 instruction types:
 
 ## Instruction Formatting
 
-### R-Type (Register-Register)
+### <ins>R-Type (Register-Register)</ins>
 
 The R-type instruction is a core instruction type that takes two source registers (rs1 and rs2), performs arithmetic/logical operations, and places the results in the destination register (rd). There are 6 fields:
 1. funct7 - This is a 7 bit field that selects the type of operation given the opcode and funct3 fields.
@@ -95,7 +95,7 @@ The R-type instruction is a core instruction type that takes two source register
 |:---------:	|:---------:	|:---------:	|:---------:	|:---------:	|:---------:	|:---------:	|:------:	|:------:	|:------:	|:------:	|:------:	|:------:	|:------:	|:------:	|:------:	|:------:	|:---------:	|:---------:	|:---------:	|:-----:	|:-----:	|:-----:	|:-----:	|:-----:	|:---------:	|:---------:	|:---------:	|:---------:	|:---------:	|:---------:	|:---------:	|
 | funct7[6] 	| funct7[5] 	| funct7[4] 	| funct7[3] 	| funct7[2] 	| funct7[1] 	| funct7[0] 	| rs2[4] 	| rs2[3] 	| rs2[2] 	| rs2[1] 	| rs2[0] 	| rs1[4] 	| rs1[3] 	| rs1[2] 	| rs1[1] 	| rs1[0] 	| funct3[2] 	| funct3[1] 	| funct3[0] 	| rd[4] 	| rd[3] 	| rd[2] 	| rd[1] 	| rd[0] 	| opcode[6] 	| opcode[5] 	| opcode[4] 	| opcode[3] 	| opcode[2] 	| opcode[1] 	| opcode[0] 	|
 
-### I-Type (Register-Immediate)
+### <ins>I-Type (Register-Immediate)</ins>
 
 The I-type instruction is a core instruction type that handles short immediates and loading operations. The I-type takes one source register (rs1), performs arithmetic/logical operations on an immediate value that is 12 bits wide, and places the results in the destination register (rd). There are 5 fields:
 1. immediate - This is a 12 bit field that represents the sign-extended immediate value to use for the immediate instruction.
@@ -110,12 +110,13 @@ The I-type instruction is a core instruction type that handles short immediates 
 
 Notice how the funct7 and rs2 fields from the R-type instruction are combined to a 12-bit total immediate field. 
 
-### S-Type (Store)
+### <ins>S-Type (Store)</ins>
 
 The S-type instruction is a core instruction type that handles storing data in memory. The first source register (rs1) is used as a base address value. The value of the second source register (rs2) is used to store in memory. The immediate value is used to add to rs1's value as an offset. Use this formula as reference:
 
 - Memory[rs1+imm] = rs2
 
+<br>
 
 There are 6 fields total but there are 5 variables with one of them being split into 2 fields (immediate):
 1. immediate[11:5] - This is a 7 bit field of the immediate value containing bits 11 to 5.
@@ -131,7 +132,7 @@ There are 6 fields total but there are 5 variables with one of them being split 
 
 Notice how the funct7 field from the R-type instruction is replaced with imm[11:5] and rd is replaced with imm[4:0].
 
-### B-Type (Branch (Conditional Jump))
+### <ins>B-Type (Branch (Conditional Jump))</ins>
 
 The B-type instruction is an extension of the S-type instruction that compares two registers (rs1 and rs2). Assuming the branch will be taken, the 12-bit immediate value is used as an offset to the current program counter value to "jump" to the target address. Because the offset is 12 bits wide and the offset is in terms of 2 bytes, the branch range is +/- 4KiB. There are 6 fields total but there are 5 variables with one of them being split into 2 fields (immediate):
 1. immediate[12,10:5] - This is a 7 bit field of the immediate value containing bits 12 and 10 to 5 with bit 12 replacing bit 11 from the S-type instruction.
@@ -147,7 +148,7 @@ The B-type instruction is an extension of the S-type instruction that compares t
 
 Notice how imm[0] is replaced with imm[11] from the S-type instruction and taking its place is imm[12].
 
-### U-Type (Long Immediate)
+### <ins>U-Type (Long Immediate)</ins>
 
 The U-type instruction is a core instruction type that handles long immediates, unlike I-type instructions that handle short immediates. Short immediate (I-type) instructions handles immediate values up to 12 bits. U-type instructions can handle immediate values up to 20 bits that are then shifted by 12 bits to form upper immediates to place into the destination register (rd). There are 3 bit fields:
 1. immediate[31:12] - The 20 bit immediate value that is shifted left by 12 bits to load the upper 20 bits of a register value. To load an immediate value that is greater than a 20 bit value, simply load upper immediate (load upper 20 bits and then add immediate for the rest of the lower 12 bits.
@@ -160,7 +161,7 @@ The U-type instruction is a core instruction type that handles long immediates, 
 
 Notice how the funct7, rs2, rs1, and funct3 bit fields from the R-type instruction format are replaced by the wide 20-bit immediate value.
 
-### J-Type (Unconditional Jump)
+### <ins>J-Type (Unconditional Jump)</ins>
 
 The J-type instruction is an extension of the U-type instruction that unconditionally "jumps" or changes the program counter value by saving the current program counter (PC + 4) to rd. The reason this is done is for "jump and link" (JAL) instructions. When entering a subroutine, the program counter before entering the subroutine must be saved so the program can gracefully resume work after returning from the subroutine. After saving the current program counter, the program counter is then added using the immediate offset value to perform the "jump". There are 3 bit fields:
 1. immediate[20,10:1,11,19:12] - The 20 bit immediate value that is used as the offset to add to the current program counter for jumping.
@@ -174,7 +175,7 @@ The J-type instruction is an extension of the U-type instruction that unconditio
 Notice how the immediate field from the U-type instruction is roughly the same except the J-type instruction shifted the bits around to include a "20th" bit. Remember, when it comes to jumping or branching, the program counter offset always in terms of 2 bytes. The reason this is so the program counter never points to an odd address. 
 
 
-### I/O Instructions (Memory Ordering)
+### <ins>I/O Instructions (Memory Ordering)</ins>
 
 As far as I can interpret, these instructions are used to make sure other processing cores can see instructions and execute instructions in the "predecessor set" (before the FENCE instruction) in order before the "successor set" (after the FENCE instruction). I presume this is a flag for reorder buffers to restrict hardware threads from executing preceeding instructions out of order relative to the memory fence. I'm learning this from Chapter 2.7 of the official spec and [this stackoverflow page](https://stackoverflow.com/questions/286629/what-is-a-memory-fence). There are 6 bit fields:
 1. Fence Mode (fm) - This is a 4 bit field that indicates the fence mode.
@@ -200,7 +201,7 @@ As far as I can interpret, these instructions are used to make sure other proces
 
 Since I'm not implementing any concurrency for right now, I won't worry about this type of instruction until later when I plan on implementing reorder buffers.
 
-### System Instructions
+### <ins>Special Instructions</ins>
 
 These are special type instructions for operating systems (ECALL and EBREAK). ECALL is used to make a service request to the operating system while EBREAK is used to return control to a debugging environment. I will not implement these but I'm noting these for reference for if I wish to extend the base instruction set into the privileged spec later. There are 5 bit fields:
 1. funct12 - This is a 12 bit field that selects which special instruction to execute (ECALL or EBREAK).
@@ -229,11 +230,9 @@ You can install Logisim Evolution directly from the GitHub link above in the Rel
 
 ![Logisim Menu](./images/Logisim_Menu.png)
 
-Now, I will start implementing stuff. Let's start learning.
-
 ## ALU
 
-First, I will implement the ALU, which is our arithmetic and logical engine. I will use the ALU to implement the following functions:
+As my first module, I will implement the ALU, which is our arithmetic and logical engine. I will use the ALU to implement the following functions:
 - ADD
 - SUB
 - OR
@@ -332,7 +331,7 @@ I just simply added a 32-bit AND gate for this one.
 
 ## Register File
 
-My base ALU is looking good. Now for the registers. Remember, there are 32 general-purpose registers including a program counter register. In this module, I have 8 inputs and 3 outputs.
+My base ALU is now complete with all of the base RV32I operations included. If I wish to add more to it, I will do that later. Now for the registers. Remember, there are 32 general-purpose registers including a program counter register. In this module, I have 8 inputs and 3 outputs.
 
 - Inputs
 	- Read_Register1: This is a 5 bit input that will be our "rs1" from the R,I,S, and B-type instruction formats. It connects to the select bits of a multiplexer that selects which register data that will output as the first register operand.
@@ -352,7 +351,7 @@ My base ALU is looking good. Now for the registers. Remember, there are 32 gener
 
 ## Memory (Program and Data)
 
-Up next is the memory. To be honest, at this point in the project, I don't know how (architecturally speaking) the CPU goes from power up to running an OS yet. I'll get to it whenever it's most relevant, but right now I want to try to make this a Von Neumann type architec
+Up next is the memory. To be honest, at this point in the project, I don't know how (architecturally speaking) the CPU goes from power up to running an OS yet. I'll get to it whenever it's most relevant, but right now I want to try to make this a Von Neumann type architecture.
 
 
 
