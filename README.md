@@ -355,9 +355,10 @@ Up next is the memory. I'm not implementing CPU caching yet. That will be done l
 
 <ins>RAM Block</ins>
 
-I will create a RAM block submodule that I will implement address decoding for. In this submodule, there are 7 inputs and 1 output.
+I will create a RAM block submodule that will I will split the addressing for. In this RAM block, there are 8 inputs and 1 output.
 
 - Inputs
+	- Unsigned0_Signed1: This will be an input to the bit extenders. In these, I can choose to either zero extend or "one" extend the output. If I choose the "sign mode" on the bit extenders, it will sign extend if I choose load a byte unsigned. If I choose the "input mode" on the bit extenders, it will blindly one or zero extend depending on the input. If I want it to correctly load a byte/half word signed or unsigned with the correct extension, I need to AND the unsigned/signed input flag with the **most significant bit** of the respective data output. That's why I included AND gates at the bit extenders.
 	- Enable: This will enable either the loading or storing modes of the RAM block.
 	- Load: This will flag the RAM modules in the RAM block to output data.
 	- Store: This will flag the RAM modules in the RAM block to save data from the "Data_In" input.
@@ -370,15 +371,37 @@ I will create a RAM block submodule that I will implement address decoding for. 
 	- Clock: This is the clock signal to synchronously control the RAM modules.
 	- Data_In: This is a 32 bit input that will be stored if the store input is enabled. The "Size_Flag" input will determine if a byte, a half word, or a full word will be stored.
 - Outputs
- 	- Data_Out: This is a 32 bit output that represents the data that is being loaded if the Load input is enabled. The "Size_Flag" input will dietermine if a byte, a half word, or a full word will be loaded.
+ 	- Data_Out: This is a 32 bit output that represents the data that is being loaded if the Load input is enabled. The "Size_Flag" input will determine if a byte, a half word, or a full word will be loaded.
 
 ![RAM Block](./images/Memory/RAM_Block.png)
 
 <ins>Building the Main Memory Unit</ins>
 
-Now I that I have my RAM block submodule, I will make 16 of these. Why? Because I think 16 is a good number. I'm not implementing the full 32 bits of addresses. That will require me to decode out 256 RAM blocks. I'm not doing all that and neither are you (at least in Logisim).
+Now I that I have my RAM block submodule, I will make 16 of these. Why? Because I think 16 is a good number. I'm not implementing the full 32 bits of addresses. That will require me to decode out 256 RAM blocks. I'm not doing all that and neither are you (at least in Logisim).<br>
+
+In this level, I have 16 RAM blocks, 7 inputs, and 1 output.
+
+- Inputs
+	- Unsigned0_Signed1: This will be an input to determine to treat the output data as an unsigned value or a signed value
+		- 0 = Unsigned
+		- 1 = Signed
+	- Enable: This will enable either the loading or storing modes of the RAM block.
+	- Load: This will flag the RAM modules in the RAM block to output data.
+	- Store: This will flag the RAM modules in the RAM block to save data from the "Data_In" input.
+	- Size_Flag: This is a 2 bit input that will signal the RAM block if I want to store or load a byte (8 bits), a half word (16 bits), or a full word (32 bits). Notice in the size flag opcode, I've derived this from the [instruction formatting spreadsheet](./RISC-V-Instructions.xlsx). If an invalid size flag is detected, the RAM block shouldn't do anything.
+		- 00 = Store/Load Byte
+		- 01 = Store/Load Half Word
+		- 10 = Store/Load Word
+		- 11 = Invalid
+	- Address: This is a 24-bit input that will address the individual bytes in the RAM modules.
+	- Clock: This is the clock signal to synchronously control the RAM modules.
+	- Data_In: This is a 32 bit input that will be stored if the store input is enabled. The "Size_Flag" input will determine if a byte, a half word, or a full word will be stored.
+- Outputs
+ 	- Data_Out: This is a 32 bit output that represents the data that is being loaded if the Load input is enabled. The "Size_Flag" input will determine if a byte, a half word, or a full word will be loaded.
 
 ![Memory](./images/Memory/Memory.png)
+
+What I have implemented is not too far off from how FPGAs utilize block RAM. Since we can load and store data in one clock cycle, this may work out for our idealized, non-pipelined model where everything is executed in a single clock cycle. Again, we will build up to a pipelined architecture later.
 
 ## Branching
 
