@@ -351,9 +351,34 @@ My base ALU is now complete with all of the base RV32I operations included. If I
 
 ## Memory (Program and Data)
 
-Up next is the memory. I'm not implementing CPU caching yet. That will be done later. For now, I'm creating a simple memory structure where the main memory in this case is just normal, byte-addressable RAM that I can select to either load or store a byte, half word (16 bits) or a full word (32 bits).
+Up next is the memory. I'm not implementing CPU caching yet. That will be done later. For now, I'm creating a simple memory structure where the main memory in this case is just normal, byte-addressable RAM that I can select to either load or store a byte, half word (16 bits) or a full word (32 bits). Since the maximum address bits size for the RAM block is 24 bits, meaning each RAM block is 16 MB. If I want to address more RAM, I would need to decode these segments of RAM into blocks. We're assuming a Von Neumann architecture so instructions will be treated just like data.
 
-**[I'm currently working on how to implement this in Logisim]**
+<ins>RAM Block</ins>
+
+I will create a RAM block submodule that will I will split the addressing for. In this RAM block, there are 7 inputs and 1 output.
+
+- Inputs
+	- Enable: This will enable either the loading or storing modes of the RAM block.
+	- Load: This will flag the RAM modules in the RAM block to output data.
+	- Store: This will flag the RAM modules in the RAM block to save data from the "Data_In" input.
+	- Size_Flag: This is a 2 bit input that will signal the RAM block if I want to store or load a byte (8 bits), a half word (16 bits), or a full word (32 bits). Notice in the size flag opcode, I've derived this from the [instruction formatting spreadsheet](./RISC-V-Instructions.xlsx). If an invalid size flag is detected, the RAM block shouldn't do anything.
+		- 00 = Store/Load Byte
+		- 01 = Store/Load Half Word
+		- 10 = Store/Load Word
+		- 11 = Invalid
+	- Address: This is a 24-bit input that will address the individual bytes in the RAM modules.
+	- Clock: This is the clock signal to synchronously control the RAM modules.
+	- Data_In: This is a 32 bit input that will be stored if the store input is enabled. The "Size_Flag" input will determine if a byte, a half word, or a full word will be stored.
+- Outputs
+ 	- Data_Out: This is a 32 bit output that represents the data that is being loaded if the Load input is enabled. The "Size_Flag" input will dietermine if a byte, a half word, or a full word will be loaded.
+
+![RAM Block](./images/Memory/RAM_Block.png)
+
+<ins>Building the Main Memory Unit</ins>
+
+Now I that I have my RAM block submodule, I will make 16 of these. Why? Because I think 16 is a good number. I'm not implementing the full 32 bits of addresses. That will require me to decode out 256 RAM blocks. I'm not doing all that and neither are you (at least in Logisim).
+
+![Memory]./images/Memory/Memory.png)
 
 ## Branching
 
