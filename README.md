@@ -355,7 +355,7 @@ Up next is the memory. I'm not implementing CPU caching yet. That will be done l
 
 <ins>RAM Block</ins>
 
-I will create a RAM block submodule that will I will split the addressing for. In this RAM block, there are 7 inputs and 1 output.
+I will create a RAM block submodule that I will implement address decoding for. In this submodule, there are 7 inputs and 1 output.
 
 - Inputs
 	- Enable: This will enable either the loading or storing modes of the RAM block.
