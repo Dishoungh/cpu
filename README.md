@@ -378,7 +378,7 @@ I will create a RAM block submodule that will I will split the addressing for. I
 
 Now I that I have my RAM block submodule, I will make 16 of these. Why? Because I think 16 is a good number. I'm not implementing the full 32 bits of addresses. That will require me to decode out 256 RAM blocks. I'm not doing all that and neither are you (at least in Logisim).
 
-![Memory]./images/Memory/Memory.png)
+![Memory](./images/Memory/Memory.png)
 
 ## Branching
 
