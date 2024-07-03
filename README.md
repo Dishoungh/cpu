@@ -393,7 +393,7 @@ In this level, I have 16 RAM blocks, 7 inputs, and 1 output.
 		- 01 = Store/Load Half Word
 		- 10 = Store/Load Word
 		- 11 = Invalid
-	- Address: This is a 24-bit input that will address the individual bytes in the RAM modules.
+	- Address: This is a 32-bit input. The bottom 24 bits will be used to address the bytes in the RAM cells per block. Bits 27-24 are used to decode addressing for the 16 RAM blocks.
 	- Clock: This is the clock signal to synchronously control the RAM modules.
 	- Data_In: This is a 32 bit input that will be stored if the store input is enabled. The "Size_Flag" input will determine if a byte, a half word, or a full word will be stored.
 - Outputs
