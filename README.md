@@ -1,309 +1,234 @@
-# Overview
+# Preamble
 
-This is documentation for my CPU design and a journal of my learning experience. I will write this README in a manner to document everything I'm doing so the more experienced can better guide me to improve my design and the "not-so-experienced" like myself can have an easy, accessible manual on how to design a CPU to prove that it's not as daunting as they may believe. Yeah, it's easy to say this when you already know what you're doing, but I think it would be interesting to see a project like this develop as you're reading this.<br>
+This is documentation for my CPU design and a journal of my learning experience. I will write this document in a manner to detail everything I'm doing so the more experienced can better guide me to improve my design and the "not-so-experienced" like myself can have an easy, accessible manual on how to design a CPU to prove that it's not as daunting as they may believe. Yeah, it's easy to say this when you already know what you're doing, but I think it would be interesting to see a project like this develop as you're reading this.<br>
 
-![CPU Design Inspiration](./images/CPU.png)
+The goal here is to initially create a basic RISC-V processor. Over time, I will implement more advanced features and extensions. To try to make the document as concise as possible, I will frequently reference the primary resources in the [Prerequisite Material section](#prerequisite-material).<br>
 
-This is from David A. Patterson's and John L. Hennessy's RISC-V Edition of Computer Organization and Design and will serve as a basis for my design.
-
-The goal here is to initially create a basic processor with idealized memory and no pipelining. Later, I will implement more advanced features.<br>
-
-I'm using the [Unprivileged RISC-V Instruction Set Manual (Volume 1)](./unpriv-isa-asciidoc.pdf) published in May 2024 as reference. Just to make this easy on me since I'm a noob (at this point in the project), I'll start by implementing the RV32I variant since according to the spec sheet, that architecture serves as the basis for the RISC-V extensions. This base set only handles integer instructions of an XLEN (term that determines the data size) of 32, which means the register sizes are 32 bits. I will learn the privileged set much later on. I assume the privileged set is for operating systems.
+[Jump to Table of Contents](#table-of-contents)
 
 # Table of Contents
 
-[I will add this in later]
+- [Preamble](#preamble)
+- [Prerequisite Material](#prerequisite-material)
+- [Part I: Learning the RISC-V ISA](#part-i-learning-the-risc-v-isa)
 
 # Prerequisite Material
 
-Prepping for this, someone directed to me to a game on Steam called [Turing Complete](https://store.steampowered.com/app/1444480/Turing_Complete/), which is a puzzle game to help you learn about CPU architecture design. It's surprisingly really good and I enjoyed it to as Digital Logic review. It also has a Sandbox mode to where I can design my CPU there. Normally, it's $20 (at the time of this edit). However, if you are looking something for free, there are plenty of resources online. A few I can personally recommend are:
+Prepping for this, I used these online resource I found:
 
-- [All About Circuits](https://www.allaboutcircuits.com/textbook/digital/)
-- [GeeksforGeeks](https://www.geeksforgeeks.org/digital-electronics-logic-design-tutorials/)
-- [Neso Academy - Digital Electronics YouTube Playlist](https://www.youtube.com/playlist?list=PLBlnK6fEyqRjMH3mWf6kwqiTbT798eAOm)
+- Primary
+	- [Computer Organization and Design: The Hardware or Software Interface (RISC-V Edition)](./Resources/Computer_Organization_and_Design-The_Hardware_or_Software_Interface_RISC-V_Edition.pdf)
+	- [Digital Design and Computer Architecture (RISC-V Edition)](./Resources/Digital_Design_and_Computer_Architecture_RISC-V_Edition.pdf)
+	- [Unprivileged RISC-V Instruction Set Manual (Volume 1)](./Resources/RISC-V_Unprivileged_Specification_Manual.pdf)
+- Supplementary
+	- [All About Circuits](https://www.allaboutcircuits.com/textbook/digital/)
+	- [GeeksforGeeks](https://www.geeksforgeeks.org/digital-electronics-logic-design-tutorials/)
+	- [Neso Academy - Digital Electronics YouTube Playlist](https://www.youtube.com/playlist?list=PLBlnK6fEyqRjMH3mWf6kwqiTbT798eAOm)
 
-# Part I: Learning the RISC-V ISA (RV32I)
+**Note: For the sake of conciseness, I will name the "Computer Organization and Design: The Hardware or Software Interface (RISC-V Edition)" book by John L. Hennessy and David A. Patterson as the "Comp Org book", the "Digital Design and Computer Architecture (RISC-V Edition)" book by Harris & Harris as the "Digital Design book", and the "Unprivileged RISC-V ISA Manual" as the "RISC-V spec".**
 
-I am new to RISC-V and I'll try my best to summarize the RISC-V base spec with the most important details to help me design my CPU.
+[Jump to Table of Contents](#table-of-contents)
 
-## Registers Table
+# Part I: Learning the RISC-V ISA
 
-| Register Table 	|                          Description                         	|
-|----------------	|:------------------------------------------------------------:	|
-|       x0       	|           General Purpose Register (Hardwired to 0)          	|
-|       x1       	| 		    General Purpose Register  			|
-|       x2       	|                   General Purpose Register 			|
-|       x3       	|                   General Purpose Register                   	|
-|       x4       	|                   General Purpose Register                   	|
-|       x5       	|                   General Purpose Register 			|
-|       x6       	|                   General Purpose Register                   	|
-|       x7       	|                   General Purpose Register                   	|
-|       x8       	|                   General Purpose Register                   	|
-|       x9       	|                   General Purpose Register                   	|
-|       x10      	|                   General Purpose Register                   	|
-|       x11      	|                   General Purpose Register                   	|
-|       x12      	|                   General Purpose Register                   	|
-|       x13      	|                   General Purpose Register                   	|
-|       x14      	|                   General Purpose Register                   	|
-|       x15      	|                   General Purpose Register                   	|
-|       x16      	|                   General Purpose Register                   	|
-|       x17      	|                   General Purpose Register                   	|
-|       x18      	|                   General Purpose Register                   	|
-|       x19      	|                   General Purpose Register                   	|
-|       x20      	|                   General Purpose Register                   	|
-|       x21      	|                   General Purpose Register                   	|
-|       x22      	|                   General Purpose Register                   	|
-|       x23      	|                   General Purpose Register                   	|
-|       x24      	|                   General Purpose Register                   	|
-|       x25      	|                   General Purpose Register                   	|
-|       x26      	|                   General Purpose Register                   	|
-|       x27      	|                   General Purpose Register                   	|
-|       x28      	|                   General Purpose Register                   	|
-|       x29      	|                   General Purpose Register                   	|
-|       x30      	|                   General Purpose Register                   	|
-|       x31      	|                   General Purpose Register                   	|
-|       pc       	|             Stores Current Program Counter Value             	|
+The official *RISC-V spec (page 554)* and the *Comp Org book (page 504)* are what I used to learn the instruction formatting.
 
-<br>
+# Part II: Choosing a Logic Simulator Tool
 
-In a hardware point-of-view, there is no dedicated register for special purposes such as the return address, with exception to the program counter register. All of these registers (with exception to the x0 register and pc register) can be used for anything. However, in standard convention, assembly programmers typically use the same registers for special purposes. I'm not going to bother documenting it in this README but if you're curious, take a look at [Chapter 25 of the 2019 release spec](https://riscv.org/wp-content/uploads/2019/12/riscv-spec-20191213.pdf). For some reason, this segment was removed in the 2024 spec release.
+Now, that I have studied the base ISA a little bit, now it's time for me to start learning by doing. This project will undergo different revisions so I will try my best to journal everything I do while keeping everything as concise as possible for those of you reading this.<br>
 
-## Instruction Types
-
-There are 6 instruction types:
-1. R: Register-to-Register
-2. I: Short Immediate / Load
-3. S: Store
-4. B: Conditional Branch
-5. U: Long Immediate
-6. J: Unconditional Jumps
-
-## Instruction Formatting
-
-### <ins>R-Type (Register-Register)</ins>
-
-The R-type instruction is a core instruction type that takes two source registers (rs1 and rs2), performs arithmetic/logical operations, and places the results in the destination register (rd). There are 6 fields:
-1. funct7 - This is a 7 bit field that selects the type of operation given the opcode and funct3 fields.
-2. rs2 - This is a 5 bit field that selects a register as the second operand for the arithmetic/logical operation.
-3. rs1 - This is a 5 bit field that selects a register as the first operand for the arithmetic/logical operation.
-4. funct3 - This is a 3 bit field that selects the type of operation given the opcode and funct7 fields.
-5. rd - This is a 5 bit field that selects the destination register for the arithmetic/logical operation result.
-6. opcode - This is a 7 bit field that selects the type of operation.
-
-
-|     31    	|     30    	|     29    	|     28    	|     27    	|     26    	|     25    	|   24   	|   23   	|   22   	|   21   	|   20   	|   19   	|   18   	|   17   	|   16   	|   15   	|     14    	|     13    	|     12    	|   11  	|   10  	|   9   	|   8   	|   7   	|     6     	|     5     	|     4     	|     3     	|     2     	|     1     	|     0     	|
-|:---------:	|:---------:	|:---------:	|:---------:	|:---------:	|:---------:	|:---------:	|:------:	|:------:	|:------:	|:------:	|:------:	|:------:	|:------:	|:------:	|:------:	|:------:	|:---------:	|:---------:	|:---------:	|:-----:	|:-----:	|:-----:	|:-----:	|:-----:	|:---------:	|:---------:	|:---------:	|:---------:	|:---------:	|:---------:	|:---------:	|
-| funct7[6] 	| funct7[5] 	| funct7[4] 	| funct7[3] 	| funct7[2] 	| funct7[1] 	| funct7[0] 	| rs2[4] 	| rs2[3] 	| rs2[2] 	| rs2[1] 	| rs2[0] 	| rs1[4] 	| rs1[3] 	| rs1[2] 	| rs1[1] 	| rs1[0] 	| funct3[2] 	| funct3[1] 	| funct3[0] 	| rd[4] 	| rd[3] 	| rd[2] 	| rd[1] 	| rd[0] 	| opcode[6] 	| opcode[5] 	| opcode[4] 	| opcode[3] 	| opcode[2] 	| opcode[1] 	| opcode[0] 	|
-
-### <ins>I-Type (Register-Immediate)</ins>
-
-The I-type instruction is a core instruction type that handles short immediates and loading operations. The I-type takes one source register (rs1), performs arithmetic/logical operations on an immediate value that is 12 bits wide, and places the results in the destination register (rd). There are 5 fields:
-1. immediate - This is a 12 bit field that represents the sign-extended immediate value to use for the immediate instruction.
-2. rs1 - This is a 5 bit field that selects a register as the first operand for the arithmetic/logical operation.
-3. funct3 - This is a 3 bit field that selects the type of operation given the opcode field.
-4. rd - This is a 5 bit field that selects the destination register for the arithmetic/logical operation result.
-5. opcode - This is a 7 bit field that selects the type of operation.
-
-|    31   	|    30   	|   29   	|   28   	|   27   	|   26   	|   25   	|   24   	|   23   	|   22   	|   21   	|   20   	|   19   	|   18   	|   17   	|   16   	|   15   	|     14    	|     13    	|     12    	|   11  	|   10  	|   9   	|   8   	|   7   	|     6     	|     5     	|     4     	|     3     	|     2     	|     1     	|     0     	|
-|:-------:	|:-------:	|:------:	|:------:	|:------:	|:------:	|:------:	|:------:	|:------:	|:------:	|:------:	|:------:	|:------:	|:------:	|:------:	|:------:	|:------:	|:---------:	|:---------:	|:---------:	|:-----:	|:-----:	|:-----:	|:-----:	|:-----:	|:---------:	|:---------:	|:---------:	|:---------:	|:---------:	|:---------:	|:---------:	|
-| imm[11] 	| imm[10] 	| imm[9] 	| imm[8] 	| imm[7] 	| imm[6] 	| imm[5] 	| imm[4] 	| imm[3] 	| imm[2] 	| imm[1] 	| imm[0] 	| rs1[4] 	| rs1[3] 	| rs1[2] 	| rs1[1] 	| rs1[0] 	| funct3[2] 	| funct3[1] 	| funct3[0] 	| rd[4] 	| rd[3] 	| rd[2] 	| rd[1] 	| rd[0] 	| opcode[6] 	| opcode[5] 	| opcode[4] 	| opcode[3] 	| opcode[2] 	| opcode[1] 	| opcode[0] 	|
-
-Notice how the funct7 and rs2 fields from the R-type instruction are combined to a 12-bit total immediate field. 
-
-### <ins>S-Type (Store)</ins>
-
-The S-type instruction is a core instruction type that handles storing data in memory. The first source register (rs1) is used as a base address value. The value of the second source register (rs2) is used to store in memory. The immediate value is used to add to rs1's value as an offset. Use this formula as reference:
-
-- Memory[rs1+imm] = rs2
-
-<br>
-
-There are 6 fields total but there are 5 variables with one of them being split into 2 fields (immediate):
-1. immediate[11:5] - This is a 7 bit field of the immediate value containing bits 11 to 5.
-2. rs2 - This is a 5 bit field that selects a register as the second operand for the arithmetic/logical operation.
-3. rs1 - This is a 5 bit field that selects a register as the first operand for the arithmetic/logical operation.
-4. funct3 - This is a 3 bit field that selects the type of operation given the opcode field.
-5. immediate[4:0] - This is a 5 bit field of the immediate value containing bits 4 to 0.
-6. opcode - This is a 7 bit field that selects the type of operation.
-
-|    31   	|    30   	|   29   	|   28   	|   27   	|   26   	|   25   	|   24   	|   23   	|   22   	|   21   	|   20   	|   19   	|   18   	|   17   	|   16   	|   15   	|     14    	|     13    	|     12    	|   11   	|   10   	|    9   	|    8   	|    7   	|     6     	|     5     	|     4     	|     3     	|     2     	|     1     	|     0     	|
-|:-------:	|:-------:	|:------:	|:------:	|:------:	|:------:	|:------:	|:------:	|:------:	|:------:	|:------:	|:------:	|:------:	|:------:	|:------:	|:------:	|:------:	|:---------:	|:---------:	|:---------:	|:------:	|:------:	|:------:	|:------:	|:------:	|:---------:	|:---------:	|:---------:	|:---------:	|:---------:	|:---------:	|:---------:	|
-| imm[11] 	| imm[10] 	| imm[9] 	| imm[8] 	| imm[7] 	| imm[6] 	| imm[5] 	| rs2[4] 	| rs2[3] 	| rs2[2] 	| rs2[1] 	| rs2[0] 	| rs1[4] 	| rs1[3] 	| rs1[2] 	| rs1[1] 	| rs1[0] 	| funct3[2] 	| funct3[1] 	| funct3[0] 	| imm[4] 	| imm[3] 	| imm[2] 	| imm[1] 	| imm[0] 	| opcode[6] 	| opcode[5] 	| opcode[4] 	| opcode[3] 	| opcode[2] 	| opcode[1] 	| opcode[0] 	|
-
-Notice how the funct7 field from the R-type instruction is replaced with imm[11:5] and rd is replaced with imm[4:0].
-
-### <ins>B-Type (Branch (Conditional Jump))</ins>
-
-The B-type instruction is an extension of the S-type instruction that compares two registers (rs1 and rs2). Assuming the branch will be taken, the 12-bit immediate value is used as an offset to the current program counter value to "jump" to the target address. Because the offset is 12 bits wide and the offset is in terms of 2 bytes, the branch range is +/- 4KiB. There are 6 fields total but there are 5 variables with one of them being split into 2 fields (immediate):
-1. immediate[12,10:5] - This is a 7 bit field of the immediate value containing bits 12 and 10 to 5 with bit 12 replacing bit 11 from the S-type instruction.
-2. rs2 - This is a 5 bit field that selects a register as the second operand for the arithmetic/logical operation.
-3. rs1 - This is a 5 bit field that selects a register as the first operand for the arithmetic/logical operation.
-4. funct3 - This is a 3 bit field that selects the type of operation given the opcode field.
-5. immediate[4:1,11] - This is a 5 bit field of the immediate value containing bits 4 to 1 and 11 with bit 11 replacing bit 0 from the S-type instruction.
-6. opcode - This is a 7 bit field that selects the type of operation.
-
-|    31   	|    30   	|   29   	|   28   	|   27   	|   26   	|   25   	|   24   	|   23   	|   22   	|   21   	|   20   	|   19   	|   18   	|   17   	|   16   	|   15   	|     14    	|     13    	|     12    	|   11   	|   10   	|    9   	|    8   	|    7    	|     6     	|     5     	|     4     	|     3     	|     2     	|     1     	|     0     	|
-|:-------:	|:-------:	|:------:	|:------:	|:------:	|:------:	|:------:	|:------:	|:------:	|:------:	|:------:	|:------:	|:------:	|:------:	|:------:	|:------:	|:------:	|:---------:	|:---------:	|:---------:	|:------:	|:------:	|:------:	|:------:	|:-------:	|:---------:	|:---------:	|:---------:	|:---------:	|:---------:	|:---------:	|:---------:	|
-| imm[12] 	| imm[10] 	| imm[9] 	| imm[8] 	| imm[7] 	| imm[6] 	| imm[5] 	| rs2[4] 	| rs2[3] 	| rs2[2] 	| rs2[1] 	| rs2[0] 	| rs1[4] 	| rs1[3] 	| rs1[2] 	| rs1[1] 	| rs1[0] 	| funct3[2] 	| funct3[1] 	| funct3[0] 	| imm[4] 	| imm[3] 	| imm[2] 	| imm[1] 	| imm[11] 	| opcode[6] 	| opcode[5] 	| opcode[4] 	| opcode[3] 	| opcode[2] 	| opcode[1] 	| opcode[0] 	|
-
-Notice how imm[0] is replaced with imm[11] from the S-type instruction and taking its place is imm[12].
-
-### <ins>U-Type (Long Immediate)</ins>
-
-The U-type instruction is a core instruction type that handles long immediates, unlike I-type instructions that handle short immediates. Short immediate (I-type) instructions handles immediate values up to 12 bits. U-type instructions can handle immediate values up to 20 bits that are then shifted by 12 bits to form upper immediates to place into the destination register (rd). There are 3 bit fields:
-1. immediate[31:12] - The 20 bit immediate value that is shifted left by 12 bits to load the upper 20 bits of a register value. To load an immediate value that is greater than a 20 bit value, simply load upper immediate (load upper 20 bits and then add immediate for the rest of the lower 12 bits.
-2. rd - This is a 5 bit field that selects the destination register to store the upper immediate value.
-3. opcode - This is a 7 bit field that selects the type of operation.
-
-|    31   	|    30   	|    29   	|    28   	|    27   	|    26   	|    25   	|    24   	|    23   	|    22   	|    21   	|    20   	|    19   	|    18   	|    17   	|    16   	|    15   	|    14   	|    13   	|    12   	|   11  	|   10  	|   9   	|   8   	|   7   	|     6     	|     5     	|     4     	|     3     	|     2     	|     1     	|     0     	|
-|:-------:	|:-------:	|:-------:	|:-------:	|:-------:	|:-------:	|:-------:	|:-------:	|:-------:	|:-------:	|:-------:	|:-------:	|:-------:	|:-------:	|:-------:	|:-------:	|:-------:	|:-------:	|:-------:	|:-------:	|:-----:	|:-----:	|:-----:	|:-----:	|:-----:	|:---------:	|:---------:	|:---------:	|:---------:	|:---------:	|:---------:	|:---------:	|
-| imm[31] 	| imm[30] 	| imm[29] 	| imm[28] 	| imm[27] 	| imm[26] 	| imm[25] 	| imm[24] 	| imm[23] 	| imm[22] 	| imm[21] 	| imm[20] 	| imm[19] 	| imm[18] 	| imm[17] 	| imm[16] 	| imm[15] 	| imm[14] 	| imm[13] 	| imm[12] 	| rd[4] 	| rd[3] 	| rd[2] 	| rd[1] 	| rd[0] 	| opcode[6] 	| opcode[5] 	| opcode[4] 	| opcode[3] 	| opcode[2] 	| opcode[1] 	| opcode[0] 	|
-
-Notice how the funct7, rs2, rs1, and funct3 bit fields from the R-type instruction format are replaced by the wide 20-bit immediate value.
-
-### <ins>J-Type (Unconditional Jump)</ins>
-
-The J-type instruction is an extension of the U-type instruction that unconditionally "jumps" or changes the program counter value by saving the current program counter (PC + 4) to rd. The reason this is done is for "jump and link" (JAL) instructions. When entering a subroutine, the program counter before entering the subroutine must be saved so the program can gracefully resume work after returning from the subroutine. After saving the current program counter, the program counter is then added using the immediate offset value to perform the "jump". There are 3 bit fields:
-1. immediate[20,10:1,11,19:12] - The 20 bit immediate value that is used as the offset to add to the current program counter for jumping.
-2. rd - This is a 5 bit field that selects the destination register to store the current program counter for returning from a subroutine. This is also called the "return address". The difference here is that there is no dedicated "return address register".
-3. opcode - This is a 7 bit field that selects the type of operation.
-
-|    31   	|    30   	|   29   	|   28   	|   27   	|   26   	|   25   	|   24   	|   23   	|   22   	|   21   	|    20   	|    19   	|    18   	|    17   	|    16   	|    15   	|    14   	|    13   	|    12   	|   11  	|   10  	|   9   	|   8   	|   7   	|     6     	|     5     	|     4     	|     3     	|     2     	|     1     	|     0     	|
-|:-------:	|:-------:	|:------:	|:------:	|:------:	|:------:	|:------:	|:------:	|:------:	|:------:	|:------:	|:-------:	|:-------:	|:-------:	|:-------:	|:-------:	|:-------:	|:-------:	|:-------:	|:-------:	|:-----:	|:-----:	|:-----:	|:-----:	|:-----:	|:---------:	|:---------:	|:---------:	|:---------:	|:---------:	|:---------:	|:---------:	|
-| imm[20] 	| imm[10] 	| imm[9] 	| imm[8] 	| imm[7] 	| imm[6] 	| imm[5] 	| imm[4] 	| imm[3] 	| imm[2] 	| imm[1] 	| imm[11] 	| imm[19] 	| imm[18] 	| imm[17] 	| imm[16] 	| imm[15] 	| imm[14] 	| imm[13] 	| imm[12] 	| rd[4] 	| rd[3] 	| rd[2] 	| rd[1] 	| rd[0] 	| opcode[6] 	| opcode[5] 	| opcode[4] 	| opcode[3] 	| opcode[2] 	| opcode[1] 	| opcode[0] 	|
-
-Notice how the immediate field from the U-type instruction is roughly the same except the J-type instruction shifted the bits around to include a "20th" bit. Remember, when it comes to jumping or branching, the program counter offset always in terms of 2 bytes. The reason this is so the program counter never points to an odd address. 
-
-
-### <ins>I/O Instructions (Memory Ordering)</ins>
-
-As far as I can interpret, these instructions are used to make sure other processing cores can see instructions and execute instructions in the "predecessor set" (before the FENCE instruction) in order before the "successor set" (after the FENCE instruction). I presume this is a flag for reorder buffers to restrict hardware threads from executing preceeding instructions out of order relative to the memory fence. I'm learning this from Chapter 2.7 of the official spec and [this stackoverflow page](https://stackoverflow.com/questions/286629/what-is-a-memory-fence). There are 6 bit fields:
-1. Fence Mode (fm) - This is a 4 bit field that indicates the fence mode.
-	- 0000 = Normal Fence
-	- 1000 = TSO Mode (Orders all load operations in the predecessor set before all memory operations in its successor set and all store operations in its predecessor set before all store operations in its successor set.
-2. Memory Type Instructions - This is an 8 bit field that dictates what combination of instruction types in the preceeding set to order relative to the combination of instruction types in the succeeding set.
-	- PI = Preceeding Input/Output Reads (Setting this to "1" will order Device I/O Reads in the predecessor set)
-	- PO = Preceeding Input/Output Writes (Setting this to "1" will order Device I/O Writes in the predecessor set)
-	- PR = Preceeding Memory Reads (Setting this to "1" will order Memory Reads in the predecessor set)
-	- PW = Preceeding Memory Writes (Setting this to "1" will order Memory Writes in the predecessor set)
-	- SI = Succeeding Input/Output Reads (Setting this to "1" will order Device I/O Reads in the successor set)
-	- SO = Succeeding Input/Output Writes (Setting this to "1" will order Device I/O Writes in the successor set)
-	- SR = Succeeding Memory Reads (Setting this to "1" will order Memory Reads in the successor set)
-	- SW = Succeeding Memory Writes (Setting this to "1" will order Memory Writes in the successor set)
-3. rs1 - This is a 5 bit field that indicates, I presume to be a programmable predecessor set(?). According to the spec sheet, rs1 and rd are typically reserved for future extensions. It is standard practice to zero out these fields for forward compatibility.
-4. funct3 - This is a 3 bit field that selects the type of operation given the opcode field.
-5. rd - This is a 5 bit field that indicates, I presume to be a programmable succcessor set(?). According to the spec sheet, rs1 and rd are typically reserved for future extensions. It is standard practice to zero out these fields for forward compatibility.
-6. opcode - This is a 7 bit field that selects the type of operation.
-
-|   31  	|   30  	|   29  	|   28  	| 27 	| 26 	| 25 	| 24 	| 23 	| 22 	| 21 	| 20 	|   19   	|   18   	|   17   	|   16   	|   15   	|     14    	|     13    	|     12    	|   11  	|   10  	|   9   	|   8   	|   7   	|     6     	|     5     	|     4     	|     3     	|     2     	|     1     	|     0     	|
-|:-----:	|:-----:	|:-----:	|:-----:	|:--:	|:--:	|:--:	|:--:	|:--:	|:--:	|:--:	|:--:	|:------:	|:------:	|:------:	|:------:	|:------:	|:---------:	|:---------:	|:---------:	|:-----:	|:-----:	|:-----:	|:-----:	|:-----:	|:---------:	|:---------:	|:---------:	|:---------:	|:---------:	|:---------:	|:---------:	|
-| fm[3] 	| fm[2] 	| fm[1] 	| fm[0] 	| PI 	| PO 	| PR 	| PW 	| SI 	| SO 	| SR 	| SW 	| rs1[4] 	| rs1[3] 	| rs1[2] 	| rs1[1] 	| rs1[0] 	| funct3[2] 	| funct3[1] 	| funct3[0] 	| rd[4] 	| rd[3] 	| rd[2] 	| rd[1] 	| rd[0] 	| opcode[6] 	| opcode[5] 	| opcode[4] 	| opcode[3] 	| opcode[2] 	| opcode[1] 	| opcode[0] 	|
-
-Since I'm not implementing any concurrency for right now, I won't worry about this type of instruction until later when I plan on implementing reorder buffers.
-
-### <ins>Special Instructions</ins>
-
-These are special type instructions for operating systems (ECALL and EBREAK). ECALL is used to make a service request to the operating system while EBREAK is used to return control to a debugging environment. I will not implement these but I'm noting these for reference for if I wish to extend the base instruction set into the privileged spec later. There are 5 bit fields:
-1. funct12 - This is a 12 bit field that selects which special instruction to execute (ECALL or EBREAK).
-2. rs1 - This is a 5 bit field that selects a register as a source register.
-3. funct3 - This is a 3 bit field that selects the type of operation along with the opcode.
-4. rd - This is a 5 bit field that selects the destination register.
-5. opcode - This is a 7 bit field that selects the type of operation.
-
-|      31     	|      30     	|     29     	|     28     	|     27     	|     26     	|     25     	|     24     	|     23     	|     22     	|     21     	|     20     	|   19   	|   18   	|   17   	|   16   	|   15   	|     14    	|     13    	|     12    	|   11  	|   10  	|   9   	|   8   	|   7   	|     6     	|     5     	|     4     	|     3     	|     2     	|     1     	|     0     	|
-|:-----------:	|:-----------:	|:----------:	|:----------:	|:----------:	|:----------:	|:----------:	|:----------:	|:----------:	|:----------:	|:----------:	|:----------:	|:------:	|:------:	|:------:	|:------:	|:------:	|:---------:	|:---------:	|:---------:	|:-----:	|:-----:	|:-----:	|:-----:	|:-----:	|:---------:	|:---------:	|:---------:	|:---------:	|:---------:	|:---------:	|:---------:	|
-| funct12[11] 	| funct12[10] 	| funct12[9] 	| funct12[8] 	| funct12[7] 	| funct12[6] 	| funct12[5] 	| funct12[4] 	| funct12[3] 	| funct12[2] 	| funct12[1] 	| funct12[0] 	| rs1[4] 	| rs1[3] 	| rs1[2] 	| rs1[1] 	| rs1[0] 	| funct3[2] 	| funct3[1] 	| funct3[0] 	| rd[4] 	| rd[3] 	| rd[2] 	| rd[1] 	| rd[0] 	| opcode[6] 	| opcode[5] 	| opcode[4] 	| opcode[3] 	| opcode[2] 	| opcode[1] 	| opcode[0] 	|
-
-## Instructions Table
-
-I want to expand the list of instructions from page 554 of the spec sheet. I don't feel like formatting that in Markdown so I've done it [here in Excel](./RISC-V-Instructions.xlsx). I'm excluding instructions like the FENCE/FENCE.TSO, PAUSE, ECALL, and EBREAK instructions and I'll probably add those in later. Also, since the JALR instruction follows more closely to the I-type format than a J-type, I put it in the I-type category.
-
-# Part II: Implementing the Base RISC-V ISA
-
-Now, that I have studied the base ISA a little bit, now it's time for me to start learning by doing. I will try my best to journal everything I do while keeping everything as concise as possible for those of you reading this.
-
-## Choosing a Tool
-
-I will choose [Logisim Evolution](https://github.com/logisim-evolution/logisim-evolution) as my simulator tool. Logisim Evolution is a free and open-source digital circuit simulator tool that is a continuation of the Logisim tool from Dr. Carl Burch.
+For my tool, I will choose [Logisim Evolution](https://github.com/logisim-evolution/logisim-evolution) as my simulator tool. Logisim Evolution is a free and open-source digital circuit simulator tool that is a continuation of the Logisim tool from Dr. Carl Burch.
 
 You can install Logisim Evolution directly from the GitHub link above in the Releases tab. After installing, opening the application will look like this:
 
 ![Logisim Menu](./images/Logisim_Menu.png)
 
+# Part III: Implementing RV32I (Single Cycle Architecture)
+
+First, I will implement a single-cycle RISC-V processor. It is the simplest architecture to implement and I will use this as a stepping stone to implement more complex, realistic designs.<br>
+
+## Memory Units
+
+Using Chapter 7 from the Digital Design book to guide my datapath, I will start by adding the memory units of the CPU. Since I'm doing a single-cycle design, I will need to separate the program and data memories, making this a classic [Harvard-style architecture](https://www.geeksforgeeks.org/harvard-architecture/#).<br>
+
+The memory units I will add are:
+- Data Memory
+- Program Memory
+- Register File
+	- General Purpose Registers: `x0 - x31`
+	- Program Counter: `pc`
+
+<ins>Data Memory</ins>
+
+To build, the data memory, I will need to address to multiple RAM blocks that are byte-addressable. Each RAM block must be able to store or load up to 4 bytes. I must be able to select between storing or loading data. Whether I'm storing or loading data, I need to flag to this RAM block to treat the data as a 8-bit byte, 16-bit halfword, or 32-bit full word.<br>
+
+For the RAM block, there are 9 inputs and 1 output.
+
+- Inputs
+	- Unsigned0_Signed1: This will be an input to the bit extenders. In these, I can choose to either zero extend or "one" extend the output. If I choose the "sign mode" on the bit extenders, it will sign extend if I choose load a byte unsigned. If I choose the "input mode" on the bit extenders, it will blindly one or zero extend depending on the input. If I want it to correctly load a byte/half word signed or unsigned with the correct extension, I need to AND the unsigned/signed input flag with the **most significant bit** of the respective data output. That's why I included AND gates at the bit extenders.
+		- ![Unsigned or Signed Mode](./images/Memory/Unsigned_or_Signed_RAM_Block.png)
+	- Reset: This will asynchronously clear the contents of the RAM to a known state. No instruction will have access to this pin, but this will be here in case if I need it for any init state.
+	- Enable: This will enable either the loading or storing modes of the RAM block. This is for when I place this RAM block in outer circuit blocks. I will use the lower 24 bits of the address as the address inputs of the RAM blocks and use the upper 8 bits to decode the enables for those blocks.
+	- Load: This will flag the RAM modules in the RAM block to output data.
+	- Store: This will flag the RAM modules in the RAM block to save data from the "Data_In" input.
+	- Size_Flag: This is a 2 bit input that will signal the RAM block if I want to store or load a byte (8 bits), a half word (16 bits), or a full word (32 bits). If an invalid size flag is detected, the RAM block shouldn't do anything.
+		- 00 = Store/Load Byte
+		- 01 = Store/Load Half Word
+		- 10 = Store/Load Word
+		- 11 = Invalid
+	- Address: This is a 24-bit input that will address the individual bytes in the RAM modules.
+	- Clock: This is the clock signal to synchronously control the RAM modules.
+	- Data_In: This is a 32 bit input that will be stored if the store input is enabled. The "Size_Flag" input will determine if a byte, a half word, or a full word will be stored.
+- Outputs
+ 	- Data_Out: This is a 32 bit output that represents the data that is being loaded if the Load input is enabled. The "Size_Flag" input will determine if a byte, a half word, or a full word will be loaded.
+
+![RAM Block](./images/Memory/RAM_Block.png)
+
+Now that the RAM block is implemented, I will decode 16 of these blocks to total my data memory to 256MB (16 * 16 MB = 256 MB).<br>
+
+![Data Memory Module](./images/Memory/Data_Memory.png)
+
+<ins>Program Memory</ins>
+
+For the program memory, I will simply add one Read-Only Memory (ROM) module that is 16MB.
+
+![Program Memory Module](./images/Memory/Program_Memory.png)
+
+<ins>Register File</ins>
+
+According to the RISC-V spec, there are 32 general-purpose registers including a program counter register. In this module, I have 8 inputs and 3 outputs.
+
+- Inputs
+	- Read_Register1: This is a 5 bit input that will be our "rs1" from the R,I,S, and B-type instruction formats. It connects to the select bits of a multiplexer that selects which register data that will output as the first register operand.
+	- Read_Register2: This is a 5 bit input that will be our "rs2" from the R,S, and B-type instruction formats. It connects to the select bits of a multiplexer that selects which register data that will output as the second register operand.
+	- Write_Data: This is a 32 bit input that will be the data to write, assuming the Write_Enable bit is asserted. 
+	- Clock: This is our clock signal.
+	- Reset: The registers are reset asynchronously. If this input asserts then all of the registers will reset. This is mainly to hard-initialize the registers to a known state.
+	- Write_Register: This is a 5 bit input that is connected to the select bits of a 5-to-32 decoder. The decoder controls the write enable bits of each register, with exception to x0 since that will always be hardcoded to a value of 0.
+	- Write_Enable: This is the enable input for the decoder to select a register to write to. If enabled, the decoder will select based on the Write_Register value. Otherwise, no register is selected.
+	- PC_In: This is the program counter value to update the pc register to. The pc register always has its write enable bit to 1 since the program counter register will always be written at every clock cycle.
+- Outputs 
+	- Reg1_Out: This is a 32 bit output that is the register data of the first register operand.
+	- Reg2_Out: This is a 32 bit output that is the register data of the second register operand.
+	- PC_Out: This is a 32 bit output that represents the current program counter value.
+
+![Register File](./images/Register_File.png)
+
 ## ALU
 
-As my first module, I will implement the ALU, which is our arithmetic and logical engine. I will use the ALU to implement the following functions:
-- ADD
-- SUB
-- OR
-- AND
-- XOR
-- Comparisons
-	- Less Than (Signed)
-	- Less Than (Unsigned)
-	- Greater than or Equal To (Signed)
-	- Greater Than or Equal To (Unsigned)
-	- Equal To
-	- Not Equal To
-- Shifting
-	- Shift Left Logical
-	- Shift Right Logical
-	- Shift Right Arithmetic
+Up next is the ALU, which is our arithmetic and logical engine. I will use the ALU that has a 3-bit opcode to implement the following functions:
+- 000 = ADD/SUB
+- 001 = SLL (Shift Left Logical)
+- 010 = SLT (Set if Less Than)
+- 011 = SLTU (Set if Less Than (Unsigned))
+- 100 = XOR
+- 101 = SRL/SRA (Shift Right Logical / Shift Right Arithmetic)
+- 110 = OR
+- 111 = AND
+<br>
+
+I will use the `funct3` bit fields of the instruction to give to the ALU as the "Opcode", which will determine which function to mux out.<br>
+
+**Note: Since the Digital Design book is only implementing a small subset of the ISA, I will be deviating a little bit from the book.**
 
 ### ADD
 
-The submodule of the ALU will be the adder/subtractor. In the arithmetic tab, there is a pre-built adder that I can adjust the data size. With that, it tells me that the adder module is synthesizable to an FPGA. On top of that, if I want to expand this from 32-bit to 64-bit (I will consider this later), I can easily change the data size parameters.
+For the first submodule of the ALU, I will create a 32-bit adder. I could just use Logisim's built-in adder module, but I want to manually implement a more advanced version of an adder circuit such as a [Carry Lookahead adder](https://www.geeksforgeeks.org/carry-look-ahead-adder/#) just for fun.
 
-![Adder Module](./images/ALU/Adder_Module.png)
+<ins>Half Adder</ins>
 
-I will look into that later. For now, I want to build a working architecture before then. To test this new adder, there is a button to change values (the "point" icon).
+My half adder is a standard half adder unit with S = A XOR B and C = A AND B.
 
-![Testing the Adder](./images/ALU/Change_Values.png)
+![HA](./images/ALU/Half_Adder.png)
 
+<ins>Full Adder</ins>
+
+For a classic full adder, it combines 2 half adders along with an OR gate for the carry out.
+
+![FA](./images/ALU/Full_Adder.png)
+
+<ins>4-Bit Carry Generator</ins>
+
+For our CLA, I will preemptively generate 4 carry bits with one singular carry in. I could try to generate all 32 carry bits, but that is not reasonable. 4 carry bits is large enough at that. One of the biggest pitfalls of the CLA is while it is fast, it gets complex and way too time-consuming to create for a large number of bits. The only reason I even managed to create a CLA4 block was at least Logisim allowed me to copy and paste the same sub-circuit.<br>
+
+For me to create a 32 bit adder with this sub-block, I will need to cascade the CLA4 block 8 times. Yes, that means carry bits will still ripple through these CLA blocks, but having 8 carry bits ripple is a lot better than 32 for a classical Ripple Carry Adder. In a logic simulator that doesn't take propagation delay into account, it doesn't matter, but I still wanted to implement this for my own learning purposes.<br>
+
+Using the formula in the Comp Org book (page 1197 and 1198):
+
+Propagate: `Pi = Ai ⊕ Bi`<br>
+Generate: `Gi = Ai ∧ Bi`<br>
+
+Carry: C(i+1) = Gi ∨ (Pi ∧ Ci) = (Ai ∧ Bi) ∨ ((Ai ⊕ Bi) ∧ Ci)
+
+- C0 = Cin<br>
+- C1 = G0 ∨ (P0 ∧ C0) = `(A0 ∧ B0) ∨ ((A0 ⊕ B0) ∧ Cin)`<br>
+- C2 = G1 ∨ (P1 ∧ C1) = (A1 ∧ B1) ∨ ((A1 ⊕ B1) ∧ (`(A0 ∧ B0) ∨ ((A0 ⊕ B0) ∧ Cin)`))<br>
+- C3 = G2 ∨ (P2 ∧ C2) = (A2 ∧ B2) ∨ ((A2 ⊕ B2) ∧ (A1 ∧ B1) ∨ ((A1 ⊕ B1) ∧ (`(A0 ∧ B0) ∨ ((A0 ⊕ B0) ∧ Cin)`)))<br>
+- C4 = G3 ∨ (P3 ∧ C3) = (A3 ∧ B3) ∨ ((A3 ⊕ B3) ∧ ((A2 ∧ B2) ∨ ((A2 ⊕ B2) ∧ (A1 ∧ B1) ∨ ((A1 ⊕ B1) ∧ (`(A0 ∧ B0) ∨ ((A0 ⊕ B0) ∧ Cin)`)))))<br>
+
+**As you can see, as the bits increase, the complexity increases dramatically, which is probably why when you Google "32-bit Carry Lookahead adder", the most you'll find is design with cascaded carry lookadhead sub blocks.**
+
+![CLA](./images/ALU/CLA4.png)
+
+<ins>32-Bit Carry Lookahead Adder</ins>
+
+Now, all I have to do is cascade 8 CLA4 blocks for a 32-bit adder module.
+
+![CLA32](./images/ALU/Adder.png)
 
 ### SUB
 
-I'm going to add to the adder (yes, that pun was intended) by negating the B input. Remember, A - B is simply A + (-B). Logisim provides a Negator module. I could just put in the "Subtractor module" but I want to share the same adder module for both functions considering in the RISC-V ISA, the SUB instruction is literally just the ADD instruction with one bit change. Use my [instruction spreadsheet](RISC-V-Instructions.xlsx) as reference. I'll use that bit change to mux out a positive or negative secondary operand. This is my Adder/Subtractor:
+I'm going to add to the adder (yes, that pun was intended) by negating the B input. Remember, A - B is simply A + (-B).  I could just put in the "Subtractor module" but I want to share the same adder module for both functions considering in the RISC-V ISA, the SUB instruction is literally just the ADD instruction with one bit change (funct7[5] = 1). I'll use that bit change to mux out a positive or negative secondary operand while keeping the ADD and SUB instruction using the same funct3 ALU opcode. I've also added in a multiplexer to connect the ALU opcode bit field and an additional mux to select between B and -B for addition or subtraction.
 
-![Adder and Sub](./images/ALU/Adder_Subtractor.png)
+![Adder and Sub](./images/ALU/Add_Sub.png)
 
 
 ### Shift Left Logical
 
-Up next is the Shift Left Logical (SLL) instruction. This will be a simple addition. Just add a shifter that Logisim already pre-built for us and add a multiplexer to the output to choose between the Adder/Subtractor, OR gate, and other functions I will include in the ALU. I will also note this in a comment in the circuit diagram of the different ALU opcodes so I don't have to keep referencing from here on out.
+Up next is the Shift Left Logical (SLL) instruction. This will be a simple addition. I will just add in Logisim's built-in shifter module.
 
 ![SLL](./images/ALU/Shift_Left_Logical.png)
 
-### Less Than (Signed)
+### Set if Less Than (Signed)
 
-For the Set if Less Than (SLT) instruction, I will add a comparator in 2's complement mode, meaning that the comparator will compare the two values as signed data. From there, I connected the "less than" output, which indicates if the A input is less than the B input, to a bit extender. Thus, this makes the output equal to 31 zeros with a bit appended at the end which is the "less than bit".
+For the Set if Less Than (SLT) instruction, I will need to add flags for the ALU.
 
-![SLT](./images/ALU/Set_if_Less_Than.png)
+- N = Result is Negative
+	- Result is negative if the most significant bit, Result[31] is 1. The most significant bit determines the sign and if it is 1, that means the value is negative.
+	- `N = Result[31]`
+- Z = Result is Zero
+	- Result is zero if the 32-bit NOR gate is 1. Remember, a NOR gate can only be 1 if both values are zero.
+	- `Z = Result[31] ⊽ Result[30] ⊽ ... Result[1] ⊽ Result[0]`
+- C = Carry Out
+	- We will use the carry out from the CLA32 block for this, but that's not enough. There can only be a carry out on only addition or subtraction operations (when ALU_Op = 000). We can use a 3-input NOR gate for this and then AND that with the carry out.
+	- `C = (ALU_Op[2] ⊽ ALU_Op[1] ⊽ ALU_Op[0]) ∧ Cout`
+- V = Overflow
+	- The result overflowed if these conditions are true:
+		1. The A operand and Sum have different signs.
+			- `A[31] ⊕ Sum[31]`
+		2. Either the A and B operands have the same sign and the ALU is performing addition OR the A and B operands have different signs and the ALU is performing subtraction.
+			- `((A[31] ⊙ B[31]) ∧ ¬ALU_Src) ∨ ((A[31] ⊕ B[31]) ∧ ALU_Src)`
+	- `V = (A[31] ⊕ Result[31]) ∧ (((A[31] ⊙ B[31]) ∧ ¬ALU_Src) ∨ ((A[31] ⊕ B[31]) ∧ ALU_Src))`
 
+![Flags](./images/ALU/Adding_Status_Flags.png)
 
-### Less Than (Unsigned)
+Now that I've added flags to the ALU, I can use these flags for comparisons using *Table 5.2* from the Digital Design book. According to the table, A is less than B as signed values if (A + (-B)) causes `Sum[31] ⊕ V` to be true. 
 
-I will do the exact same thing from SLT except this time the comparator will be configured in "Unsigned" mode, which treats the operands as unsigned values. You can't binary compare unsigned values the same as you would with signed values.
+![SLT](./images/ALU/SLT.png)
 
-![SLTU](./images/ALU/Set_if_Less_Than_Unsigned.png)
+**Note: The reason I omitted one of the conditions for Overflow from the Digital Design book was because I need to take into account that other instructions that need to use the adder such as SLT/SLTU don't share the same opcode as ADD/SUB.**
 
-### Adding the Other Comparison Flags
+### Set if Less Than (Unsigned)
 
-To add this for when I implement branching later, I will add outputs to the ALU to flag the different comparisons (less than, equal to, not equal to, greater than or equal to). Also, I will change the ADD0_SUB1 input name to "ADD0_SUB1_SRL0_SRA1". This input is for that one bit in the instruction to differentiate between the ADD or SUB and SRL and SRA instruction. 0 = ADD or SRL depending on the funct3 opcode (ALU opcode). 1 = SUB or SRA depending on the funct3 opcode (ALU opcode).
+I will do the exact same thing from SLT except this time the comparison will be unsigned. To determine if A < B as unsigned, `¬Cout` must be true.
 
-![Other Comparison Flags](./images/ALU/Other_Comparisons.png)
-
-- L = Less Than (Signed)
-- LU = Less Than (Unsigned)
-- EQ = Equal To
-	- Equal comparisons from the 2's Complement and Unsigned Comparators are...well, equal.
-- NEQ = Not Equal To
-- GE = Greater Than or Equal To (Signed)
-- GEU = Greater Than or Equal To (Unsigned)
+![SLTU](./images/ALU/SLTU.png)
 
 ### XOR
 
-I just simply added a 32-bit XOR gate for this one.
+This one is pretty easy. I just simply added a 32-bit XOR gate for this one.
+
+![XOR](./images/ALU/XOR.png)
 
 ### Shift Right Logical
 
@@ -329,88 +254,31 @@ I just simply added a 32-bit AND gate for this one.
 
 ![AND](./images/ALU/AND.png)
 
-## Register File
+## Connecting CPU Datapath
 
-My base ALU is now complete with all of the base RV32I operations included. If I wish to add more to it, I will do that later. Now for the registers. Remember, there are 32 general-purpose registers including a program counter register. In this module, I have 8 inputs and 3 outputs.
+My base ALU is now complete with all of the base RV32I arithmetic/logical operations included. If I wish to add more to it, I will do that later. Now it's time to connect these blocks together to implement each instruction one at a time.
 
-- Inputs
-	- Read_Register1: This is a 5 bit input that will be our "rs1" from the R,I,S, and B-type instruction formats. It connects to the select bits of a multiplexer that selects which register data that will output as the first register operand.
-	- Read_Register2: This is a 5 bit input that will be our "rs2" from the R,S, and B-type instruction formats. It connects to the select bits of a multiplexer that selects which register data that will output as the second register operand.
-	- Write_Data: This is a 32 bit input that will be the data to write, assuming the Write_Enable bit is asserted. 
-	- Clock: This is our clock signal.
-	- Reset: The registers are reset asynchronously. If this input asserts then all of the registers will reset. This is mainly to hard-initialize the registers to a known state.
-	- Write_Register: This is a 5 bit input that is connected to the select bits of a 5-to-32 decoder. The decoder controls the write enable bits of each register, with exception to x0 since that will always be hardcoded to a value of 0.
-	- Write_Enable: This is the enable input for the decoder to select a register to write to. If enabled, the decoder will select based on the Write_Register value. Otherwise, no register is selected.
-	- PC_In: This is the program counter value to update the pc register to. The pc register always has its write enable bit to 1 since the program counter register, I suspect, will always be written at every clock cycle. If this is incorrect, I can always change it later in an update.
-- Outputs 
-	- Reg1_Out: This is a 32 bit output that is the register data of the first register operand.
-	- Reg2_Out: This is a 32 bit output that is the register data of the second register operand.
-	- PC_Out: This is a 32 bit output that represents the current program counter value.
+![Beginning CPU Connections](./images/CPU_Datapath/Basic_Blocks_No_Connection.png)
 
-![Register File](./images/Register_File.png)
+### Fetching Instructions
 
-## Memory (Program and Data)
+For the CPU to even execute anything, it needs to be given instructions. Instructions are stored in the Program Memory block and are received from inputting a program counter value into the adddress.<br>
 
-Up next is the memory. I'm not implementing CPU caching yet. That will be done later. For now, I'm creating a simple memory structure where the main memory in this case is just normal, byte-addressable RAM that I can select to either load or store a byte, half word (16 bits) or a full word (32 bits). Since the maximum address bits size for the RAM block is 24 bits, meaning each RAM block is 16 MB. If I want to address more RAM, I would need to decode these segments of RAM into blocks. We're assuming a Von Neumann architecture so instructions will be treated just like data.
+The Program Counter value is stored in the `pc` register in the Register file.
 
-<ins>RAM Block</ins>
+![Reg_PC](./images/CPU_Datapath/Program_Counter_Fetching_Instruction.png)
 
-I will create a RAM block submodule that will I will split the addressing for. In this RAM block, there are 8 inputs and 1 output.
+To fetch instructions, connect the PC_Out from the register file to the address input of the program memory. I also went ahead and connected the clock and reset pins to the clock and reset inputs of the data memory and register file blocks.
 
-- Inputs
-	- Unsigned0_Signed1: This will be an input to the bit extenders. In these, I can choose to either zero extend or "one" extend the output. If I choose the "sign mode" on the bit extenders, it will sign extend if I choose load a byte unsigned. If I choose the "input mode" on the bit extenders, it will blindly one or zero extend depending on the input. If I want it to correctly load a byte/half word signed or unsigned with the correct extension, I need to AND the unsigned/signed input flag with the **most significant bit** of the respective data output. That's why I included AND gates at the bit extenders.
-	- Enable: This will enable either the loading or storing modes of the RAM block.
-	- Load: This will flag the RAM modules in the RAM block to output data.
-	- Store: This will flag the RAM modules in the RAM block to save data from the "Data_In" input.
-	- Size_Flag: This is a 2 bit input that will signal the RAM block if I want to store or load a byte (8 bits), a half word (16 bits), or a full word (32 bits). Notice in the size flag opcode, I've derived this from the [instruction formatting spreadsheet](./RISC-V-Instructions.xlsx). If an invalid size flag is detected, the RAM block shouldn't do anything.
-		- 00 = Store/Load Byte
-		- 01 = Store/Load Half Word
-		- 10 = Store/Load Word
-		- 11 = Invalid
-	- Address: This is a 24-bit input that will address the individual bytes in the RAM modules.
-	- Clock: This is the clock signal to synchronously control the RAM modules.
-	- Data_In: This is a 32 bit input that will be stored if the store input is enabled. The "Size_Flag" input will determine if a byte, a half word, or a full word will be stored.
-- Outputs
- 	- Data_Out: This is a 32 bit output that represents the data that is being loaded if the Load input is enabled. The "Size_Flag" input will determine if a byte, a half word, or a full word will be loaded.
+![Connecting the Program Counter](./images/CPU_Datapath/Connecting_Program_Counter.png)
 
-![RAM Block](./images/Memory/RAM_Block.png)
+# Part IV: Implementing RV32I (Pipelined Architecture)
 
-<ins>Building the Main Memory Unit</ins>
-
-Now I that I have my RAM block submodule, I will make 16 of these. Why? Because I think 16 is a good number. I'm not implementing the full 32 bits of addresses. That will require me to decode out 256 RAM blocks. I'm not doing all that and neither are you (at least in Logisim).<br>
-
-In this level, I have 16 RAM blocks, 7 inputs, and 1 output.
-
-- Inputs
-	- Unsigned0_Signed1: This will be an input to determine to treat the output data as an unsigned value or a signed value
-		- 0 = Unsigned
-		- 1 = Signed
-	- Enable: This will enable either the loading or storing modes of the RAM block.
-	- Load: This will flag the RAM modules in the RAM block to output data.
-	- Store: This will flag the RAM modules in the RAM block to save data from the "Data_In" input.
-	- Size_Flag: This is a 2 bit input that will signal the RAM block if I want to store or load a byte (8 bits), a half word (16 bits), or a full word (32 bits). Notice in the size flag opcode, I've derived this from the [instruction formatting spreadsheet](./RISC-V-Instructions.xlsx). If an invalid size flag is detected, the RAM block shouldn't do anything.
-		- 00 = Store/Load Byte
-		- 01 = Store/Load Half Word
-		- 10 = Store/Load Word
-		- 11 = Invalid
-	- Address: This is a 32-bit input. The bottom 24 bits will be used to address the bytes in the RAM cells per block. Bits 27-24 are used to decode addressing for the 16 RAM blocks.
-	- Clock: This is the clock signal to synchronously control the RAM modules.
-	- Data_In: This is a 32 bit input that will be stored if the store input is enabled. The "Size_Flag" input will determine if a byte, a half word, or a full word will be stored.
-- Outputs
- 	- Data_Out: This is a 32 bit output that represents the data that is being loaded if the Load input is enabled. The "Size_Flag" input will determine if a byte, a half word, or a full word will be loaded.
-
-![Memory](./images/Memory/Memory.png)
-
-What I have implemented is not too far off from how FPGAs utilize block RAM. Since we can load and store data in one clock cycle, this may work out for our idealized, non-pipelined model where everything is executed in a single clock cycle. Again, we will build up to a pipelined architecture later.
-
-## Branching
-
-[Add this later]
-
-## Control Unit and Datapath
-
-[Add this later]
+[TBA]
 
 # Special Thanks
 
-[Add this later]
+I'm dedicating this section to the wonderful people at the [Digital Design HQ discord](https://discord.gg/4YWKUryprY) who have helped me build this project.
+- [Mahir Abbas](https://github.com/MahirAbbas)
+- [Andrew Clark (FL4SHK)](https://github.com/fl4shk)
+- sarvel
