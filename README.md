@@ -11,6 +11,24 @@ The goal here is to initially create a basic RISC-V processor. Over time, I will
 - [Preamble](#preamble)
 - [Prerequisite Material](#prerequisite-material)
 - [Part I: Learning the RISC-V ISA](#part-i-learning-the-risc-v-isa)
+- [Part II: Choosing a Logic Simulator Tool](#part-ii-choosing-a-logic-simulator-tool)
+- [Part III: Implementing RV32I (Single Cycle Architecture)](#part-iii-implementing-rv32i-single-cycle-architecture)
+	- [Memory Units](#memory-units)
+	- [ALU](#alu)
+		- [ADD](#add)
+		- [SUB](#sub)
+		- [Shift Left Logical](#shift-left-logical)
+		- [Set if Less Than (Signed)](#set-if-less-than-signed)
+		- [Set if Less Than (Unsigned)](#set-if-less-than-unsigned)
+		- [XOR](#xor)
+		- [Shift Right Logical](#shift-right-logical)
+		- [Shift Right Arithmetic](#shift-right-arithmetic)
+		- [OR](#or)
+		- [AND](#and)
+	- [CPU Datapath](#cpu-datapath)
+		- [Fetching Instructions](#fetching-instructions)
+- [Part IV: Implementing RV32I (Pipelined Architecture)](#part-iv-implementing-rv32i-pipelined-architecture)
+- [Special Thanks](#special-thanks)
 
 # Prerequisite Material
 
@@ -33,6 +51,8 @@ Prepping for this, I used these online resource I found:
 
 The official *RISC-V spec (page 554)* and the *Comp Org book (page 504)* are what I used to learn the instruction formatting.
 
+[Jump to Table of Contents](#table-of-contents)
+
 # Part II: Choosing a Logic Simulator Tool
 
 Now, that I have studied the base ISA a little bit, now it's time for me to start learning by doing. This project will undergo different revisions so I will try my best to journal everything I do while keeping everything as concise as possible for those of you reading this.<br>
@@ -42,6 +62,8 @@ For my tool, I will choose [Logisim Evolution](https://github.com/logisim-evolut
 You can install Logisim Evolution directly from the GitHub link above in the Releases tab. After installing, opening the application will look like this:
 
 ![Logisim Menu](./images/Logisim_Menu.png)
+
+[Jump to Table of Contents](#table-of-contents)
 
 # Part III: Implementing RV32I (Single Cycle Architecture)
 
@@ -114,6 +136,8 @@ According to the RISC-V spec, there are 32 general-purpose registers including a
 
 ![Register File](./images/Register_File.png)
 
+[Jump to Table of Contents](#table-of-contents)
+
 ## ALU
 
 Up next is the ALU, which is our arithmetic and logical engine. I will use the ALU that has a 3-bit opcode to implement the following functions:
@@ -130,6 +154,8 @@ Up next is the ALU, which is our arithmetic and logical engine. I will use the A
 I will use the `funct3` bit fields of the instruction to give to the ALU as the "Opcode", which will determine which function to mux out.<br>
 
 **Note: Since the Digital Design book is only implementing a small subset of the ISA, I will be deviating a little bit from the book.**
+
+[Jump to Table of Contents](#table-of-contents)
 
 ### ADD
 
@@ -176,18 +202,23 @@ Now, all I have to do is cascade 8 CLA4 blocks for a 32-bit adder module.
 
 ![CLA32](./images/ALU/Adder.png)
 
+[Jump to Table of Contents](#table-of-contents)
+
 ### SUB
 
 I'm going to add to the adder (yes, that pun was intended) by negating the B input. Remember, A - B is simply A + (-B).  I could just put in the "Subtractor module" but I want to share the same adder module for both functions considering in the RISC-V ISA, the SUB instruction is literally just the ADD instruction with one bit change (funct7[5] = 1). I'll use that bit change to mux out a positive or negative secondary operand while keeping the ADD and SUB instruction using the same funct3 ALU opcode. I've also added in a multiplexer to connect the ALU opcode bit field and an additional mux to select between B and -B for addition or subtraction.
 
 ![Adder and Sub](./images/ALU/Add_Sub.png)
 
+[Jump to Table of Contents](#table-of-contents)
 
 ### Shift Left Logical
 
 Up next is the Shift Left Logical (SLL) instruction. This will be a simple addition. I will just add in Logisim's built-in shifter module.
 
 ![SLL](./images/ALU/Shift_Left_Logical.png)
+
+[Jump to Table of Contents](#table-of-contents)
 
 ### Set if Less Than (Signed)
 
@@ -218,11 +249,15 @@ Now that I've added flags to the ALU, I can use these flags for comparisons usin
 
 **Note: The reason I omitted one of the conditions for Overflow from the Digital Design book was because I need to take into account that other instructions that need to use the adder such as SLT/SLTU don't share the same opcode as ADD/SUB.**
 
+[Jump to Table of Contents](#table-of-contents)
+
 ### Set if Less Than (Unsigned)
 
 I will do the exact same thing from SLT except this time the comparison will be unsigned. To determine if A < B as unsigned, `¬Cout` must be true.
 
 ![SLTU](./images/ALU/SLTU.png)
+
+[Jump to Table of Contents](#table-of-contents)
 
 ### XOR
 
@@ -230,11 +265,15 @@ This one is pretty easy. I just simply added a 32-bit XOR gate for this one.
 
 ![XOR](./images/ALU/XOR.png)
 
+[Jump to Table of Contents](#table-of-contents)
+
 ### Shift Right Logical
 
 Similarly to the Shift Left Logical, I will add in the shifter module but instead set it up in Logical Right Shift mode.
 
 ![SRL](./images/ALU/Shift_Right_Logical.png)
+
+[Jump to Table of Contents](#table-of-contents)
 
 ### Shift Right Arithmetic
 
@@ -242,11 +281,15 @@ Since the SRA instruction shares the same opcode with SRL, I will use the specia
 
 ![SRA](./images/ALU/Shift_Right_Arithmetic.png)
 
+[Jump to Table of Contents](#table-of-contents)
+
 ### OR
 
 I just simply added a 32-bit OR gate for this one.
 
 ![OR](./images/ALU/OR.png)
+
+[Jump to Table of Contents](#table-of-contents)
 
 ### AND
 
@@ -254,11 +297,15 @@ I just simply added a 32-bit AND gate for this one.
 
 ![AND](./images/ALU/AND.png)
 
-## Connecting CPU Datapath
+[Jump to Table of Contents](#table-of-contents)
+
+## CPU Datapath
 
 My base ALU is now complete with all of the base RV32I arithmetic/logical operations included. If I wish to add more to it, I will do that later. Now it's time to connect these blocks together to implement each instruction one at a time.
 
 ![Beginning CPU Connections](./images/CPU_Datapath/Basic_Blocks_No_Connection.png)
+
+[Jump to Table of Contents](#table-of-contents)
 
 ### Fetching Instructions
 
@@ -272,9 +319,13 @@ To fetch instructions, connect the PC_Out from the register file to the address 
 
 ![Connecting the Program Counter](./images/CPU_Datapath/Connecting_Program_Counter.png)
 
+[Jump to Table of Contents](#table-of-contents)
+
 # Part IV: Implementing RV32I (Pipelined Architecture)
 
 [TBA]
+
+[Jump to Table of Contents](#table-of-contents)
 
 # Special Thanks
 
@@ -282,3 +333,5 @@ I'm dedicating this section to the wonderful people at the [Digital Design HQ di
 - [Mahir Abbas](https://github.com/MahirAbbas)
 - [Andrew Clark (FL4SHK)](https://github.com/fl4shk)
 - sarvel
+
+[Jump to Table of Contents](#table-of-contents)
