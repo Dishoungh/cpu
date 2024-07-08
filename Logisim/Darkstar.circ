@@ -67,38 +67,47 @@
       <a name="appearance" val="classic"/>
       <a name="label" val="Reset"/>
     </comp>
-    <comp loc="(1270,230)" name="Data_Memory">
-      <a name="label" val="Data"/>
+    <comp lib="0" loc="(230,370)" name="Constant">
+      <a name="value" val="0x4"/>
+      <a name="width" val="32"/>
     </comp>
-    <comp loc="(390,230)" name="Program_Memory">
-      <a name="label" val="Instructions"/>
+    <comp loc="(1080,230)" name="ALU">
+      <a name="label" val="Arithmetic_Engine"/>
+    </comp>
+    <comp loc="(1390,230)" name="Data_Memory">
+      <a name="label" val="Data"/>
     </comp>
     <comp loc="(450,620)" name="Control_Unit">
       <a name="label" val="CU"/>
     </comp>
-    <comp loc="(670,230)" name="Regfile">
+    <comp loc="(490,370)" name="CLA32"/>
+    <comp loc="(510,230)" name="Program_Memory">
+      <a name="label" val="Instructions"/>
+    </comp>
+    <comp loc="(790,230)" name="Regfile">
       <a name="label" val="Internal_Registers"/>
     </comp>
-    <comp loc="(960,230)" name="ALU">
-      <a name="label" val="Arithmetic_Engine"/>
-    </comp>
-    <wire from="(1020,170)" to="(1020,230)"/>
-    <wire from="(1020,230)" to="(1050,230)"/>
-    <wire from="(1030,140)" to="(1030,330)"/>
-    <wire from="(1030,330)" to="(1050,330)"/>
-    <wire from="(110,140)" to="(430,140)"/>
-    <wire from="(110,170)" to="(420,170)"/>
-    <wire from="(160,230)" to="(160,440)"/>
-    <wire from="(160,230)" to="(170,230)"/>
-    <wire from="(160,440)" to="(700,440)"/>
-    <wire from="(420,170)" to="(1020,170)"/>
-    <wire from="(420,170)" to="(420,310)"/>
-    <wire from="(420,310)" to="(450,310)"/>
-    <wire from="(430,140)" to="(1030,140)"/>
-    <wire from="(430,140)" to="(430,290)"/>
-    <wire from="(430,290)" to="(450,290)"/>
-    <wire from="(670,270)" to="(700,270)"/>
-    <wire from="(700,270)" to="(700,440)"/>
+    <wire from="(110,140)" to="(550,140)"/>
+    <wire from="(110,170)" to="(540,170)"/>
+    <wire from="(1140,170)" to="(1140,230)"/>
+    <wire from="(1140,230)" to="(1170,230)"/>
+    <wire from="(1150,140)" to="(1150,330)"/>
+    <wire from="(1150,330)" to="(1170,330)"/>
+    <wire from="(150,230)" to="(150,390)"/>
+    <wire from="(150,230)" to="(290,230)"/>
+    <wire from="(150,390)" to="(150,430)"/>
+    <wire from="(150,390)" to="(270,390)"/>
+    <wire from="(150,430)" to="(800,430)"/>
+    <wire from="(230,370)" to="(270,370)"/>
+    <wire from="(490,370)" to="(570,370)"/>
+    <wire from="(540,170)" to="(1140,170)"/>
+    <wire from="(540,170)" to="(540,310)"/>
+    <wire from="(540,310)" to="(570,310)"/>
+    <wire from="(550,140)" to="(1150,140)"/>
+    <wire from="(550,140)" to="(550,290)"/>
+    <wire from="(550,290)" to="(570,290)"/>
+    <wire from="(790,270)" to="(800,270)"/>
+    <wire from="(800,270)" to="(800,430)"/>
   </circuit>
   <circuit name="Control_Unit">
     <a name="appearance" val="logisim_evolution"/>
@@ -604,7 +613,9 @@
     <wire from="(660,5030)" to="(740,5030)"/>
     <wire from="(660,5170)" to="(660,5310)"/>
     <wire from="(660,5170)" to="(740,5170)"/>
+    <wire from="(660,5310)" to="(660,5440)"/>
     <wire from="(660,5310)" to="(740,5310)"/>
+    <wire from="(660,5440)" to="(740,5440)"/>
     <wire from="(660,940)" to="(660,1080)"/>
     <wire from="(660,940)" to="(740,940)"/>
     <wire from="(670,1040)" to="(670,1180)"/>
@@ -770,6 +781,7 @@
     <wire from="(740,5010)" to="(740,5030)"/>
     <wire from="(740,5150)" to="(740,5170)"/>
     <wire from="(740,5290)" to="(740,5310)"/>
+    <wire from="(740,5430)" to="(740,5440)"/>
     <wire from="(740,920)" to="(740,940)"/>
     <wire from="(770,1000)" to="(800,1000)"/>
     <wire from="(770,1140)" to="(810,1140)"/>
@@ -969,13 +981,13 @@
       <a name="facing" val="west"/>
       <a name="label" val="Result"/>
       <a name="output" val="true"/>
-      <a name="radix" val="16"/>
+      <a name="radix" val="10signed"/>
       <a name="width" val="32"/>
     </comp>
     <comp lib="0" loc="(310,250)" name="Pin">
       <a name="appearance" val="classic"/>
       <a name="label" val="A"/>
-      <a name="radix" val="16"/>
+      <a name="radix" val="10signed"/>
       <a name="width" val="32"/>
     </comp>
     <comp lib="0" loc="(310,270)" name="Pin">
@@ -1206,7 +1218,7 @@
       <a name="shift" val="ar"/>
       <a name="width" val="32"/>
     </comp>
-    <comp lib="8" loc="(1481,476)" name="Text">
+    <comp lib="8" loc="(1480,475)" name="Text">
       <a name="text" val="Flags"/>
     </comp>
     <comp lib="8" loc="(255,185)" name="Text">
@@ -1894,124 +1906,124 @@
     <comp lib="1" loc="(910,1070)" name="OR Gate">
       <a name="size" val="30"/>
     </comp>
-    <comp lib="8" loc="(313,326)" name="Text">
+    <comp lib="8" loc="(310,325)" name="Text">
       <a name="text" val="C0"/>
     </comp>
-    <comp lib="8" loc="(315,243)" name="Text">
+    <comp lib="8" loc="(315,1140)" name="Text">
+      <a name="text" val="G2"/>
+    </comp>
+    <comp lib="8" loc="(315,1265)" name="Text">
+      <a name="text" val="G1"/>
+    </comp>
+    <comp lib="8" loc="(315,1415)" name="Text">
+      <a name="text" val="P0"/>
+    </comp>
+    <comp lib="8" loc="(315,1455)" name="Text">
+      <a name="text" val="C0"/>
+    </comp>
+    <comp lib="8" loc="(315,240)" name="Text">
       <a name="text" val="G0"/>
     </comp>
-    <comp lib="8" loc="(315,569)" name="Text">
-      <a name="text" val="C0"/>
-    </comp>
-    <comp lib="8" loc="(315,947)" name="Text">
-      <a name="text" val="C0"/>
-    </comp>
-    <comp lib="8" loc="(316,1416)" name="Text">
+    <comp lib="8" loc="(315,285)" name="Text">
       <a name="text" val="P0"/>
     </comp>
-    <comp lib="8" loc="(316,286)" name="Text">
-      <a name="text" val="P0"/>
-    </comp>
-    <comp lib="8" loc="(316,526)" name="Text">
-      <a name="text" val="P0"/>
-    </comp>
-    <comp lib="8" loc="(316,906)" name="Text">
-      <a name="text" val="P0"/>
-    </comp>
-    <comp lib="8" loc="(318,1265)" name="Text">
+    <comp lib="8" loc="(315,380)" name="Text">
       <a name="text" val="G1"/>
     </comp>
-    <comp lib="8" loc="(318,1458)" name="Text">
+    <comp lib="8" loc="(315,525)" name="Text">
+      <a name="text" val="P0"/>
+    </comp>
+    <comp lib="8" loc="(315,565)" name="Text">
       <a name="text" val="C0"/>
     </comp>
-    <comp lib="8" loc="(318,380)" name="Text">
-      <a name="text" val="G1"/>
+    <comp lib="8" loc="(315,905)" name="Text">
+      <a name="text" val="P0"/>
     </comp>
-    <comp lib="8" loc="(319,1144)" name="Text">
-      <a name="text" val="G2"/>
+    <comp lib="8" loc="(315,945)" name="Text">
+      <a name="text" val="C0"/>
     </comp>
-    <comp lib="8" loc="(321,1074)" name="Text">
-      <a name="text" val="P3"/>
-    </comp>
-    <comp lib="8" loc="(321,1333)" name="Text">
-      <a name="text" val="P1"/>
-    </comp>
-    <comp lib="8" loc="(321,443)" name="Text">
-      <a name="text" val="P1"/>
-    </comp>
-    <comp lib="8" loc="(321,634)" name="Text">
-      <a name="text" val="G2"/>
-    </comp>
-    <comp lib="8" loc="(321,766)" name="Text">
-      <a name="text" val="G1"/>
-    </comp>
-    <comp lib="8" loc="(321,823)" name="Text">
-      <a name="text" val="P1"/>
-    </comp>
-    <comp lib="8" loc="(322,1004)" name="Text">
+    <comp lib="8" loc="(320,1000)" name="Text">
       <a name="text" val="G3"/>
     </comp>
-    <comp lib="8" loc="(322,1373)" name="Text">
-      <a name="text" val="G0"/>
+    <comp lib="8" loc="(320,1070)" name="Text">
+      <a name="text" val="P3"/>
     </comp>
-    <comp lib="8" loc="(324,1212)" name="Text">
+    <comp lib="8" loc="(320,1210)" name="Text">
       <a name="text" val="P2"/>
     </comp>
-    <comp lib="8" loc="(324,706)" name="Text">
+    <comp lib="8" loc="(320,1330)" name="Text">
+      <a name="text" val="P1"/>
+    </comp>
+    <comp lib="8" loc="(320,1370)" name="Text">
+      <a name="text" val="G0"/>
+    </comp>
+    <comp lib="8" loc="(320,440)" name="Text">
+      <a name="text" val="P1"/>
+    </comp>
+    <comp lib="8" loc="(320,630)" name="Text">
+      <a name="text" val="G2"/>
+    </comp>
+    <comp lib="8" loc="(320,705)" name="Text">
       <a name="text" val="P2"/>
     </comp>
-    <comp lib="8" loc="(331,483)" name="Text">
+    <comp lib="8" loc="(320,765)" name="Text">
+      <a name="text" val="G1"/>
+    </comp>
+    <comp lib="8" loc="(320,820)" name="Text">
+      <a name="text" val="P1"/>
+    </comp>
+    <comp lib="8" loc="(330,480)" name="Text">
       <a name="text" val="G0"/>
     </comp>
-    <comp lib="8" loc="(331,863)" name="Text">
+    <comp lib="8" loc="(330,860)" name="Text">
       <a name="text" val="G0"/>
     </comp>
-    <comp lib="8" loc="(451,1390)" name="Text">
+    <comp lib="8" loc="(450,1390)" name="Text">
       <a name="text" val="C1"/>
     </comp>
-    <comp lib="8" loc="(451,500)" name="Text">
+    <comp lib="8" loc="(450,500)" name="Text">
       <a name="text" val="C1"/>
     </comp>
-    <comp lib="8" loc="(451,880)" name="Text">
+    <comp lib="8" loc="(450,880)" name="Text">
       <a name="text" val="C1"/>
     </comp>
-    <comp lib="8" loc="(522,16)" name="Text">
+    <comp lib="8" loc="(520,15)" name="Text">
       <a name="text" val="C0 = Cin"/>
     </comp>
-    <comp lib="8" loc="(589,1306)" name="Text">
+    <comp lib="8" loc="(585,1305)" name="Text">
       <a name="text" val="C2"/>
     </comp>
-    <comp lib="8" loc="(589,796)" name="Text">
+    <comp lib="8" loc="(585,795)" name="Text">
       <a name="text" val="C2"/>
     </comp>
-    <comp lib="8" loc="(683,34)" name="Text">
+    <comp lib="8" loc="(680,30)" name="Text">
       <a name="text" val="C1 = G0 ∨ (P0 ∧ C0) = (A0 ∧ B0) ∨ ((A0 ⊕ B0) ∧ Cin)"/>
     </comp>
-    <comp lib="8" loc="(752,1191)" name="Text">
+    <comp lib="8" loc="(750,1190)" name="Text">
       <a name="text" val="C3"/>
     </comp>
-    <comp lib="8" loc="(784,54)" name="Text">
+    <comp lib="8" loc="(780,50)" name="Text">
       <a name="text" val="C2 = G1 ∨ (P1 ∧ C1) = (A1 ∧ B1) ∨ ((A1 ⊕ B1) ∧ ((A0 ∧ B0) ∨ ((A0 ⊕ B0) ∧ Cin)))"/>
     </comp>
-    <comp lib="8" loc="(86,157)" name="Text">
+    <comp lib="8" loc="(85,155)" name="Text">
       <a name="text" val="C0 --&gt;"/>
     </comp>
-    <comp lib="8" loc="(878,72)" name="Text">
+    <comp lib="8" loc="(875,70)" name="Text">
       <a name="text" val="C3 = G2 ∨ (P2 ∧ C2) = (A2 ∧ B2) ∨ ((A2 ⊕ B2) ∧ (A1 ∧ B1) ∨ ((A1 ⊕ B1) ∧ ((A0 ∧ B0) ∨ ((A0 ⊕ B0) ∧ Cin))))"/>
     </comp>
-    <comp lib="8" loc="(921,457)" name="Text">
+    <comp lib="8" loc="(920,455)" name="Text">
       <a name="text" val="C2"/>
     </comp>
-    <comp lib="8" loc="(922,719)" name="Text">
+    <comp lib="8" loc="(920,715)" name="Text">
       <a name="text" val="C3"/>
     </comp>
-    <comp lib="8" loc="(929,294)" name="Text">
+    <comp lib="8" loc="(925,290)" name="Text">
       <a name="text" val="C1"/>
     </comp>
-    <comp lib="8" loc="(934,1094)" name="Text">
+    <comp lib="8" loc="(930,1090)" name="Text">
       <a name="text" val="C4"/>
     </comp>
-    <comp lib="8" loc="(981,92)" name="Text">
+    <comp lib="8" loc="(980,90)" name="Text">
       <a name="text" val="C4 = G3 ∨ (P3 ∧ C3) = (A3 ∧ B3) ∨ ((A3 ⊕ B3) ∧ ((A2 ∧ B2) ∨ ((A2 ⊕ B2) ∧ (A1 ∧ B1) ∨ ((A1 ⊕ B1) ∧ ((A0 ∧ B0) ∨ ((A0 ⊕ B0) ∧ Cin))))))"/>
     </comp>
     <comp loc="(1160,130)" name="Full_Adder">
@@ -2443,11 +2455,22 @@
       <a name="addrWidth" val="24"/>
       <a name="appearance" val="logisim_evolution"/>
       <a name="contents">addr/data: 24 8
-99 12 21 41 66 77 88 99
-aa bb cc dd ee ff 1 23
-45 67 89 ab cd ef fe dc
-ba 98 76 54 32 10 de ad
-be ef 91 17 56
+93 0 b0 10 13 1 50 b3
+93 1 50 0 13 2 50 0
+93 2 50 0 13 3 50 0
+93 3 50 0 13 4 50 0
+93 4 50 0 13 5 50 0
+93 5 50 0 13 6 50 0
+93 6 50 0 13 0 50 0
+93 7 50 0 13 8 50 0
+93 8 50 0 13 0 50 0
+93 9 50 0 13 a 50 0
+93 a 50 0 13 b 50 0
+93 b 50 0 13 c 50 0
+93 c 50 0 13 d 50 0
+93 d 50 0 13 e 50 0
+93 e 50 0 13 f 50 0
+93 f 50
 </a>
       <a name="label" val="Instruction_Memory"/>
       <a name="labelvisible" val="true"/>
@@ -2474,7 +2497,7 @@ be ef 91 17 56
       <a name="facing" val="west"/>
       <a name="label" val="Data_Out"/>
       <a name="output" val="true"/>
-      <a name="radix" val="16"/>
+      <a name="radix" val="10unsigned"/>
       <a name="width" val="32"/>
     </comp>
     <comp lib="0" loc="(450,310)" name="Pin">
@@ -2500,7 +2523,7 @@ be ef 91 17 56
     <comp lib="0" loc="(450,580)" name="Pin">
       <a name="appearance" val="classic"/>
       <a name="label" val="Data_In"/>
-      <a name="radix" val="16"/>
+      <a name="radix" val="10signed"/>
       <a name="width" val="32"/>
     </comp>
     <comp lib="0" loc="(450,610)" name="Pin">

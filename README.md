@@ -305,6 +305,54 @@ My base ALU is now complete with all of the base RV32I arithmetic/logical operat
 
 ![Beginning CPU Connections](./images/CPU_Datapath/Basic_Blocks_No_Connection.png)
 
+To fully implement this CPU, I need a sample program. I will need to create a program that will will be complex enough to test all of the base instructions:
+
+- R-Type Instructions
+	- ADD (Addition)
+	- SUB (Subtraction)
+	- SLL (Shift Left Logical)
+	- SLT (Set if Less Than (Signed))
+	- SLTU (Set if Less Than (Unsigned))
+	- XOR (Bitwise Exclusive OR)
+	- SRL (Shift Right Logical)
+	- SRA (Shift Right Arithmetic)
+	- OR (Bitwise OR)
+	- AND (Bitswise AND)
+- I-Type Instructions
+	- ADDI (Addition w/ Immediate)
+	- SLLI (Shift Left Logical w/ Immediate)
+	- SLTI (Set if Less Than Immediate)
+	- SLTIU (Set if Less Than Immediate (Unsigned))
+	- XORI (Bitwise Exclusive OR w/ Immediate)
+	- SRLI (Shift Right Logical w/ Immediate)
+	- SRAI (Shift Right Arithmetic w/ Immediate)
+	- ORI (Bitwise OR w/ Immediate)
+	- ANDI (Bitwise AND w/ Immediate)
+	- LB (Load Byte)
+	- LH (Load Half-Word)
+	- LW (Load Word)
+	- LBU (Load Unsigned Byte)
+	- LHU (Load Unsigned Half-Word)
+	- JALR (Jump and Link Register) <-- Format-wise, this instruction follows more of an I-type than a J-type
+- S-Type Instructions
+	- SB (Store Byte)
+	- SH (Store Half-Word)
+	- SW (Store Word)
+- B-Type Instructions
+	- BEQ (Branch if Equal)
+	- BNE (Branch if Not Equal)
+	- BLT (Branch if Less Than)
+	- BGE (Branch if Greater Than or Equal)
+	- BLTU (Branch if Less Than (Unsigned))
+	- BGEU (Branch if Greater Than or Equal (Unsigned))
+- U-Type Instructions
+	- LUI (Load Upper Immediate)
+	- AUIPC (Add Upper Immediate to Program Counter)
+- J-Type Instructions
+	- JAL (Jump and Link)
+
+**Note: Refer to the RISC-V spec document (page 554 and 555) for instruction formatting details. Also, I'm not adhering to the [standard RISC-V assembly conventions](https://github.com/riscv-non-isa/riscv-asm-manual/blob/main/riscv-asm.md). The purpose of this is not to provide a realistic RISC-V assembly program. I will explore that later. The purpose is to have a guide to incrementally implement each instruction, in hardware, one at a time.**
+
 [Jump to Table of Contents](#table-of-contents)
 
 ### Fetching Instructions
@@ -319,7 +367,72 @@ To fetch instructions, connect the PC_Out from the register file to the address 
 
 ![Connecting the Program Counter](./images/CPU_Datapath/Connecting_Program_Counter.png)
 
+But to update the program counter and execute the next instruction, I have to add 4 to the program counter and update the program counter value on the next clock cycle.
+
+![Adding to the Program Counter](./images/CPU_Datapath/Adding_4_to_Program_Counter.png)
+
+With this current setup, the CPU can now fetch sequential instructions by always adding 4 to the current program counter. However, the rest of the components need to be attached and eventually I will need to implement branching logic. That will come later.<br>
+
 [Jump to Table of Contents](#table-of-contents)
+
+### ADDI
+
+For the first part of my instructions, I need to initialize the registers with some values. I can't do much of anything when all the register values are zeroes. The *ADDI* instruction will be used to insert 12-bit immediate values. <br>
+
+In the Program Memory module, I can directly edit the instructions in a hex editor and save/load a file. Let's test the ADDI instruction with a sample program I will call `Sample-Program-SC`.
+
+```
+// x1 = 267 (ADDI x1, x0, 267)
+//		imm[11:0] = 267 = 000100001011
+//		rs1[4:0] = x0 = 00000
+//		funct3 = 000
+//		rd = x1 = 00001
+//		opcode = 0010011
+//
+//		Instruction = 0001 0000 1011 0000 0000 0000 1001 0011
+//					= 0x10B00093
+1. 0x10B00093
+
+// x2 = -1227 (ADDI x1, x0, -1227)
+2. 0xB3500113
+
+// To test the rest of the registers, set 5 to x3 - x31
+3. 0x00500193
+4. 0x00500213
+5. 0x00500293
+6. 0x00500313
+7. 0x00500393
+8. 0x00500413
+9. 0x00500493
+10. 0x00500513
+11. 0x00500593
+12. 0x00500613
+13. 0x00500693
+14. 0x00500713
+15. 0x00500793
+16. 0x00500813
+17. 0x00500893
+18. 0x00500913
+19. 0x00500993
+20. 0x00500A13
+21. 0x00500A93
+22. 0x00500B13
+23. 0x00500B93
+24. 0x00500C13
+25. 0x00500C93
+26. 0x00500D13
+27. 0x00500D93
+28. 0x00500E13
+29. 0x00500E93
+30. 0x00500F13
+31. 0x00500F93
+```
+
+![Hex Edit](./images/CPU_Datapath/Program_Hex_Editor.png)
+
+After entering in those machine codes in the program memory, I implemented ADDI by:
+
+**TODO: FINISH THIS LATER**
 
 # Part IV: Implementing RV32I (Pipelined Architecture)
 
