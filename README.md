@@ -112,7 +112,7 @@ Now that the RAM block is implemented, I will decode 16 of these blocks to total
 
 <ins>Program Memory</ins>
 
-For the program memory, I will simply add one Read-Only Memory (ROM) module that is 16MB.
+For the program memory, I will simply add one Read-Only Memory (ROM) module that is 256 with an address with of 8 bits. The maximum is 24 bits (16 MB) but that will just make program files needlessly large. 8 bits is just fine for the purposes of this project.
 
 ![Program Memory Module](./images/Memory/Program_Memory.png)
 
@@ -379,7 +379,7 @@ With this current setup, the CPU can now fetch sequential instructions by always
 
 For the first part of my instructions, I need to initialize the registers with some values. I can't do much of anything when all the register values are zeroes. The *ADDI* instruction will be used to insert 12-bit immediate values. <br>
 
-In the Program Memory module, I can directly edit the instructions in a hex editor and save/load a file. Let's test the ADDI instruction with a sample program I will call `Sample-Program-SC`.
+In the Program Memory module, I can directly edit the instructions in a hex editor and save/load a file. Let's test the ADDI instruction with a sample program. Thankfully, there is a [website to encode RISC-V assembly to machine code](https://luplab.gitlab.io/rvcodecjs/) so making these sample programs won't be so tedious.
 
 ```
 // x1 = 267 (ADDI x1, x0, 267)
@@ -428,11 +428,169 @@ In the Program Memory module, I can directly edit the instructions in a hex edit
 31. 0x00500F93
 ```
 
-![Hex Edit](./images/CPU_Datapath/Program_Hex_Editor.png)
+![Hex Edit](./images/CPU_Datapath/ADDI/Program_Hex_Editor.png)
 
-After entering in those machine codes in the program memory, I implemented ADDI by:
+To implement the `ADDI` function, I first need to break apart and decode the instruction. Instruction[6:0] represent the OpCode. I will input that into the CPU control unit.<br>
 
-**TODO: FINISH THIS LATER**
+Instruction[11:7] is the destination register or the "Write_Register" in my register file.<br>
+
+Instruction[14:12] is the funct3 field, which is the ALU_Op input. The obvious thought is to directly connect funct3 to the ALU_Op, but I will actually input it to the Control Unit since I know there will be some other instructions that may or may not have the ALU operation encodings. I will go ahead and connect funct7[5] or Instruction[30] to the Control Unit as well. Since, for now, there is no logic to determine the ALU_Op and ALU_Src inputs yet, I will just connect a plain wire from the funct3/funct7_5 inputs to the ALU_Op/ALU_Src outputs respectively as shown in the screenshot for the Control Unit below.<br>
+
+![First Control Unit](./images/CPU_Datapath/ADDI/Control_Unit.png)
+
+Instruction[19:15] is the first source register or "Read Register 1" in my register file. I will split the instruction bits for the Read_Register1 input and put Reg1_out into the "A" port of the ALU.<br>
+
+Instruction[31:20] is the 12-bit sign-extended immediate value to add to the value of the rs1. All I have to do here is place a bit extender that will be sign-extended and connect that to the "B" port of the ALU.<br>
+
+After that, I must make a connection to the Write_Enable input of the Register File. I'll have the Control Unit handle this. For now, there's no logic since we're assuming all ADDI instructions will write to some destination register. So, the RegWrite output will always be 1.
+
+![Control Unit with RegWrite](./images/CPU_Datapath/ADDI/Control_Unit2.png)
+
+![ADDI Implemented](./images/CPU_Datapath/ADDI/ADDI_Implemented.png)
+
+To test this, Logisim has a tab to see all the present values within registers present in the project, which will be very helpful for debugging and testing instructions. Going through the instructions by toggling the clock pin, these are the register values.
+
+![Correct ADDI Values](./images/CPU_Datapath/ADDI/Register_Values2.png)
+
+### ADD
+
+Now that I've implemented the ADDI instruction, it's not too much work to modify the datapath to support R-type ADD instructions. Also, forgive me for suddenly going from an I-type instruction to an R-type. I needed to implement ADDI first since I needed a way to initialize registers with values in the program.<br>
+
+Just like I did with `ADDI` instruction, I need to write a simple test program to test the ADD instruction:
+
+```
+// x1 = 444 (ADDI x1, x0, 444)
+1. 0x1BC00093
+
+// x2 = -448 (ADDI x2, x0, -448)
+2. 0xE4000113
+
+// x3 = 3 (ADDI x3, x0, 3)
+3. 0x00300193
+
+// x4 = x1 + x2 = 444 - 448 = -4 (ADD x4, x1, x2)
+4. 0x00208233
+
+// x5 = x4 + x3 = -4 + 3 = -1 (ADD x5, x4, x3)
+5. 0x003202B3
+```
+
+After creating the sample program, I need to connect Instruction[24:20] to Read_Register to represent "rs2", the second register address. I also need to select between the sign-extended immediate from the previous ADDI instruction or Reg2_Out. This will be controlled by the Control Unit.<br>
+
+![Adding Wires for ADD](./images/CPU_Datapath/ADD/Adding_Wires_for_ADD.png)
+
+In the Control Unit, now I need some logic to control the outputs because, right now, we're just hard-setting these outputs to certain values with no logic. The ALU_Op output will equal the funct3 input ONLY on these specific opcodes:
+- 0010011 (ADDI/SLTI/SLTIU/XORI/ETC)
+- 0110011 (ADD/SUB/SLL/SLT/SLTU/ETC)
+
+Otherwise, the ALU_Op will be all zeroes...for now. The ALU_Src will only equal funct7[5] only on R-type instructions (Opcode = 0110011). Also, ALU_Src will equal 1 for all B-type instructions (Opcode = 1100011) since branches are comparisons and comparing use subtraction. This also means I will likely have to add input pins to the Control Unit for the ALU flags.<br>
+
+
+The RegWrite output will only equal 1 for instructions with a destination register field:
+- LUI (Opcode = 0110111)
+- AUIPC (Opcode = 0010111)
+- JAL (Opcode = 1101111)
+- JALR (Opcode = 1100111)
+- LB/LH/LW/LBU/LHU (Opcode = 0000011)
+- ADD/SUB/SLT/ETC (Opcode = 0110011)
+- ADDI/SLTI/XORI/ETC (Opcode = 0010011)
+
+The B_Src will only equal 1 for instructions that use an immediate value instead of a secondary register value.
+- LUI (Opcode = 0110111)
+- AUIPC (Opcode = 0010111)
+- JAL (Opcode = 1101111)
+- JALR (Opcode = 1100111)
+- LB/LH/LW/LBU/LHU (Opcode = 0000011)
+- SB/SH/SW (Opcode = 0100011)
+- ADDI/SLTI/XORI/ETC (Opcode = 0010011)
+
+![Control Unit Mods for ADD](./images/CPU_Datapath/ADD/Control_Unit.png)
+
+This is the completed circuit for the ADD instruction.
+
+![Implemented ADD](./images/CPU_Datapath/ADD/Completed.png)
+
+### SUB
+
+I've already made the necessary datapath modifications to support the SUB instruction. All I need to do is create the sample program to test this instruction.<br>
+
+```
+// x1 = 444 (ADDI x1, x0, 444)
+1. 0x1BC00093
+
+// x2 = 448 (ADDI x2, x0, 448)
+2. 0x1C000113
+
+// x3 = 3 (ADDI x3, x0, 3)
+3. 0x00300193
+
+// x4 = x1 - x2 = 444 - 448 = -4 (SUB x4, x1, x2)
+4. 0x40208233
+
+// x5 = x4 + x3 = -4 - 3 = -7 (SUB x5, x4, x3)
+5. 0x403202B3
+```
+
+### SLL
+
+I've already made the necessary datapath modifications to support the SLL instruction. All I need to do is create the sample program to test this instruction.<br>
+
+```
+// x1 = 16 (ADDI x1, x0, 16)
+1. 0x01000093
+
+// x2 = 9 (ADDI x2, x0, 9)
+2. 0x00900113
+
+// x3 = 3 (ADDI x3, x0, 3)
+3. 0x00300193
+
+// x4 = x1 << x2 = 16 << 9 = 8192 (SLL x4, x1, x2)
+4. 0x00209233
+
+// x4 = x4 << x3 = 8192 << 3 = 65536 (SLL x4, x4, x3)
+5. 0x00321233
+```
+
+### SLT
+### SLTU
+### XOR
+### SRL
+### SRA
+### OR
+### AND
+
+### SLLI
+### SLTI
+### SLTIU
+### XORI
+### SRLI
+### SRAI
+### ORI
+### ANDI
+
+### SB
+### SH
+### SW
+
+### LB
+### LH
+### LW
+### LBU
+### LHU
+
+### JALR
+
+### BEQ
+### BNE
+### BLT
+### BGE
+### BLTU
+### BGEU
+
+### LUI
+### AUIPC
+### JAL
 
 # Part IV: Implementing RV32I (Pipelined Architecture)
 
