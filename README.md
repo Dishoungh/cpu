@@ -757,15 +757,59 @@ I've already made the necessary datapath modifications to support the ANDI instr
 2. 0x6660F113
 ```
 
-### SB
-### SH
-### SW
+### SB/LB/LBU
 
-### LB
-### LH
-### LW
-### LBU
-### LHU
+Now all of the arithmetic/logical operations are implemented. It's time to implement memory-based instructions (store/load). To implement the store instructions (SW/SH/SB), I have to make more adjustments to the Control Unit. The Control Unit now has to output these signals:
+
+- MemSigned: This signals to the Data memory controller to sign extend a loaded value.
+	- This signal only goes high only on these load instructions: LW, LH, and LB
+- MemWrite: This enables the data memory block to store a value.
+	- This signal only goes high on store instructions (SW/SH/SB)
+- MemRead: This enables the data memory block to read a value.
+	- This signal only goes high on load instructions (LW/LH/LHU/LB/LBU)
+- Size_Flag: This tells the data memory block if the CPU is storing/loading a byte, a half word, or full word
+	- Size_Flag[0]: Since Size_Flag = 11 means invalid, I actually care about when Size_Flag is zero. Size_Flag[0] is zero only on these instructions: LB, LW, LBU, SB, and SW.
+	- Size_Flag[1]: Since Size_Flag = 11 means invalid, I actually care about when Size_Flag is zero. Size_Flag[1] is zero only on these instructions: LB, LH, LBU, LHU, SB, and SH.
+
+![Control Unit for Store](./images/CPU_Datapath/STORE/Control_Unit_Modifications.png)
+
+In the top-level circuit, I need to connect the ALU result to the Address port of the data memory since the ALU will add offsets for target address on data memory. Also, I'll connect the new outputs of the control unit to the appropriate ports of the data memory. Since for store instructions, rs2 is the source register that carries the value to store in data memory, I'll connect Reg2_Out to Data_In of the Data Memory block.<br>
+
+![Top Level Connections](./images/CPU_Datapath/STORE/Connecting_to_Data_Memory.png)
+
+Because the store instruction now has the immediate bits separated, the CPU needs to control two different immediate sources: one from Instruction[31:20] or Instruction[31:25,11:7]. To select between the two, I'll use a multiplexer and the MemWrite output from the Control Unit will act as the selector since the CPU uses Instruction[31:25,11:7] to generate the immediate only on store instructions.
+
+![Muxxing Immediate](./images/CPU_Datapath/STORE/Immediate_Source.png)
+
+For the final piece of the puzzle, now I need to connect Data_Out from the Data Memory block to the Write_Data that is already taken by the ALU Result. I will simply add another multiplexer that will select whether to use the ALU Result or the Data Out from memory. The MemRead output from the Control Unit will act as the selector.
+
+![Mem to Reg](./images/CPU_Datapath/STORE/Connecting_Memory_to_Regfile.png)
+
+As usual, I have to create a sample program to test the SB instruction.
+
+```
+//x9 = -144 (ADDI x9, x0, -115)
+1. 0xF8D00493
+
+//x22 = 20 (ADDI x22, x0, 20)
+2. 0x01400B13
+
+//Mem[x22 + 36] = Mem[20 + 36] = Mem[56] = x9 = -115 (SB x9, 36(x22))
+3. 0x029B0223
+
+//x3 = 56 (ADDI x3, x0, 56)
+4. 0x03800193
+
+//x1 = Mem[x3 + 0] = Mem[56] = 0xFFFFFF8D = -115 (LB x1, 0(x3))
+5. 0x00018083
+
+//x2 = Mem[x3 + 0] (Unsigned) = Mem[56] (Unsigned) = 0x0000008D = 141 (LBU x1, 0(x3))
+6. 0x0001C083
+```
+
+### SH/LH/LHU
+
+### SW/LW
 
 ### JALR
 
