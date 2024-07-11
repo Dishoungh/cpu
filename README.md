@@ -27,6 +27,38 @@ The goal here is to initially create a basic RISC-V processor. Over time, I will
 		- [AND](#and)
 	- [CPU Datapath](#cpu-datapath)
 		- [Fetching Instructions](#fetching-instructions)
+		- [ADDI](#addi)
+		- [ADD](#add-1)
+		- [SUB](#sub-1)
+		- [SLL](#sll)
+		- [SLT](#slt)
+		- [SLTU](#sltu)
+		- [XOR](#xor-1)
+		- [SRL](#srl)
+		- [SRA](#sra)
+		- [OR](#or-1)
+		- [AND](#and-1)
+		- [SLLI](#slli)
+		- [SLTI](#slti)
+		- [SLTIU](#sltiu)
+		- [XORI](#xori)
+		- [SRLI](#srli)
+		- [SRAI](#srai)
+		- [ORI](#ori)
+		- [ANDI](#andi)
+		- [SB/LB/LBU](#sblblbu)
+		- [SH/LH/LHU](#shlhlhu)
+		- [SW/LW](#swlw)
+		- [BEQ](#beq)
+		- [BNE](#bne)
+		- [BLT](#blt)
+		- [BGE](#bge)
+		- [BLTU](#bltu)
+		- [BGEU](#bgeu)
+		- [LUI](#lui)
+		- [AUIPC](#auipc)
+		- [JAL](#jal)
+		- [JALR](#jalr)
 - [Part IV: Implementing RV32I (Pipelined Architecture)](#part-iv-implementing-rv32i-pipelined-architecture)
 - [Special Thanks](#special-thanks)
 
@@ -452,6 +484,8 @@ To test this, Logisim has a tab to see all the present values within registers p
 
 ![Correct ADDI Values](./images/CPU_Datapath/ADDI/Register_Values2.png)
 
+[Jump to Table of Contents](#table-of-contents)
+
 ### ADD
 
 Now that I've implemented the ADDI instruction, it's not too much work to modify the datapath to support R-type ADD instructions. Also, forgive me for suddenly going from an I-type instruction to an R-type. I needed to implement ADDI first since I needed a way to initialize registers with values in the program.<br>
@@ -510,6 +544,8 @@ This is the completed circuit for the ADD instruction.
 
 ![Implemented ADD](./images/CPU_Datapath/ADD/Completed.png)
 
+[Jump to Table of Contents](#table-of-contents)
+
 ### SUB
 
 I've already made the necessary datapath modifications to support the SUB instruction. All I need to do is create the sample program to test this instruction.<br>
@@ -530,6 +566,8 @@ I've already made the necessary datapath modifications to support the SUB instru
 // x5 = x4 + x3 = -4 - 3 = -7 (SUB x5, x4, x3)
 5. 0x403202B3
 ```
+
+[Jump to Table of Contents](#table-of-contents)
 
 ### SLL
 
@@ -552,6 +590,8 @@ I've already made the necessary datapath modifications to support the SLL instru
 5. 0x00321233
 ```
 
+[Jump to Table of Contents](#table-of-contents)
+
 ### SLT
 
 I need to make some modifications to the datapath to support the SLT instruction. I need to add some extra logic to ALU_Src of the control unit. It needs to go high specifically on SLT, SLTU, SLTI and SLTIU instructions since they will be subtracting, not adding.
@@ -571,6 +611,8 @@ Now I can create the sample program.<br>
 3. 0x01D72FB3
 ```
 
+[Jump to Table of Contents](#table-of-contents)
+
 ### SLTU
 
 I've already made the necessary datapath modifications to support the SLTU instruction. All I need to do is create the sample program to test this instruction.<br>
@@ -585,6 +627,8 @@ I've already made the necessary datapath modifications to support the SLTU instr
 // x31 = x14 (unsigned) < x29 (unsigned) = 0 (SLTU x31, x14, x29)
 3. 0x01D73FB3
 ```
+
+[Jump to Table of Contents](#table-of-contents)
 
 ### XOR
 
@@ -601,6 +645,8 @@ I've already made the necessary datapath modifications to support the XOR instru
 3. 0x0075CCB3
 ```
 
+[Jump to Table of Contents](#table-of-contents)
+
 ### SRL
 
 I've already made the necessary datapath modifications to support the SRL instruction. All I need to do is create the sample program to test this instruction.<br>
@@ -615,6 +661,8 @@ I've already made the necessary datapath modifications to support the SRL instru
 // x3 = x1 >> x2 = 268435455 = 0x0FFFFFFF (SRL x3, x1, x2)
 3. 0x0020D1B3
 ```
+
+[Jump to Table of Contents](#table-of-contents)
 
 ### SRA
 
@@ -631,6 +679,8 @@ I've already made the necessary datapath modifications to support the SRA instru
 3. 0x4020D1B3
 ```
 
+[Jump to Table of Contents](#table-of-contents)
+
 ### OR
 
 I've already made the necessary datapath modifications to support the OR instruction. All I need to do is create the sample program to test this instruction.<br>
@@ -645,6 +695,8 @@ I've already made the necessary datapath modifications to support the OR instruc
 // x25 = x11 | x7 = 0x321 | 0x488 = 0x7A9 = 1961 (OR x25, x11, x7)
 3. 0x0075ECB3
 ```
+
+[Jump to Table of Contents](#table-of-contents)
 
 ### AND
 
@@ -661,6 +713,8 @@ I've already made the necessary datapath modifications to support the AND instru
 3. 0x0075FCB3
 ```
 
+[Jump to Table of Contents](#table-of-contents)
+
 ### SLLI
 
 I've already made the necessary datapath modifications to support the SLLI instruction. All I need to do is create the sample program to test this instruction.<br>
@@ -672,6 +726,8 @@ I've already made the necessary datapath modifications to support the SLLI instr
 // x1 = x1 << 5 = 64 (SLLI x1, x1, 5)
 2. 0x00509093
 ```
+
+[Jump to Table of Contents](#table-of-contents)
 
 ### SLTI
 
@@ -685,6 +741,8 @@ I've already made the necessary datapath modifications to support the SLTI instr
 2. 0x0050A113
 ```
 
+[Jump to Table of Contents](#table-of-contents)
+
 ### SLTIU
 
 I've already made the necessary datapath modifications to support the SLTIU instruction. All I need to do is create the sample program to test this instruction.<br>
@@ -696,6 +754,8 @@ I've already made the necessary datapath modifications to support the SLTIU inst
 // x2 = x1 < 5 = 0 (SLTIU x2, x1, 5)
 2. 0x0050B113
 ```
+
+[Jump to Table of Contents](#table-of-contents)
 
 ### XORI
 
@@ -709,6 +769,8 @@ I've already made the necessary datapath modifications to support the XORI instr
 2. 0xFFF0C113
 ```
 
+[Jump to Table of Contents](#table-of-contents)
+
 ### SRLI
 
 I've already made the necessary datapath modifications to support the SRLI instruction. All I need to do is create the sample program to test this instruction.<br>
@@ -720,6 +782,8 @@ I've already made the necessary datapath modifications to support the SRLI instr
 // x2 = x1 >> 3 = 0xFFFFFFC0 >> 3 = 0x1FFFFFF8 (SRLI x2, x1, 3)
 2. 0x0030D113
 ```
+
+[Jump to Table of Contents](#table-of-contents)
 
 ### SRAI
 
@@ -733,6 +797,8 @@ I've already made the necessary datapath modifications to support the SRAI instr
 2. 0x4030D113
 ```
 
+[Jump to Table of Contents](#table-of-contents)
+
 ### ORI
 
 I've already made the necessary datapath modifications to support the ORI instruction. All I need to do is create the sample program to test this instruction.<br>
@@ -744,6 +810,8 @@ I've already made the necessary datapath modifications to support the ORI instru
 // x2 = x1 | 1160 = 0x321 | 0x488 = 0x7A9 = 1961 (ORI x2, x1, 1160)
 2. 0x4880E113
 ```
+
+[Jump to Table of Contents](#table-of-contents)
 
 ### ANDI
 
@@ -757,19 +825,21 @@ I've already made the necessary datapath modifications to support the ANDI instr
 2. 0x6660F113
 ```
 
+[Jump to Table of Contents](#table-of-contents)
+
 ### SB/LB/LBU
 
 Now all of the arithmetic/logical operations are implemented. It's time to implement memory-based instructions (store/load). To implement the store instructions (SW/SH/SB), I have to make more adjustments to the Control Unit. The Control Unit now has to output these signals:
 
 - MemSigned: This signals to the Data memory controller to sign extend a loaded value.
-	- This signal only goes high only on these load instructions: LW, LH, and LB
+	- This signal only goes high only on these load instructions: LB and LH
 - MemWrite: This enables the data memory block to store a value.
 	- This signal only goes high on store instructions (SW/SH/SB)
 - MemRead: This enables the data memory block to read a value.
 	- This signal only goes high on load instructions (LW/LH/LHU/LB/LBU)
 - Size_Flag: This tells the data memory block if the CPU is storing/loading a byte, a half word, or full word
-	- Size_Flag[0]: Since Size_Flag = 11 means invalid, I actually care about when Size_Flag is zero. Size_Flag[0] is zero only on these instructions: LB, LW, LBU, SB, and SW.
-	- Size_Flag[1]: Since Size_Flag = 11 means invalid, I actually care about when Size_Flag is zero. Size_Flag[1] is zero only on these instructions: LB, LH, LBU, LHU, SB, and SH.
+	- Size_Flag[1]: Since Size_Flag = 11 means invalid, I actually only care about when Size_Flag[1] is zero. Size_Flag[1] is zero only on these instructions: LB, LBU, LH, LHU, SB, and SH.
+	- Size_Flag[0]: Since Size_Flag = 11 means invalid, I actually only care about when Size_Flag[0] is zero. Size_Flag[0] is zero only on these instructions: LB, LBU, LW, SB, and SW.
 
 ![Control Unit for Store](./images/CPU_Datapath/STORE/Control_Unit_Modifications.png)
 
@@ -803,15 +873,87 @@ As usual, I have to create a sample program to test the SB instruction.
 //x1 = Mem[x3 + 0] = Mem[56] = 0xFFFFFF8D = -115 (LB x1, 0(x3))
 5. 0x00018083
 
-//x2 = Mem[x3 + 0] (Unsigned) = Mem[56] (Unsigned) = 0x0000008D = 141 (LBU x1, 0(x3))
-6. 0x0001C083
+//x2 = Mem[x3 + 0] (Unsigned) = Mem[56] (Unsigned) = 0x0000008D = 141 (LBU x2, 0(x3))
+6. 0x0001C103
 ```
+
+[Jump to Table of Contents](#table-of-contents)
 
 ### SH/LH/LHU
 
+I've already made the necessary datapath modifications to support the SH/LH/LHU instructions. All I need to do is create the sample program to test these instructions.<br>
+
+```
+//x9 = -144 (ADDI x9, x0, -115)
+1. 0xF8D00493
+
+//x22 = 20 (ADDI x22, x0, 20)
+2. 0x01400B13
+
+//Mem[x22 + 36] = Mem[20 + 36] = Mem[56] = x9 = -115 (SH x9, 36(x22))
+3. 0x029B1223
+
+//x3 = 56 (ADDI x3, x0, 56)
+4. 0x03800193
+
+//x1 = Mem[x3 + 0] = Mem[57,56] = 0xFFFFFF8D = -115 (LH x1, 0(x3))
+5. 0x00019083
+
+//x2 = Mem[x3 + 0] (Unsigned) = Mem[57,56] (Unsigned) = 0x0000FF8D = 65421 (LHU x2, 0(x3))
+6. 0x0001D103
+```
+
+[Jump to Table of Contents](#table-of-contents)
+
 ### SW/LW
 
-### JALR
+I've already made the necessary datapath modifications to support the SH/LH/LHU instructions. All I need to do is create the sample program to test these instructions.<br>
+
+```
+//x1 = 0x00000067 (ADDI x1, x0, 103)
+1. 0x06700093
+
+//x1 = x1 << 8 = 0x00006700 (SLLI x1, x1, 8)
+2. 0x00809093
+
+//x1 = x1 + 165 = 0x000067A5 (ADDI x1, x1, 165)
+3. 0x0A508093
+
+//x1 = x1 << 8 = 0x0067A500 (SLLI x1, x1, 8)
+4. 0x00809093
+
+//x1 = x1 + 244 = 0x0067A5F4 (ADDI x1, x1, 244)
+5. 0x0F408093
+
+//x1 = x1 << 8 = 0x67A5F400 (SLLI x1, x1, 8)
+6. 0x00809093
+
+//x1 = x1 + 156 = 0x67A5F49C (ADDI x1, x1, 156)
+7. 0x09C08093
+
+//x2 = 0x00000033 (ADDI x2, x0, 51)
+8. 0x03300113
+
+//x2 = x2 << 8 = 0x00003300 (SLLI x2, x2, 8)
+9. 0x00811113
+
+//x2 = x2 + 85 = 0x00003355 (ADDI x2, x2, 85)
+10. 0x05510113
+
+//x2 = x2 << 8 = 0x00335500 (SLLI x2, x2, 8)
+11. 0x00811113
+
+//x2 = x2 + 200 = 0x003355C8 (ADDI x2, x2, 200)
+12. 0x0C810113
+
+//Mem[x2 + 2000] = Mem[3364296 + 2000] = Mem[3366296] = x1 = 0x67A5F49C (SW x1, 2000(x2))
+13. 0x7C112823
+
+//x3 = Mem[x2 + 2000] = 0x67A5F49C (LW x3, 2000(x2))
+14. 0x7D012183
+```
+
+[Jump to Table of Contents](#table-of-contents)
 
 ### BEQ
 ### BNE
@@ -823,6 +965,7 @@ As usual, I have to create a sample program to test the SB instruction.
 ### LUI
 ### AUIPC
 ### JAL
+### JALR
 
 # Part IV: Implementing RV32I (Pipelined Architecture)
 
@@ -835,6 +978,6 @@ As usual, I have to create a sample program to test the SB instruction.
 I'm dedicating this section to the wonderful people at the [Digital Design HQ discord](https://discord.gg/4YWKUryprY) who have helped me build this project.
 - [Mahir Abbas](https://github.com/MahirAbbas)
 - [Andrew Clark (FL4SHK)](https://github.com/fl4shk)
-- sarvel
+- [sarvel](https://sarvel.xyz/)
 
 [Jump to Table of Contents](#table-of-contents)
