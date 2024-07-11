@@ -553,21 +553,209 @@ I've already made the necessary datapath modifications to support the SLL instru
 ```
 
 ### SLT
+
+I need to make some modifications to the datapath to support the SLT instruction. I need to add some extra logic to ALU_Src of the control unit. It needs to go high specifically on SLT, SLTU, SLTI and SLTIU instructions since they will be subtracting, not adding.
+
+![CU Mods](./images/CPU_Datapath/SLT/Control_Unit_Modifications.png)
+
+Now I can create the sample program.<br>
+
+```
+// x14 = -6 (ADDI x14, x0, -6)
+1. 0xFFA00713
+
+// x29 = 4 (ADDI x29, x0, 4)
+2. 0x00400E93
+
+// x31 = x14 < x29 = 1 (SLT x31, x14, x29)
+3. 0x01D72FB3
+```
+
 ### SLTU
+
+I've already made the necessary datapath modifications to support the SLTU instruction. All I need to do is create the sample program to test this instruction.<br>
+
+```
+// x14 = -6 = 4090 unsigned (ADDI x14, x0, -6)
+1. 0xFFA00713
+
+// x29 = 4 (ADDI x29, x0, 4)
+2. 0x00400E93
+
+// x31 = x14 (unsigned) < x29 (unsigned) = 0 (SLTU x31, x14, x29)
+3. 0x01D73FB3
+```
+
 ### XOR
+
+I've already made the necessary datapath modifications to support the XOR instruction. All I need to do is create the sample program to test this instruction.<br>
+
+```
+// x11 = 4032 = 0xFC0 (ADDI x11, x0, 4032)
+1. 0xFC000593
+
+// x7 = 4095 = 0xFFF (ADDI x7, x0, 4095)
+2. 0xFFF00393
+
+// x25 = x11 ^ x7 = 0xFC0 ^ 0xFFF = 0x03F = 63
+3. 0x0075CCB3
+```
+
 ### SRL
+
+I've already made the necessary datapath modifications to support the SRL instruction. All I need to do is create the sample program to test this instruction.<br>
+
+```
+// x1 = -16 = 0xFFFFFFF0 (ADDI x1, x0, -16)
+1. 0xFF000093
+
+// x2 = 4 (ADDI x2, x0, 4)
+2. 0x00400113
+
+// x3 = x1 >> x2 = 268435455 = 0x0FFFFFFF (SRL x3, x1, x2)
+3. 0x0020D1B3
+```
+
 ### SRA
+
+I've already made the necessary datapath modifications to support the SRA instruction. All I need to do is create the sample program to test this instruction.<br>
+
+```
+// x1 = -16 = 0xFFFFFFF0 (ADDI x1, x0, -16)
+1. 0xFF000093
+
+// x2 = 4 (ADDI x2, x0, 4)
+2. 0x00400113
+
+// x3 = x1 >> x2 = -1 = 0xFFFFFFFF (SRA x3, x1, x2)
+3. 0x4020D1B3
+```
+
 ### OR
+
+I've already made the necessary datapath modifications to support the OR instruction. All I need to do is create the sample program to test this instruction.<br>
+
+```
+// x11 = 802 = 0x321 (ADDI x11, x0, 801)
+1. 0x32100593
+
+// x7 = 1160 = 0x488 (ADDI x7, x0, 1160)
+2. 0x48800393
+
+// x25 = x11 | x7 = 0x321 | 0x488 = 0x7A9 = 1961 (OR x25, x11, x7)
+3. 0x0075ECB3
+```
+
 ### AND
 
+I've already made the necessary datapath modifications to support the AND instruction. All I need to do is create the sample program to test this instruction.<br>
+
+```
+// x11 = 802 = 0x321 (ADDI x11, x0, 801)
+1. 0x32100593
+
+// x7 = 1638 = 0x666 (ADDI x7, x0, 1638)
+2. 0x66600393
+
+// x25 = x11 & x7 = 0x321 & 0x666 = 0x220 = 554 (AND x25, x11, x7)
+3. 0x0075FCB3
+```
+
 ### SLLI
+
+I've already made the necessary datapath modifications to support the SLLI instruction. All I need to do is create the sample program to test this instruction.<br>
+
+```
+// x1 = 2 (ADDI x1, x0, 2)
+1. 0x00200093
+
+// x1 = x1 << 5 = 64 (SLLI x1, x1, 5)
+2. 0x00509093
+```
+
 ### SLTI
+
+I've already made the necessary datapath modifications to support the SLTI instruction. All I need to do is create the sample program to test this instruction.<br>
+
+```
+// x1 = 2 (ADDI x1, x0, -336)
+1. 0xEB000093
+
+// x2 = x1 < 5 = 1 (SLTI x2, x1, 5)
+2. 0x0050A113
+```
+
 ### SLTIU
+
+I've already made the necessary datapath modifications to support the SLTIU instruction. All I need to do is create the sample program to test this instruction.<br>
+
+```
+// x1 = 2 (ADDI x1, x0, -336)
+1. 0xEB000093
+
+// x2 = x1 < 5 = 0 (SLTIU x2, x1, 5)
+2. 0x0050B113
+```
+
 ### XORI
+
+I've already made the necessary datapath modifications to support the XORI instruction. All I need to do is create the sample program to test this instruction.<br>
+
+```
+// x1 = -64 = 0xFFFFFFC0 (ADDI x1, x0, -64)
+1. 0xFC000093
+
+// x2 = x1 ^ -1 = 0xFFFFFFC0 ^ 0xFFFFFFFF = 0x0000003F = 63 (XORI x2, x1, -1)
+2. 0xFFF0C113
+```
+
 ### SRLI
+
+I've already made the necessary datapath modifications to support the SRLI instruction. All I need to do is create the sample program to test this instruction.<br>
+
+```
+// x1 = -64 = 0xFFFFFFC0 (ADDI x1, x0, -64)
+1. 0xFC000093
+
+// x2 = x1 >> 3 = 0xFFFFFFC0 >> 3 = 0x1FFFFFF8 (SRLI x2, x1, 3)
+2. 0x0030D113
+```
+
 ### SRAI
+
+I've already made the necessary datapath modifications to support the SRAI instruction. All I need to do is create the sample program to test this instruction.<br>
+
+```
+// x1 = -64 = 0xFFFFFFC0 (ADDI x1, x0, -64)
+1. 0xFC000093
+
+// x2 = x1 >> 3 = 0xFFFFFFC0 >> 3 = 0xFFFFFFF8 (SRAI x2, x1, 3)
+2. 0x4030D113
+```
+
 ### ORI
+
+I've already made the necessary datapath modifications to support the ORI instruction. All I need to do is create the sample program to test this instruction.<br>
+
+```
+// x1 = 801 = 0x321 (ADDI x1, x0, 801)
+1. 0x32100093
+
+// x2 = x1 | 1160 = 0x321 | 0x488 = 0x7A9 = 1961 (ORI x2, x1, 1160)
+2. 0x4880E113
+```
+
 ### ANDI
+
+I've already made the necessary datapath modifications to support the ANDI instruction. All I need to do is create the sample program to test this instruction.<br>
+
+```
+// x1 = 801 = 0x321 (ADDI x1, x0, 801)
+1. 0x32100093
+
+// x25 = x1 & 1638 = 0x321 & 0x666 = 0x220 = 554 (ANDI x2, x1, 1638)
+2. 0x6660F113
+```
 
 ### SB
 ### SH
