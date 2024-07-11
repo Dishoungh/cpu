@@ -907,7 +907,7 @@ I've already made the necessary datapath modifications to support the SH/LH/LHU 
 
 ### SW/LW
 
-I've already made the necessary datapath modifications to support the SH/LH/LHU instructions. All I need to do is create the sample program to test these instructions.<br>
+I've already made the necessary datapath modifications to support the SW/LW instructions. All I need to do is create the sample program to test these instructions.<br>
 
 ```
 //x1 = 0x00000067 (ADDI x1, x0, 103)
