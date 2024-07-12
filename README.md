@@ -466,7 +466,7 @@ To implement the `ADDI` function, I first need to break apart and decode the ins
 
 Instruction[11:7] is the destination register or the "Write_Register" in my register file.<br>
 
-Instruction[14:12] is the funct3 field, which is the ALU_Op input. The obvious thought is to directly connect funct3 to the ALU_Op, but I will actually input it to the Control Unit since I know there will be some other instructions that may or may not have the ALU operation encodings. I will go ahead and connect funct7[5] or Instruction[30] to the Control Unit as well. Since, for now, there is no logic to determine the ALU_Op and ALU_Src inputs yet, I will just connect a plain wire from the funct3/funct7_5 inputs to the ALU_Op/ALU_Src outputs respectively as shown in the screenshot for the Control Unit below.<br>
+Instruction[14:12] is the funct3 field, which is the ALU_Op input. The obvious thought is to directly connect funct3 to the ALU_Op, but I will actually input it to the Control Unit since I know there will be some other instructions that may or may not have the ALU operation encodings. I will go ahead and connect funct7[5] or Instruction[30] to the Control Unit as well. Since, for now, there is no logic to determine the ALU_Op and ALU_Src outputs yet, I will just connect a plain wire from the funct3/funct7_5 inputs to the ALU_Op/ALU_Src outputs respectively as shown in the screenshot for the Control Unit below.<br>
 
 ![First Control Unit](./images/CPU_Datapath/ADDI/Control_Unit.png)
 
@@ -490,7 +490,7 @@ To test this, Logisim has a tab to see all the present values within registers p
 
 Now that I've implemented the ADDI instruction, it's not too much work to modify the datapath to support R-type ADD instructions. Also, forgive me for suddenly going from an I-type instruction to an R-type. I needed to implement ADDI first since I needed a way to initialize registers with values in the program.<br>
 
-Just like I did with `ADDI` instruction, I need to write a simple test program to test the ADD instruction:
+Just like I did with the [ADDI](#addi) instruction, I need to write a simple test program to test the ADD instruction:
 
 ```
 // x1 = 444 (ADDI x1, x0, 444)
@@ -956,6 +956,65 @@ I've already made the necessary datapath modifications to support the SW/LW inst
 [Jump to Table of Contents](#table-of-contents)
 
 ### BEQ
+
+I have now successfully implemented the load and store commands. We're getting close to a fully working single-cycle CPU. But there's a problem. Up until this point, my programs were running sequentially. I now need to implement branching instructions.<br>
+
+To support branching instructions, the CPU needs to choose between using (PC + 4) or (PC + Sign_Extended_Immediate). In branch instructions, the immediate field is broken up into multiple fields.
+- Instruction[31] = Immediate[12]
+- Instruction[30:25] = Immediate[10:5]
+- Instruction[11:8] = Immediate[4:1]
+- Instruction[7] = Immediate[11]
+
+I have to expand the immediate source multiplexer to support 4 sources of immediates:
+- 00 = I-Type Immediate = Sign_Ext(Instruction[31:20])
+- 01 = S-Type Immediate = Sign_Ext(Instruction[31:25,11:7])
+- 10 = B-Type Immediate = Sign_Ext({Instruction[31,7,30:25,11:8],1'b0})
+- 11 = Invalid (For this, I'll connect an immediate of 0 as a default but the control unit will be designed to where this case should never happen)
+
+![Adding Immediate](./images/CPU_Datapath/BRANCH/Adding_Immediate_Source.png)
+
+In the control unit, I already connected the ALU flags (Negative, Zero, Carry, and Overflow) as inputs and I will use these to determine to take a branch or not based on the instruction:
+- BEQ: A branch is taken when rs1 = rs2 (Zero = 1)
+- BNE: A branch is taken when rs1 =/= rs2 (Zero = 0)
+- BLT: A branch is taken when rs1 < rs2 (Negative ⊕ Overflow = 1)
+- BGE: A branch is taken when rs1 >= rs2 (Negative ⊙ Overflow = 1)
+- BLTU: A branch is taken when rs1 < rs2 (Carry = 0)
+- BGEU: A branch is taken when rs1 >= rs2 (Carry = 1)
+
+Also, I made another circuit optimization by replacing the routing for funct3 field to a decoder to make the circuit slightly simpler.<br>
+
+![CU Mods for Branch](./images/CPU_Datapath/BRANCH/Control_Unit_Modifications.png)
+
+With the new BranchFlag output from the Control Unit, I simply just connected that to a mux and added an additional mux to select (PC + 4) or (PC + Immediate).
+
+![Branch Instructions for Top Circuit](./images/CPU_Datapath/BRANCH/Attaching_BranchFlag.png)
+
+Now that I'm done making circuit changes, it's time to make the test program.
+```
+//x1 = -11 (ADDI x1, x0, -11)
+1. 0xFF500093
+
+//x2 = 20 (ADDI x2, x0, 20)
+2. 0x01400113
+
+//x3 = 1 (ADDI x3, x0, 1)
+3. 0x00100193
+
+//x1 = x1 + 1 (ADDI x1, x1, 1)
+4. 0x00108093
+
+//x4 = x1 < x2 (SLT x4, x1, x2)
+5. 0x0020A233
+
+//PC = PC + (-8) if x4 = x3 (BEQ x4, x3, -8)
+6. 0xFE320CE3
+
+//x5 = 255 = 0xFF (ADDI x5, x0, 255)
+7. 0x0FF00293
+```
+
+[Jump to Table of Contents](#table-of-contents)
+
 ### BNE
 ### BLT
 ### BGE
