@@ -1016,10 +1016,127 @@ Now that I'm done making circuit changes, it's time to make the test program.
 [Jump to Table of Contents](#table-of-contents)
 
 ### BNE
+
+I've already made the necessary datapath modifications to support the BNE instruction. All I need to do is create the sample program to test this instruction.<br>
+
+```
+//x1 = 11 (ADDI x1, x0, 11)
+1. 0x00B00093
+
+//x1 = x1 - 1 (ADDI x1, x1, -1)
+2. 0xFFF08093
+
+//PC = PC + (-4) if x1 =/= x0 (BNE x1, x0, -4)
+3. 0xFE009EE3
+
+//x2 = 255 = 0xFF (ADDI x2, x0, 255)
+4. 0x0FF00113
+```
+
+[Jump to Table of Contents](#table-of-contents)
+
 ### BLT
+
+I've already made the necessary datapath modifications to support the BLT instruction. All I need to do is create the sample program to test this instruction.<br>
+
+```
+//x1 = -5 (ADDI x1, x0, -5)
+1. 0xFFB00093
+
+//x1 = x1 + 1 (ADDI x1, x1, 1)
+2. 0x00108093
+
+//PC = PC + (-4) if x1 < x0 (BLT x1, x0, -4)
+3. 0xFE00CEE3
+
+//x2 = 255 = 0xFF (ADDI x2, x0, 255)
+4. 0x0FF00113
+```
+
+[Jump to Table of Contents](#table-of-contents)
+
 ### BGE
+
+I've already made the necessary datapath modifications to support the BGE instruction. All I need to do is create the sample program to test this instruction.<br>
+
+```
+//x1 = 5 (ADDI x1, x0, 5)
+1. 0x00500093
+
+//x1 = x1 + 1 (ADDI x1, x1, -1)
+2. 0xFFF08093
+
+//PC = PC + (-4) if x1 >= x0 (BGE x1, x0, -4)
+3. 0xFE00DEE3
+
+//x2 = 255 = 0xFF (ADDI x2, x0, 255)
+4. 0x0FF00113
+```
+
+[Jump to Table of Contents](#table-of-contents)
+
 ### BLTU
+
+I've already made the necessary datapath modifications to support the BLTU instruction. All I need to do is create the sample program to test this instruction.<br>
+
+```
+//x1 = 0 (ADDI x1, x0, 0)
+1. 0x00000093
+
+//x2 = 10 (ADDI x2, x0, 10)
+2. 0x00A00113
+
+//x1 = x1 + 1 (ADDI x1, x1, 1)
+3. 0x00108093
+
+//PC = PC + (-4) if x1 < x2 (BLTU x1, x2, -4)
+4. 0xFE20EEE3
+
+//x3 = 255 = 0xFF (ADDI x3, x0, 255)
+5. 0x0FF00193
+```
+
+[Jump to Table of Contents](#table-of-contents)
+
 ### BGEU
+
+I've already made the necessary datapath modifications to support the BGEU instruction. All I need to do is create the sample program to test this instruction.<br>
+
+```
+//x1 = 1 (ADDI x1, x0, 1)
+1. 0x00100093
+
+//x1 = x1 << 31 = 0x80000000 (SLLI x1, x1, 31)
+2. 0x01F09093
+
+//x2 = -1 = 0xFFFFFFFF (ADDI x2, x0, -1)
+3. 0xFFF00113
+
+//x2 = x1 ^ x2 = 0x7FFFFFFF (XOR x2, x1, x2)
+4. 0x0020c133
+
+//x1 = x1 + 5 = 0x80000005 (ADDI x1, x1, 5)
+5. 0x00508093
+
+//PC = PC + 44 if x1 =/= x0 (BNE x1, x0, 44)
+6. 0x02009663
+
+7. 0x00000000
+8. 0x00000000
+
+...
+
+//x1 = x1 - 1 (ADDI x1, x1, -1)
+17. 0xFFF08093
+
+//PC = PC + (-4) if x1 < x2 (BGEU x1, x2, -4)
+18. 0xFE20FEE3
+
+//x3 = 255 = 0xFF (ADDI x3, x0, 255)
+19. 0x0FF00193
+```
+
+[Jump to Table of Contents](#table-of-contents)
 
 ### LUI
 ### AUIPC
@@ -1028,7 +1145,13 @@ Now that I'm done making circuit changes, it's time to make the test program.
 
 # Part IV: Implementing RV32I (Pipelined Architecture)
 
-[TBA]
+[TBD]
+
+[Jump to Table of Contents](#table-of-contents)
+
+# Part V: Extending RV32I (RV64I)
+
+[TBD]
 
 [Jump to Table of Contents](#table-of-contents)
 

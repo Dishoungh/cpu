@@ -3687,10 +3687,11 @@
     <comp lib="4" loc="(650,460)" name="ROM">
       <a name="appearance" val="logisim_evolution"/>
       <a name="contents">addr/data: 8 8
-93 0 50 ff 13 1 40 1
-93 1 10 0 93 80 10 0
-33 a2 20 0 e3 c 32 fe
-93 2 f0 f
+93 0 10 0 93 90 f0 1
+13 1 f0 ff 33 c1 20 0
+93 80 50 0 63 96 0 2
+40*0 93 80 f0 ff e3 fe 20
+fe 93 2 f0 f
 </a>
       <a name="label" val="Instruction_Memory"/>
       <a name="labelvisible" val="true"/>
