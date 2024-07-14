@@ -57,9 +57,9 @@ The goal here is to initially create a basic RISC-V processor. Over time, I will
 		- [BGEU](#bgeu)
 		- [LUI](#lui)
 		- [AUIPC](#auipc)
-		- [JAL](#jal)
-		- [JALR](#jalr)
-- [Part IV: Implementing RV32I (Pipelined Architecture)](#part-iv-implementing-rv32i-pipelined-architecture)
+		- [JAL/JALR (Completing the Base ISA)](#jaljalr-completing-the-base-isa)
+- [Part IV: Extending RV32I (RV64I)](#part-iv-extending-rv32i-rv64i)
+- [Part V: Implementing RV64I (Pipelined Architecture)](#part-v-implementing-rv64i-pipelined-architecture)
 - [Special Thanks](#special-thanks)
 
 # Prerequisite Material
@@ -1139,17 +1139,381 @@ I've already made the necessary datapath modifications to support the BGEU instr
 [Jump to Table of Contents](#table-of-contents)
 
 ### LUI
-### AUIPC
-### JAL
-### JALR
 
-# Part IV: Implementing RV32I (Pipelined Architecture)
+In the Control Unit, I create two more outputs:
+- LUI_Flag
+- AUIPC_Flag
+
+![Control Unit for LUI and AUIPC](./images/CPU_Datapath/LUI/Control_Unit_Modifications.png)
+
+The reason is I may need to create more datapath modifications to accommodate the U-type instructions. For LUI and AUIPC instructions, I need to create an additional immediate source. This immediate source takes Instruction[31:12] and create an immediate at the upper 20 bits and the lower 12 bits are zeroed out. I will create another mux to select between this immediate source or the others. 
+
+![Another Immediate Source](./images/CPU_Datapath/LUI/Additional_Immediate_Source.png)
+
+After creating another immediate source, I created other mux to determine the A operand of the ALU. One for the PC for the AUIPC instruction. In that instruction, the ALU will calculate (PC + Immediate[31:12]), so I need to put the Program Counter value into A. For the LUI instruction, I don't want the Regfile to output any of the internal register values since the rs1 and rs2 fields are covered by the Immediate[31:12], so it's possible for a non-zero value to be passed into the Read_Register1 input. To counter this, I placed another mux to where if LUI_Flag = 0, the normal Reg1_Out will pass through. If LUI_Flag = 1, a value of zero is passed through since the ALU Result will be (0 + Immediate[31:12]). I don't want a nonzero value added onto the immediate.
+
+![Finishing Top Circuit for LUI](./images/CPU_Datapath/LUI/Top-Level-Circuit.png)
+
+Here is my test program:
+```
+// x1 = 0xDEADC000 (LUI x1, -136484)
+1. 0xDEADC0B7
+
+// x1 = x1 - 273 = 0xDEADBEEF (ADDI x1, x1, -273)
+2. 0xEEF08093
+```
+
+[Jump to Table of Contents](#table-of-contents)
+
+### AUIPC
+
+I've already made the necessary datapath modifications to support the AUIPC instruction. All I need to do is create the sample program to test this instruction.<br>
+
+```
+//x1 = 1 (ADDI x1, x0, 1)
+1. 0x00100093
+
+//PC = PC + 48 (BNE x1, x0, 48)
+2. 0x02009863
+
+//x2 = PC + (0x000032AB << 12) = 0x32AB034 (AUIPC x2, 12971)
+14. 0x032AB117
+```
+
+[Jump to Table of Contents](#table-of-contents)
+
+### JAL/JALR (Completing the Base ISA)
+
+There are two instructions left to implement: Jump-and-Link (JAL) and Jump-and-Link-Regster (JALR). These instructions unconditionally change the program counter, resulting in a jump. In the Control Unit, I'm going to be lazy and add two outputs for the JAL and JALR AND gates.
+
+![Control Unit for Jumps](./images/CPU_Datapath/JUMP/Control_Unit_Modifications.png)
+
+In the top level, I need to add yet another immediate source. This time, whenever a JAL instruction is detected, the immediate generated will be SignExtended{Instruction[31], Instruction[19:12], Instruction[20], Instruction[30:21], 1'b0}. Now that there are branch-type and jump-type instructions, I have to tie the select of the PC Source mux to the JAL and JALR flags now. What I'll do is OR the BranchFlag and JAL_Flag outputs and put that into the select of the MUX.
+
+
+![JAL Immediate Source](./images/CPU_Datapath/JUMP/Additional_Immediate_Source.png)
+
+After that, I have to create 3 more MUX.
+
+- Right before the B port of the ALU, I have to select between (Reg2_Out or Immediate) or the constant 4. In JAL instructions, I have to store PC + 4 in the destination register. The AUIPC already forwards the PC value so I'll use that to add PC + 4 from the ALU and place the result into the destination register.
+- Right before the Write_Data port of the Regfile, I need to select between the (ALU_Result or Memory_Result) or PC + 4. The reason for this is for JALR, I need to use the ALU to calculate rs1 + immediate for the new PC value.
+- Right before the PC_In port of the Regfile, I need to select between (PC + 4) or (PC + Imm). This is probably not the most efficient way to solve this structural dependency issue, but I need to swap between using PC + 4 or PC + Imm from the PC_Adder or the ALU. I hope that the final circuit below will make my intentions a bit clearer.
+
+
+![Complete Top-Level Circuit](./images/CPU_Datapath/JUMP/Complete_Circuit.png)
+
+For this test program, I want to make the program complex enough to test all of the instructions to make sure they still work with the modifications I've made. That also means that I may need to expand the program memory unit to fit more instructions.
+```
+//Jump to "Main" (PC = PC + 384; PC + 4 --> x0) (JAL x0, 384)
+0x000: 0x1800006F
+0x004: 0x00000000
+0x008: 0x00000000
+0x00C: 0x00000000
+0x010: 0x00000000
+0x014: 0x00000000
+0x018: 0x00000000
+0x01C: 0x00000000
+0x020: 0x00000000
+0x024: 0x00000000
+0x028: 0x00000000
+0x02C: 0x00000000
+
+Test_LUI_ADDI: // This function tests the LUI + ADDI instructions to place 32-bit words into a register
+// x5 = 0x599FA000 (LUI x5, 367098)
+0x030: 0x599FA2B7
+
+// x5 = 0x599FA2B7 (ADDI x5, x5, 695)
+0x034: 0x2B728293
+
+// Return back to call to "Test_LUI_ADDI"; PC + 4 --> x6 (JALR x6, 0(x1))
+0x038: 0x00008367
+0x03C: 0x00000000
+
+---------------------------------------------------------------------------------------------------------
+
+Test_R_Type: // This function tests: ADD, SUB, SLL, SLT, SLTU, XOR, SRL, SRA, OR, and AND
+// x5 = 0xDEADC000 (LUI x5, 912092)
+0x040: 0xDEADC2B7
+
+// x5 = x5 - 273 = 0xDEADBEEF (ADDI x5, x5, -273)
+0x044: 0xEEF28293
+
+// x6 = 273 (ADDI x6, x0, 273)
+0x048: 0x11100313
+
+// x7 = x5 + x6 = 0xDEADC000 (ADD x7, x5, x6)
+0x04C: 0x006283B3
+
+// x7 = x5 - x6 = 0xDEADBEEF (SUB x7, x5, x6)
+0x050: 0x406283B3
+
+// x5 = 1 (ADDI x5, x0, 1)
+0x054: 0x00100293
+
+// x6 = 25 (ADDI x6, x0, 25)
+0x058: 0x01900313
+
+// x7 = x5 << x6 = 0x02000000 (SLL x7, x5, x6)
+0x05C: 0x006293B3
+
+// x5 = 0xDEADC000 (LUI x5, 912092)
+0x060: 0xDEADC2B7
+
+// x5 = x5 - 273 = 0xDEADBEEF (ADDI x5, x5, -273)
+0x064: 0xEEF28293
+
+// x6 = 100 (ADDI x6, x0, 100)
+0x068: 0x06400313
+
+// x7 = x5 < x6 (Signed) = 1 (SLT x7, x5, x6)
+0x06C: 0x0062A3B3
+
+// x7 = x5 < x6 (Unsigned) = 0 (SLTU x7, x5, x6)
+0x070: 0x0062B3B3
+
+// x6 = -1 (ADDI x6, x0, -1)
+0x074: 0xFFF00313
+
+// x7 = x5 ^ x6 = 0xDEADBEEF ^ 0xFFFFFFFF = 0x21524110 (XOR x7, x5, x6)
+0x078: 0x0062C3B3
+
+// x5 = x5 & x7 = 0xDEADBEEF & 0x21524110 = 0 (AND x5, x5, x7)
+0x07C: 0x0072F2B3
+
+// x6 = 0x3CC (ADDI x6, x0, 972)
+0x080: 0x3CC00313
+
+// x5 = x7 | x6 = 0x21524110 | 0x000003CC = 0x215243DC (OR x5, x7, x6)
+0x084: 0x0063E2B3
+
+// x5 = 0x80000000 (LUI x5, 524288)
+0x088: 0x800002B7
+
+// x6 = 17 (ADDI x6, x0, 17)
+0x08C: 0x01100313
+
+// x7 = x5 >> x6 (SRL x7, x5, x6)
+0x090: 0x0062D3B3
+
+// x7 = x5 >> x6 (SRA x7, x5, x6)
+0x094: 0x4062D3B3
+
+// Jump back to call to "Test_R_Type"; PC + 4 --> x19 (JALR x19, 0(x1))
+0x098: 0x000089E7
+0x09C: 0x00000000
+
+---------------------------------------------------------------------------------------------------------
+
+Test_I_Type: // This function tests: ADDI, SLLI, SLTI, SLTIU, XORI, SRLI, SRAI, ORI, and ANDI
+
+// x28 = 50 (ADDI x28, x0, 50)
+0x0A0: 0x03200293
+
+// x28 = x28 - 60 = -10 (ADDI x28, x28, -60)
+0x0A4: 0xFC4E0E13
+
+// x29 = 1 (ADDI x29, x0, 1)
+0x0A8: 0x00100e93
+
+// x29 = x29 << 16 = 0x00000001 << 16 = 0x00010000 (SLLI x29, x29, 16)
+0x0AC: 0x010E9E93
+
+// x30 = -1000 (ADDI x30, x0, -1000)
+0x0B0: 0xC1800F13
+
+// x31 = x30 < 1000 (Signed) = 1 (SLTI x31, x30, 1000)
+0x0B4: 0x3E8F2F93
+
+// x31 = x30 < 1000 (Unsigned) = 0 (SLTIU x31, x30, 1000)
+0x0B8: 0x3E8F3F93
+
+// x31 = x28 ^ -1 = 0xFFFFFFF6 ^ 0xFFFFFFFF = 0x00000009 (XORI x31, x28, -1)
+0x0BC: 0xFFFE4F93
+
+// x28 = 0x80000000 (LUI x28, 524288)
+0x0C0: 0x80000E37
+
+// x29 = x28 >> 31 = 0x80000000 >> 31 = 0x00000001 (SRLI x29, x28, 31)
+0x0C4: 0x01FE5E93
+
+// x29 = x28 >> 31 = 0x80000000 >> 31 = 0xFFFFFFFF (SRAI x29, x28, 31)
+0x0C8: 0x41FE5E93
+
+// x30 = 0x12345000 (LUI x30, 74565)
+0x0CC: 0x12345F37
+
+// x28 = x30 | 1656 = 0x12345000 | 0x00000678 = 0x12345678 (ORI x28, x30, 1656)
+0x0D0: 0x678F6E13
+
+// x29 = x28 & 1453 = 0x12345678 & 0x000005AD = 0x00000428 (ANDI x29, x28, 1453)
+0x0D4: 0x5ADE7E93
+
+// Jump back to call to "Test_I_Type"; PC + 4 --> x0 (JALR x0, 0(x1))
+0x0D8: 0x00008067
+0x0DC: 0x00000000
+
+---------------------------------------------------------------------------------------------------------
+
+Test_Load_Store: // This function tests: SB, SH, SW, LB, LBU, LH, LHU, and LW
+
+// x5 = 77 (ADDI x5, x0, 77)
+0x0E0: 0x04D00293
+
+// Mem[x0 + 0] = x5 (SB x5, 0(x0))
+0x0E4: 0x00500023
+
+// x6 = -87 = 0xFFFFFFA9 (ADDI x6, x0, -87)
+0x0E8: 0xFA900313
+
+// Mem[x0 + 1] = x6 (SB x6, 1(x0))
+0x0EC: 0x006000A3
+
+// x5 = x5 << 8 = 0x4D << 8 = 0x00004D00 (SLLI x5, x5, 8)
+0x0F0: 0x00829293
+
+// x5 = x5 | 0xF1 = 0x00004DF1 (ORI x5, x5, 241)
+0x0F4: 0x0F12E293
+
+// Mem[x0 + 2] = x5 (SH x5, 2(x0))
+0x0F8: 0x00501123
+
+// x5 = x5 << 16 = 0x00004DF1 << 16 = 0x4DF10000 (SLLI x5, x5, 16)
+0x0FC: 0x01029293
+
+// x5 = x5 | 0x3FA = 0x4DF103FA (ORI x5, x5, 1018)
+0x100: 0x3FA2E293
+
+// Mem[x0 + 4] = x5 (SW x5, 4(x0))
+0x104: 0x00502223
+
+// x28 = Mem[x0 + 0] = 0x4D (LB x28, 0(x0))
+0x108: 0x00000E03
+
+// x28 = Mem[x0 + 1] = 0xFFFFFFA9 = -87 (LB x28, 1(x0))
+0x10C: 0x00100E03
+
+// x29 = Mem[x0 + 1] = 0x000000A9 = 169 (LBU x29, 1(x0))
+0x110: 0x00104e83
+
+// x30 = Mem[x0 + 2] = 0x00004DF1 (LH x30, 2(x0))
+0x114: 0x00201F03
+
+// x31 = Mem[x0 + 2] = 0x00004DF1 (LHU x30, 2(x0))
+0x118: 0x00205F03
+
+// x28 = Mem[x0 + 4] = 0x4DF103FA (LW x28, 4(x0))
+0x11C: 0x00402E03
+
+// Jump back to call to "Test_Load_Store"; PC + 4 --> x0 (JALR x0, 0(x1))
+0x120: 0x00008067
+0x124: 0x00000000
+0x128: 0x00000000
+0x12C: 0x00000000
+
+---------------------------------------------------------------------------------------------------------
+
+Test_Branching: // This function tests: BEQ, BNE, BLT, BGE, BLTU, BGEU
+
+// x5 = -1 (ADDI x5, x0, -1)
+0x130: 0xFFF00293
+
+// x6 = 10 (ADDI x6, x0, 10)
+0x134: 0x00A00313
+
+// x5 = x5 + 1 (ADDI x5, x5, 1)
+0x138: 0x00128293
+
+// Branch back 1 instruction if x5 = x0 (BEQ x5, x0 -4)
+0x13C: 0xFE028EE3
+
+// Branch back 2 instructions if x5 =/= x6 (BNE x5, x6, -8)
+0x140: 0xFE629CE3
+
+// x6 = x6 + 10 (ADDI x6, x6, 10)
+0x144: 0x00A30313
+
+// x5 = x5 + 1 (ADDI x5, x5, 1)
+0x148: 0x00128293
+
+// Branch back 1 instruction if x5 < x6 (BLT x5, x6, -4)
+0x14C: 0xFE62CEE3
+
+// x6 = x6 - 10 (ADDI x6, x6, -10)
+0x150: 0xFF630313
+
+// x5 = x5 - 1 (ADDI x5, x5, -1)
+0x154: 0xFFF28293
+
+// Branch back 1 instruction if x5 >= x6 (BGE x5, x6, -4)
+0x158: 0xFE62DEE3
+
+// x5 = 5 (ADDI x5, x0, 5)
+0x15C: 0x00500293
+
+// x6 = -5 (ADDI x6, x0, -5)
+0x160: 0xFFB00313
+
+// x5 = x5 - 1 (ADDI x5, x5, -1)
+0x164: 0xFFF28293
+
+// Branch back 1 instruction if x5 < x6 (Unsigned) (BLTU x5, x6, -4)
+0x168: 0xFE62EEE3
+
+// x5 = -5 (ADDI x5, x0, -5)
+0x16C: 0xFFB00293
+
+// x6 = 5 (ADDI x6, x0, 5)
+0x170: 0x00500313
+
+// x5 = x5 + 1 (ADDI x5, x5, 1)
+0x174: 0x00128293
+
+// Branch back 1 instruction if x5 >= x6 (Unsigned) (BGEU x5, x6, -4)
+0x178: 0xFE62FEE3
+
+// Jump back to call to "Test_Branching"; PC + 4 --> x0 (JALR x0, 0(x1))
+0x17C: 0x00008067
+
+---------------------------------------------------------------------------------------------------------
+
+Main: 
+
+// Jump to "Test_LUI_ADDI" (PC = PC + (-336); PC + 4 --> x1) (JAL x1, -336)
+0x180: 0xEB1FF0EF
+
+// Jump to "Test_R_Type" (PC = PC + (-324); PC + 4 --> x1) (JAL x1, -324)
+0x184: 0xEBDFF0EF
+
+// Jump to "Test_I_Type" (PC = PC + (-232); PC + 4 --> x1) (JAL x1, -232)
+0x188: 0xF19FF0EF
+
+// Jump to "Test_Load_Store" (PC = PC + (-172); PC + 4 --> x1) (JAL x1, -172)
+0x18C: 0xF55FF0EF
+
+// Jump to "Test_Branching" (PC = PC + (-96); PC + 4 --> x1) (JAL x1, -96)
+0x190: 0xFA1FF0EF
+
+// To indicate completion, x1 = -1 = 0xFFFFFFFF
+0x194: 0xFFF00093 // ADDI x1, x0, -1
+0x198: 0x00069117 // AUIPC x2, 105 --> x2 = 0x00000198 + 0x00069000
+0x19C: 0x00000013 // ADDI x0, x0, 0
+0x1A0: 0xFE000EE3 // BEQ x0, x0, -4 (Never ending loop)
+```
+
+We now have a complete base CPU that utilizes the RV32I architecture. Yes, I am aware that my architecture leaves much to be desired and there is much room for improvement. The first step beyond this design is to extend the architecture to support 64 bits since Logisim is capable of handling 64 bit data for the memory elements.
+
+
+[Jump to Table of Contents](#table-of-contents)
+
+
+# Part IV: Extending RV32I (RV64I)
 
 [TBD]
 
 [Jump to Table of Contents](#table-of-contents)
 
-# Part V: Extending RV32I (RV64I)
+
+# Part V: Implementing RV64I (Pipelined Architecture)
 
 [TBD]
 
