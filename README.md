@@ -1244,8 +1244,8 @@ Test_R_Type: // This function tests: ADD, SUB, SLL, SLT, SLTU, XOR, SRL, SRA, OR
 // x7 = x5 + x6 = 0xDEADC000 (ADD x7, x5, x6)
 0x04C: 0x006283B3
 
-// x7 = x5 - x6 = 0xDEADBEEF (SUB x7, x5, x6)
-0x050: 0x406283B3
+// x7 = x7 - x6 = 0xDEADBEEF (SUB x7, x7, x6)
+0x050: 0x406383B3
 
 // x5 = 1 (ADDI x5, x0, 1)
 0x054: 0x00100293
@@ -1292,10 +1292,10 @@ Test_R_Type: // This function tests: ADD, SUB, SLL, SLT, SLTU, XOR, SRL, SRA, OR
 // x6 = 17 (ADDI x6, x0, 17)
 0x08C: 0x01100313
 
-// x7 = x5 >> x6 (SRL x7, x5, x6)
+// x7 = x5 >> x6 = 0x80000000 >> 17 = 0x00004000 (SRL x7, x5, x6)
 0x090: 0x0062D3B3
 
-// x7 = x5 >> x6 (SRA x7, x5, x6)
+// x7 = x5 >> x6 = 0x80000000 >> 17 = 0xFFFFC000 (SRA x7, x5, x6)
 0x094: 0x4062D3B3
 
 // Jump back to call to "Test_R_Type"; PC + 4 --> x19 (JALR x19, 0(x1))
@@ -1307,7 +1307,7 @@ Test_R_Type: // This function tests: ADD, SUB, SLL, SLT, SLTU, XOR, SRL, SRA, OR
 Test_I_Type: // This function tests: ADDI, SLLI, SLTI, SLTIU, XORI, SRLI, SRAI, ORI, and ANDI
 
 // x28 = 50 (ADDI x28, x0, 50)
-0x0A0: 0x03200293
+0x0A0: 0x03200E13
 
 // x28 = x28 - 60 = -10 (ADDI x28, x28, -60)
 0x0A4: 0xFC4E0E13
