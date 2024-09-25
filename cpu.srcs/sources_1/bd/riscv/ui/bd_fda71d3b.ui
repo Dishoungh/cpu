@@ -1,0 +1,75 @@
+{
+   "ActiveEmotionalView":"Default View",
+   "Default View_ScaleFactor":"0.614035",
+   "Default View_TopLeft":"-580,-147",
+   "ExpandedHierarchyInLayout":"",
+   "PinnedBlocks":"/ALU/slt|/ALU/cla32_0|/ALU/sll_0|/ALU/xlconcat_slt|/ALU/sltu|/ALU/xlconcat_sltu|/ALU/xor_logic|/ALU/srl_0|/ALU/mux_srl_sra|/ALU/sra_0|/ALU/and_logic|/ALU/or_logic|/ALU/alu_result_mux|",
+   "guistr":"# # String gsaved with Nlview 7.7.1 2023-07-26 3bc4126617 VDI=43 GEI=38 GUI=JA:21.0 TLS
+#  -string -flagsOSRD
+preplace port port-id_negate -pg 1 -lvl 0 -x -120 -y 580 -defaultsOSRD
+preplace port port-id_Carry -pg 1 -lvl 7 -x 1980 -y 10 -defaultsOSRD
+preplace port port-id_Negative -pg 1 -lvl 7 -x 1980 -y 500 -defaultsOSRD
+preplace port port-id_Zero -pg 1 -lvl 7 -x 1980 -y 790 -defaultsOSRD
+preplace port port-id_Overflow -pg 1 -lvl 7 -x 1980 -y 560 -defaultsOSRD
+preplace portBus a -pg 1 -lvl 0 -x -120 -y -90 -defaultsOSRD
+preplace portBus b -pg 1 -lvl 0 -x -120 -y 560 -defaultsOSRD
+preplace portBus opcode -pg 1 -lvl 0 -x -120 -y 430 -defaultsOSRD
+preplace portBus result -pg 1 -lvl 7 -x 1980 -y 600 -defaultsOSRD
+preplace inst cla32_0 -pg 1 -lvl 3 -x 700 -y -70 -defaultsOSRD
+preplace inst mux_d32_s1_0 -pg 1 -lvl 2 -x 350 -y 640 -defaultsOSRD
+preplace inst sll_0 -pg 1 -lvl 3 -x 700 -y 80 -defaultsOSRD
+preplace inst bSlice_4down0 -pg 1 -lvl 2 -x 350 -y 500 -defaultsOSRD
+preplace inst slt -pg 1 -lvl 3 -x 700 -y 220 -defaultsOSRD
+preplace inst sltu -pg 1 -lvl 3 -x 700 -y 350 -defaultsOSRD
+preplace inst xlconcat_slt -pg 1 -lvl 4 -x 1160 -y 190 -defaultsOSRD
+preplace inst xlconstant_0 -pg 1 -lvl 3 -x 700 -y 1280 -defaultsOSRD
+preplace inst xlconcat_sltu -pg 1 -lvl 4 -x 1160 -y 340 -defaultsOSRD
+preplace inst sum_31 -pg 1 -lvl 4 -x 1160 -y 540 -defaultsOSRD
+preplace inst xor_logic -pg 1 -lvl 3 -x 700 -y 510 -defaultsOSRD
+preplace inst srl_0 -pg 1 -lvl 3 -x 700 -y 650 -defaultsOSRD
+preplace inst sra_0 -pg 1 -lvl 3 -x 700 -y 860 -defaultsOSRD
+preplace inst mux_srl_sra -pg 1 -lvl 4 -x 1160 -y 780 -defaultsOSRD
+preplace inst or_logic -pg 1 -lvl 3 -x 700 -y 1010 -defaultsOSRD
+preplace inst and_logic -pg 1 -lvl 3 -x 700 -y 1150 -defaultsOSRD
+preplace inst alu_result_mux -pg 1 -lvl 5 -x 1500 -y 440 -defaultsOSRD
+preplace inst slice_negative -pg 1 -lvl 6 -x 1800 -y 500 -defaultsOSRD
+preplace inst util_reduced_logic_0 -pg 1 -lvl 5 -x 1500 -y 790 -defaultsOSRD
+preplace inst util_vector_logic_1 -pg 1 -lvl 6 -x 1800 -y 790 -defaultsOSRD
+preplace inst overflow_block -pg 1 -lvl 5 -x 1500 -y 680 -defaultsOSRD
+preplace inst a_31 -pg 1 -lvl 4 -x 1160 -y 660 -defaultsOSRD
+preplace inst b_31 -pg 1 -lvl 4 -x 1160 -y 1220 -defaultsOSRD
+preplace inst util_vector_logic_0 -pg 1 -lvl 1 -x 60 -y 640 -defaultsOSRD
+preplace netloc a_1 1 0 4 NJ -90 N -90 500 720 1030
+preplace netloc a_31_Dout 1 4 1 NJ 660
+preplace netloc and_logic_Res 1 3 2 1040 600 1310
+preplace netloc b_1 1 0 4 -90 560 240J 560 510 1220 N
+preplace netloc b_31_Dout 1 4 1 1310J 680n
+preplace netloc cla32_0_cout 1 2 5 530J 10 870J 10 NJ 10 N 10 N
+preplace netloc cla32_0_sum 1 3 2 1010 410 1290
+preplace netloc mux_d32_s1_0_out 1 2 1 460 -70n
+preplace netloc mux_d32_s1_1_out 1 4 1 1300 460n
+preplace netloc mux_d32_s3_0_out 1 4 3 1360 580 1640 440 1950J
+preplace netloc or_logic_Res 1 3 2 1020 480 N
+preplace netloc overflow_block_Res 1 2 5 550J 420 NJ 420 1290J 590 1650 560 N
+preplace netloc sel_1 1 0 4 NJ 580 230J 440 520 790 850
+preplace netloc sel_2 1 0 5 NJ 430 NJ 430 NJ 430 N 430 1280
+preplace netloc sll_0_y 1 3 2 N 80 1320
+preplace netloc slt_Res 1 3 1 850 180n
+preplace netloc sltu_Res 1 3 1 850 330n
+preplace netloc sra_0_y 1 3 1 1050 780n
+preplace netloc srl_0_y 1 3 1 850 650n
+preplace netloc sum_31_Dout 1 2 3 540J 440 850J 450 1270J
+preplace netloc util_reduced_logic_0_Res 1 5 1 N 790
+preplace netloc util_vector_logic_0_Res 1 1 1 N 640
+preplace netloc xlconcat_slt_dout 1 4 1 1310 190n
+preplace netloc xlconcat_sltu_dout 1 4 1 1300 340n
+preplace netloc xlconstant_0_dout 1 3 1 1000 200n
+preplace netloc xlslice_0_Dout 1 2 1 490 90n
+preplace netloc xor_logic_Res 1 3 2 860 440 N
+preplace netloc slice_negative_Dout 1 6 1 NJ 500
+preplace netloc util_vector_logic_1_Res 1 6 1 NJ 790
+levelinfo -pg 1 -120 60 350 700 1160 1500 1800 1980
+pagesize -pg 1 -db -bbox -sgen -250 -140 2120 1830
+"
+}
+0
