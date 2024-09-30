@@ -1908,7 +1908,7 @@
                 "left": "4",
                 "right": "0"
               },
-              "out": {
+              "out0": {
                 "direction": "O",
                 "left": "31",
                 "right": "0"
@@ -2092,7 +2092,7 @@
                 "left": "4",
                 "right": "0"
               },
-              "out": {
+              "out0": {
                 "direction": "O",
                 "left": "31",
                 "right": "0"
@@ -2233,161 +2233,161 @@
           "Net": {
             "ports": [
               "x20/q",
+              "reg_ila/probe20",
               "rs1_mux/in20",
-              "rs2_mux/in20",
-              "reg_ila/probe20"
+              "rs2_mux/in20"
             ]
           },
           "Net1": {
             "ports": [
               "x3/q",
+              "reg_ila/probe3",
               "rs1_mux/in3",
-              "rs2_mux/in3",
-              "reg_ila/probe3"
+              "rs2_mux/in3"
             ]
           },
           "Net2": {
             "ports": [
               "x4/q",
+              "reg_ila/probe4",
               "rs1_mux/in4",
-              "rs2_mux/in4",
-              "reg_ila/probe4"
+              "rs2_mux/in4"
             ]
           },
           "Net3": {
             "ports": [
               "x0/q",
+              "reg_ila/probe0",
               "rs1_mux/in0",
-              "rs2_mux/in0",
-              "reg_ila/probe0"
+              "rs2_mux/in0"
             ]
           },
           "Net4": {
             "ports": [
               "x5/q",
+              "reg_ila/probe5",
               "rs1_mux/in5",
-              "rs2_mux/in5",
-              "reg_ila/probe5"
+              "rs2_mux/in5"
             ]
           },
           "Net5": {
             "ports": [
               "x6/q",
+              "reg_ila/probe6",
               "rs1_mux/in6",
-              "rs2_mux/in6",
-              "reg_ila/probe6"
+              "rs2_mux/in6"
             ]
           },
           "Net6": {
             "ports": [
               "x7/q",
+              "reg_ila/probe7",
               "rs1_mux/in7",
-              "rs2_mux/in7",
-              "reg_ila/probe7"
+              "rs2_mux/in7"
             ]
           },
           "Net7": {
             "ports": [
               "x8/q",
+              "reg_ila/probe8",
               "rs1_mux/in8",
-              "rs2_mux/in8",
-              "reg_ila/probe8"
+              "rs2_mux/in8"
             ]
           },
           "Net8": {
             "ports": [
               "x9/q",
+              "reg_ila/probe9",
               "rs1_mux/in9",
-              "rs2_mux/in9",
-              "reg_ila/probe9"
+              "rs2_mux/in9"
             ]
           },
           "Net9": {
             "ports": [
               "x21/q",
+              "reg_ila/probe21",
               "rs1_mux/in21",
-              "rs2_mux/in21",
-              "reg_ila/probe21"
+              "rs2_mux/in21"
             ]
           },
           "Net10": {
             "ports": [
               "x22/q",
+              "reg_ila/probe22",
               "rs1_mux/in22",
-              "rs2_mux/in22",
-              "reg_ila/probe22"
+              "rs2_mux/in22"
             ]
           },
           "Net11": {
             "ports": [
               "x23/q",
+              "reg_ila/probe23",
               "rs1_mux/in23",
-              "rs2_mux/in23",
-              "reg_ila/probe23"
+              "rs2_mux/in23"
             ]
           },
           "Net12": {
             "ports": [
               "x24/q",
+              "reg_ila/probe24",
               "rs1_mux/in24",
-              "rs2_mux/in24",
-              "reg_ila/probe24"
+              "rs2_mux/in24"
             ]
           },
           "Net13": {
             "ports": [
               "x25/q",
+              "reg_ila/probe25",
               "rs1_mux/in25",
-              "rs2_mux/in25",
-              "reg_ila/probe25"
+              "rs2_mux/in25"
             ]
           },
           "Net14": {
             "ports": [
               "x26/q",
+              "reg_ila/probe26",
               "rs1_mux/in26",
-              "rs2_mux/in26",
-              "reg_ila/probe26"
+              "rs2_mux/in26"
             ]
           },
           "Net15": {
             "ports": [
               "x27/q",
+              "reg_ila/probe27",
               "rs1_mux/in27",
-              "rs2_mux/in27",
-              "reg_ila/probe27"
+              "rs2_mux/in27"
             ]
           },
           "Net16": {
             "ports": [
               "x28/q",
+              "reg_ila/probe28",
               "rs1_mux/in28",
-              "rs2_mux/in28",
-              "reg_ila/probe28"
+              "rs2_mux/in28"
             ]
           },
           "Net17": {
             "ports": [
               "x29/q",
+              "reg_ila/probe29",
               "rs1_mux/in29",
-              "rs2_mux/in29",
-              "reg_ila/probe29"
+              "rs2_mux/in29"
             ]
           },
           "Net18": {
             "ports": [
               "x30/q",
+              "reg_ila/probe30",
               "rs1_mux/in30",
-              "rs2_mux/in30",
-              "reg_ila/probe30"
+              "rs2_mux/in30"
             ]
           },
           "Net19": {
             "ports": [
               "x31/q",
+              "reg_ila/probe31",
               "rs1_mux/in31",
-              "rs2_mux/in31",
-              "reg_ila/probe31"
+              "rs2_mux/in31"
             ]
           },
           "arst_0_1": {
@@ -2708,15 +2708,15 @@
               "x31/we"
             ]
           },
-          "rs1_mux_out": {
+          "rs1_mux_out0": {
             "ports": [
-              "rs1_mux/out",
+              "rs1_mux/out0",
               "rs1"
             ]
           },
-          "rs2_mux_out": {
+          "rs2_mux_out0": {
             "ports": [
-              "rs2_mux/out",
+              "rs2_mux/out0",
               "rs2"
             ]
           },
@@ -2741,97 +2741,97 @@
           "x10_q": {
             "ports": [
               "x10/q",
+              "reg_ila/probe10",
               "rs1_mux/in10",
-              "rs2_mux/in10",
-              "reg_ila/probe10"
+              "rs2_mux/in10"
             ]
           },
           "x11_q": {
             "ports": [
               "x11/q",
+              "reg_ila/probe11",
               "rs1_mux/in11",
-              "rs2_mux/in11",
-              "reg_ila/probe11"
+              "rs2_mux/in11"
             ]
           },
           "x12_q": {
             "ports": [
               "x12/q",
+              "reg_ila/probe12",
               "rs1_mux/in12",
-              "rs2_mux/in12",
-              "reg_ila/probe12"
+              "rs2_mux/in12"
             ]
           },
           "x13_q": {
             "ports": [
               "x13/q",
+              "reg_ila/probe13",
               "rs1_mux/in13",
-              "rs2_mux/in13",
-              "reg_ila/probe13"
+              "rs2_mux/in13"
             ]
           },
           "x14_q": {
             "ports": [
               "x14/q",
+              "reg_ila/probe14",
               "rs1_mux/in14",
-              "rs2_mux/in14",
-              "reg_ila/probe14"
+              "rs2_mux/in14"
             ]
           },
           "x15_q": {
             "ports": [
               "x15/q",
+              "reg_ila/probe15",
               "rs1_mux/in15",
-              "rs2_mux/in15",
-              "reg_ila/probe15"
+              "rs2_mux/in15"
             ]
           },
           "x16_q": {
             "ports": [
               "x16/q",
+              "reg_ila/probe16",
               "rs1_mux/in16",
-              "rs2_mux/in16",
-              "reg_ila/probe16"
+              "rs2_mux/in16"
             ]
           },
           "x17_q": {
             "ports": [
               "x17/q",
+              "reg_ila/probe17",
               "rs1_mux/in17",
-              "rs2_mux/in17",
-              "reg_ila/probe17"
+              "rs2_mux/in17"
             ]
           },
           "x18_q": {
             "ports": [
               "x18/q",
+              "reg_ila/probe18",
               "rs1_mux/in18",
-              "rs2_mux/in18",
-              "reg_ila/probe18"
+              "rs2_mux/in18"
             ]
           },
           "x19_q": {
             "ports": [
               "x19/q",
+              "reg_ila/probe19",
               "rs1_mux/in19",
-              "rs2_mux/in19",
-              "reg_ila/probe19"
+              "rs2_mux/in19"
             ]
           },
           "x1_q": {
             "ports": [
               "x1/q",
+              "reg_ila/probe1",
               "rs1_mux/in1",
-              "rs2_mux/in1",
-              "reg_ila/probe1"
+              "rs2_mux/in1"
             ]
           },
           "x2_q": {
             "ports": [
               "x2/q",
+              "reg_ila/probe2",
               "rs1_mux/in2",
-              "rs2_mux/in2",
-              "reg_ila/probe2"
+              "rs2_mux/in2"
             ]
           },
           "xlconstant_0_dout": {
@@ -3019,7 +3019,7 @@
                   }
                 }
               },
-              "out": {
+              "out0": {
                 "direction": "O",
                 "left": "31",
                 "right": "0"
@@ -3295,7 +3295,7 @@
                   }
                 }
               },
-              "out": {
+              "out0": {
                 "direction": "O",
                 "left": "31",
                 "right": "0"
@@ -3428,7 +3428,7 @@
                 "left": "2",
                 "right": "0"
               },
-              "out": {
+              "out0": {
                 "direction": "O",
                 "left": "31",
                 "right": "0"
@@ -3805,13 +3805,13 @@
           "b_1": {
             "ports": [
               "b",
-              "mux_d32_s1_0/in0",
               "bSlice_4down0/Din",
               "xor_logic/Op2",
               "or_logic/Op2",
               "and_logic/Op2",
               "b_31/Din",
-              "util_vector_logic_0/Op1"
+              "util_vector_logic_0/Op1",
+              "mux_d32_s1_0/in0"
             ]
           },
           "b_31_Dout": {
@@ -3834,24 +3834,24 @@
               "alu_result_mux/in0"
             ]
           },
-          "mux_d32_s1_0_out": {
+          "mux_d32_s1_0_out0": {
             "ports": [
-              "mux_d32_s1_0/out",
+              "mux_d32_s1_0/out0",
               "cla32_0/b"
-            ]
-          },
-          "mux_d32_s1_1_out": {
-            "ports": [
-              "mux_srl_sra/out",
-              "alu_result_mux/in5"
             ]
           },
           "mux_d32_s3_0_out": {
             "ports": [
-              "alu_result_mux/out",
+              "alu_result_mux/out0",
               "result",
               "slice_negative/Din",
               "util_reduced_logic_0/Op1"
+            ]
+          },
+          "mux_srl_sra_out0": {
+            "ports": [
+              "mux_srl_sra/out0",
+              "alu_result_mux/in5"
             ]
           },
           "or_logic_Res": {
@@ -3870,10 +3870,10 @@
           "sel_1": {
             "ports": [
               "negate",
-              "mux_d32_s1_0/sel",
-              "mux_srl_sra/sel",
               "cla32_0/cin",
-              "overflow_block/negate"
+              "overflow_block/negate",
+              "mux_d32_s1_0/sel",
+              "mux_srl_sra/sel"
             ]
           },
           "sel_2": {
@@ -4324,7 +4324,7 @@
           "sel": {
             "direction": "I"
           },
-          "out": {
+          "out0": {
             "direction": "O",
             "left": "31",
             "right": "0"
@@ -4356,7 +4356,7 @@
           "sel": {
             "direction": "I"
           },
-          "out": {
+          "out0": {
             "direction": "O",
             "left": "31",
             "right": "0"
@@ -4723,7 +4723,7 @@
           "sel": {
             "direction": "I"
           },
-          "out": {
+          "out0": {
             "direction": "O",
             "left": "31",
             "right": "0"
@@ -4755,7 +4755,7 @@
           "sel": {
             "direction": "I"
           },
-          "out": {
+          "out0": {
             "direction": "O",
             "left": "31",
             "right": "0"
@@ -4827,7 +4827,7 @@
               }
             }
           },
-          "out": {
+          "out0": {
             "direction": "O",
             "left": "31",
             "right": "0",
@@ -4879,7 +4879,7 @@
               }
             }
           },
-          "out": {
+          "out0": {
             "direction": "O",
             "left": "31",
             "right": "0",
@@ -4921,7 +4921,7 @@
           "sel": {
             "direction": "I"
           },
-          "out": {
+          "out0": {
             "direction": "O",
             "left": "31",
             "right": "0"
@@ -4959,7 +4959,7 @@
           "sel": {
             "direction": "I"
           },
-          "out": {
+          "out0": {
             "direction": "O",
             "left": "31",
             "right": "0"
@@ -5040,8 +5040,8 @@
       "ALU_result": {
         "ports": [
           "ALU/result",
-          "alu_mem_mux/in0",
-          "Data_Memory_RAM/addr"
+          "Data_Memory_RAM/addr",
+          "alu_mem_mux/in0"
         ]
       },
       "Branch_Block_Res": {
@@ -5134,8 +5134,8 @@
       "Control_Unit_MemRead": {
         "ports": [
           "Control_Unit/MemRead",
-          "alu_mem_mux/sel",
-          "Data_Memory_RAM/load"
+          "Data_Memory_RAM/load",
+          "alu_mem_mux/sel"
         ]
       },
       "Control_Unit_MemSigned": {
@@ -5183,9 +5183,9 @@
           "PC_mux/in1"
         ]
       },
-      "PC_mux_out": {
+      "PC_mux_out0": {
         "ports": [
-          "PC_mux/out",
+          "PC_mux/out0",
           "Register_File/PC_In"
         ]
       },
@@ -5214,15 +5214,15 @@
       "Register_File_rs2": {
         "ports": [
           "Register_File/rs2",
-          "b_src_mux/in0",
-          "Data_Memory_RAM/din"
+          "Data_Memory_RAM/din",
+          "b_src_mux/in0"
         ]
       },
       "alu_mem_mux_out": {
         "ports": [
-          "alu_mem_mux/out",
-          "wData_mux/in0",
-          "res_pc_slice/Din"
+          "alu_mem_mux/out0",
+          "res_pc_slice/Din",
+          "wData_mux/in0"
         ]
       },
       "auipc_jal_or_Res": {
@@ -5231,15 +5231,15 @@
           "luimux_pc_mux/sel"
         ]
       },
-      "b_plus4_mux_out": {
+      "b_plus4_mux_out0": {
         "ports": [
-          "b_plus4_mux/out",
+          "b_plus4_mux/out0",
           "ALU/b"
         ]
       },
       "b_src_mux_out": {
         "ports": [
-          "b_src_mux/out",
+          "b_src_mux/out0",
           "b_plus4_mux/in0"
         ]
       },
@@ -5254,8 +5254,8 @@
       "constant_4_dout": {
         "ports": [
           "constant_4/dout",
-          "pc_src_mux/in0",
-          "b_plus4_mux/in1"
+          "b_plus4_mux/in1",
+          "pc_src_mux/in0"
         ]
       },
       "constant_5_dout": {
@@ -5271,15 +5271,15 @@
           "lui_mux/in1"
         ]
       },
-      "lui_mux_out": {
+      "lui_mux_out0": {
         "ports": [
-          "lui_mux/out",
+          "lui_mux/out0",
           "luimux_pc_mux/in0"
         ]
       },
-      "mux_d32_s1_0_out": {
+      "luimux_pc_mux_out0": {
         "ports": [
-          "luimux_pc_mux/out",
+          "luimux_pc_mux/out0",
           "ALU/a"
         ]
       },
@@ -5295,9 +5295,9 @@
           "Program_Memory_ROM/a"
         ]
       },
-      "pc_src_mux_out": {
+      "pc_src_mux_out0": {
         "ports": [
-          "pc_src_mux/out",
+          "pc_src_mux/out0",
           "PC_Adder/b"
         ]
       },
@@ -5332,9 +5332,9 @@
           "Register_File/rAddr2"
         ]
       },
-      "wData_mux_out": {
+      "wData_mux_out0": {
         "ports": [
-          "wData_mux/out",
+          "wData_mux/out0",
           "Register_File/wData"
         ]
       }

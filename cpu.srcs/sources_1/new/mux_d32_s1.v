@@ -5,9 +5,9 @@ module mux_d32_s1
     input wire[31:0] in0,
     input wire[31:0] in1,
     input wire sel,
-    output wire[31:0] out
+    output wire[31:0] out0
 );
 
-assign out = (!sel) ? in0 : in1;
+assign out0 = (!sel) ? in0 : in1;
 
 endmodule

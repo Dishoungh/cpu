@@ -2,7 +2,7 @@
   "schema": "xilinx.com:schema:json_instance:1.0",
   "ip_inst": {
     "xci_name": "riscv_mux_d32_s5_0_0",
-    "cell_name": "Register_File/rs1_mux",
+    "cell_name": "rs1_mux",
     "component_reference": "xilinx.com:module_ref:mux_d32_s5:1.0",
     "ip_revision": "1",
     "gen_directory": "../../../../../../cpu.gen/sources_1/bd/riscv/ip/riscv_mux_d32_s5_0_0",
@@ -70,7 +70,7 @@
         "in30": [ { "direction": "in", "size_left": "31", "size_right": "0" } ],
         "in31": [ { "direction": "in", "size_left": "31", "size_right": "0" } ],
         "sel": [ { "direction": "in", "size_left": "4", "size_right": "0" } ],
-        "out": [ { "direction": "out", "size_left": "31", "size_right": "0" } ]
+        "out0": [ { "direction": "out", "size_left": "31", "size_right": "0" } ]
       }
     }
   }

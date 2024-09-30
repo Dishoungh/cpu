@@ -36,45 +36,45 @@ module mux_d32_s5
     input wire[31:0] in30,
     input wire[31:0] in31,
     input [4:0] sel,
-    output reg[31:0] out
+    output reg[31:0] out0
 );
 
 always @(*)
 begin
     case (sel)
-        5'd0:       out = in0;
-        5'd1:       out = in1;
-        5'd2:       out = in2;
-        5'd3:       out = in3;
-        5'd4:       out = in4;
-        5'd5:       out = in5;
-        5'd6:       out = in6;
-        5'd7:       out = in7;
-        5'd8:       out = in8;
-        5'd9:       out = in9;
-        5'd10:      out = in10;
-        5'd11:      out = in11;
-        5'd12:      out = in12;
-        5'd13:      out = in13;
-        5'd14:      out = in14;
-        5'd15:      out = in15;
-        5'd16:      out = in16;
-        5'd17:      out = in17;
-        5'd18:      out = in18;
-        5'd19:      out = in19;
-        5'd20:      out = in20;
-        5'd21:      out = in21;
-        5'd22:      out = in22;
-        5'd23:      out = in23;
-        5'd24:      out = in24;
-        5'd25:      out = in25;
-        5'd26:      out = in26;
-        5'd27:      out = in27;
-        5'd28:      out = in28;
-        5'd29:      out = in29;
-        5'd30:      out = in30;
-        5'd31:      out = in31;
-        default:    out = 32'd0;
+        5'd0:       out0 = in0;
+        5'd1:       out0 = in1;
+        5'd2:       out0 = in2;
+        5'd3:       out0 = in3;
+        5'd4:       out0 = in4;
+        5'd5:       out0 = in5;
+        5'd6:       out0 = in6;
+        5'd7:       out0 = in7;
+        5'd8:       out0 = in8;
+        5'd9:       out0 = in9;
+        5'd10:      out0 = in10;
+        5'd11:      out0 = in11;
+        5'd12:      out0 = in12;
+        5'd13:      out0 = in13;
+        5'd14:      out0 = in14;
+        5'd15:      out0 = in15;
+        5'd16:      out0 = in16;
+        5'd17:      out0 = in17;
+        5'd18:      out0 = in18;
+        5'd19:      out0 = in19;
+        5'd20:      out0 = in20;
+        5'd21:      out0 = in21;
+        5'd22:      out0 = in22;
+        5'd23:      out0 = in23;
+        5'd24:      out0 = in24;
+        5'd25:      out0 = in25;
+        5'd26:      out0 = in26;
+        5'd27:      out0 = in27;
+        5'd28:      out0 = in28;
+        5'd29:      out0 = in29;
+        5'd30:      out0 = in30;
+        5'd31:      out0 = in31;
+        default:    out0 = 32'd0;
     endcase
 end
 endmodule
