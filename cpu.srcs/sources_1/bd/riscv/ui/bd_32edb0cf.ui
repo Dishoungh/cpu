@@ -1,91 +1,92 @@
 {
    "ActiveEmotionalView":"Default View",
    "Default View_ScaleFactor":"0.747489",
-   "Default View_TopLeft":"227,5",
+   "Default View_TopLeft":"432,0",
    "ExpandedHierarchyInLayout":"",
    "PinnedBlocks":"/constant_4|/constant_0|/pc_slice|/Program_Memory_ROM|/PC_Adder|/pc_src_mux|/Control_Unit|/rs1_slice|/rd_slice|/rs2_slice|/Register_File|/ALU|/Branch_Block|/lui_mux|/luimux_pc_mux|/b_plus4_mux|/b_src_mux|/auipc_jal_or|/lui_constant_0|/alu_mem_mux|/Data_Memory_RAM|/wData_mux|/PC_mux|/PC_mux_concat|/res_pc_slice|",
    "guistr":"# # String gsaved with Nlview 7.7.1 2023-07-26 3bc4126617 VDI=43 GEI=38 GUI=JA:21.0 TLS
 #  -string -flagsOSRD
 preplace port port-id_clk -pg 1 -lvl 0 -x -840 -y 90 -defaultsOSRD
 preplace port port-id_reset -pg 1 -lvl 0 -x -840 -y 110 -defaultsOSRD
-preplace inst Data_Memory_RAM -pg 1 -lvl 13 -x 3108 -y 310 -defaultsOSRD
-preplace inst Register_File -pg 1 -lvl 9 -x 1680 -y 480 -defaultsOSRD
-preplace inst ALU -pg 1 -lvl 12 -x 2770 -y 390 -defaultsOSRD
-preplace inst Program_Memory_ROM -pg 1 -lvl 5 -x 340 -y 430 -defaultsOSRD
-preplace inst Control_Unit -pg 1 -lvl 6 -x 600 -y 420 -defaultsOSRD
-preplace inst pc_slice -pg 1 -lvl 4 -x -70 -y 430 -defaultsOSRD
-preplace inst PC_Adder -pg 1 -lvl 3 -x -280 -y 420 -defaultsOSRD
+preplace inst Data_Memory_RAM -pg 1 -lvl 13 -x 3140 -y 310 -defaultsOSRD
+preplace inst Register_File -pg 1 -lvl 9 -x 1700 -y 480 -defaultsOSRD
+preplace inst ALU -pg 1 -lvl 12 -x 2800 -y 390 -defaultsOSRD
+preplace inst Program_Memory_ROM -pg 1 -lvl 5 -x 250 -y 430 -defaultsOSRD
+preplace inst Control_Unit -pg 1 -lvl 6 -x 630 -y 420 -defaultsOSRD
+preplace inst pc_slice -pg 1 -lvl 4 -x -30 -y 430 -defaultsOSRD
+preplace inst PC_Adder -pg 1 -lvl 3 -x -260 -y 420 -defaultsOSRD
 preplace inst constant_4 -pg 1 -lvl 1 -x -740 -y 400 -defaultsOSRD
 preplace inst constant_0 -pg 1 -lvl 1 -x -740 -y 520 -defaultsOSRD
-preplace inst rd_slice -pg 1 -lvl 7 -x 1020 -y 380 -defaultsOSRD
-preplace inst rs1_slice -pg 1 -lvl 7 -x 1020 -y 480 -defaultsOSRD
-preplace inst rs2_slice -pg 1 -lvl 7 -x 1020 -y 580 -defaultsOSRD
-preplace inst b_src_mux -pg 1 -lvl 10 -x 2044 -y 550 -defaultsOSRD
-preplace inst alu_mem_mux -pg 1 -lvl 14 -x 3350 -y 310 -defaultsOSRD
-preplace inst Branch_Block -pg 1 -lvl 12 -x 2770 -y 650 -defaultsOSRD
+preplace inst rd_slice -pg 1 -lvl 7 -x 1040 -y 380 -defaultsOSRD
+preplace inst rs1_slice -pg 1 -lvl 7 -x 1040 -y 480 -defaultsOSRD
+preplace inst rs2_slice -pg 1 -lvl 7 -x 1040 -y 580 -defaultsOSRD
+preplace inst b_src_mux -pg 1 -lvl 10 -x 2100 -y 550 -defaultsOSRD
+preplace inst alu_mem_mux -pg 1 -lvl 14 -x 3400 -y 310 -defaultsOSRD
+preplace inst Branch_Block -pg 1 -lvl 12 -x 2800 -y 650 -defaultsOSRD
 preplace inst pc_src_mux -pg 1 -lvl 2 -x -520 -y 420 -defaultsOSRD
-preplace inst lui_mux -pg 1 -lvl 10 -x 2044 -y 390 -defaultsOSRD
-preplace inst lui_constant_0 -pg 1 -lvl 9 -x 1680 -y 160 -defaultsOSRD
-preplace inst auipc_jal_or -pg 1 -lvl 10 -x 2044 -y 680 -defaultsOSRD
-preplace inst luimux_pc_mux -pg 1 -lvl 11 -x 2350 -y 370 -defaultsOSRD
-preplace inst b_plus4_mux -pg 1 -lvl 11 -x 2350 -y 540 -defaultsOSRD
-preplace inst wData_mux -pg 1 -lvl 8 -x 1290 -y 450 -defaultsOSRD
-preplace inst PC_mux -pg 1 -lvl 8 -x 1290 -y 650 -defaultsOSRD
-preplace inst PC_mux_concat -pg 1 -lvl 7 -x 1020 -y 730 -defaultsOSRD
-preplace inst res_pc_slice -pg 1 -lvl 6 -x 600 -y 720 -defaultsOSRD
-preplace netloc ALU_result 1 12 2 2928 450 3230
-preplace netloc Control_Unit_ALU_Op 1 6 6 740 -10 N -10 N -10 N -10 N -10 2560
-preplace netloc Control_Unit_RegWrite 1 6 3 780 280 N 280 1410
-preplace netloc PC_Adder_sum 1 3 8 -170 140 N 140 N 140 N 140 1160 310 N 310 N 310 2210
-preplace netloc Program_Memory_ROM_spo 1 5 2 450 170 820
-preplace netloc Register_File_PC_Out 1 2 8 -390 150 N 150 N 150 N 150 N 150 1170 220 N 220 1800
-preplace netloc Register_File_rs1 1 9 1 1874 370n
-preplace netloc clk_1 1 0 13 NJ 90 N 90 N 90 N 90 N 90 N 90 N 90 N 90 1560 90 N 90 N 90 N 90 2988
-preplace netloc constant_4_dout 1 1 10 -650 100 N 100 N 100 N 100 N 100 N 100 N 100 N 100 N 100 2220
-preplace netloc constant_5_dout 1 1 6 N 520 -400 160 N 160 N 160 N 160 830
-preplace netloc negate_1 1 6 6 740 260 N 260 1420 280 N 280 N 280 2510
-preplace netloc pc_slice_Dout 1 4 1 N 430
-preplace netloc rd_slice_Dout 1 7 2 1150 370 1400
-preplace netloc reset_1 1 0 13 NJ 110 N 110 N 110 N 110 N 110 N 110 N 110 N 110 1550 230 N 230 N 230 N 230 2968
-preplace netloc rs1_slice_Dout 1 7 2 1150 530 N
-preplace netloc rs2_slice_Dout 1 7 2 1180 570 1450
-preplace netloc Control_Unit_Immediate 1 1 9 -630 130 N 130 N 130 N 130 N 130 840 230 N 230 1430 260 1854
-preplace netloc Register_File_rs2 1 9 4 1894 252 N 252 N 252 2948
-preplace netloc Control_Unit_B_Src 1 6 4 N 290 N 290 N 290 1810
-preplace netloc Control_Unit_MemSigned 1 6 7 760 70 N 70 N 70 N 70 N 70 N 70 2978
-preplace netloc Control_Unit_MemWrite 1 6 7 870 300 N 300 N 300 1874 290 N 290 2500 292 2920
-preplace netloc Control_Unit_MemRead 1 6 8 810 250 N 250 N 250 1854 242 N 242 N 242 2958 440 3240
-preplace netloc Control_Unit_MemSize 1 6 7 890 270 N 270 N 270 N 270 N 270 2540 272 2930
+preplace inst lui_mux -pg 1 -lvl 10 -x 2100 -y 390 -defaultsOSRD
+preplace inst lui_constant_0 -pg 1 -lvl 9 -x 1700 -y 160 -defaultsOSRD
+preplace inst auipc_jal_or -pg 1 -lvl 10 -x 2100 -y 680 -defaultsOSRD
+preplace inst luimux_pc_mux -pg 1 -lvl 11 -x 2420 -y 370 -defaultsOSRD
+preplace inst b_plus4_mux -pg 1 -lvl 11 -x 2420 -y 540 -defaultsOSRD
+preplace inst wData_mux -pg 1 -lvl 8 -x 1340 -y 450 -defaultsOSRD
+preplace inst PC_mux -pg 1 -lvl 8 -x 1340 -y 650 -defaultsOSRD
+preplace inst PC_mux_concat -pg 1 -lvl 7 -x 1040 -y 730 -defaultsOSRD
+preplace inst res_pc_slice -pg 1 -lvl 6 -x 630 -y 720 -defaultsOSRD
+preplace inst ila_instr -pg 1 -lvl 6 -x 630 -y 880 -defaultsOSRD
+preplace netloc ALU_Carry 1 11 2 2670 270 2920
+preplace netloc ALU_Negative 1 11 2 2660 250 2930
+preplace netloc ALU_Overflow 1 11 2 2650 490 2920
+preplace netloc ALU_Zero 1 11 2 2680 500 2930
+preplace netloc ALU_result 1 12 2 2990 170 3270
+preplace netloc Branch_Block_Res 1 1 12 -630 790 N 790 N 790 N 790 N 790 770 860 N 860 N 860 N 860 N 860 N 860 2920
+preplace netloc Control_Unit_ALU_Op 1 6 6 790 220 N 220 N 220 1820 200 N 200 2600
+preplace netloc Control_Unit_AUIPC 1 6 4 840 800 1190 740 1490 670 N
+preplace netloc Control_Unit_BEQ 1 6 6 860 230 N 230 N 230 1830 210 N 210 2540
+preplace netloc Control_Unit_BGE 1 6 6 940 650 1180 750 N 750 N 750 2250 700 N
+preplace netloc Control_Unit_BGEU 1 6 6 800 870 N 870 N 870 N 870 N 870 2610
+preplace netloc Control_Unit_BLT 1 6 6 860 840 1230 770 N 770 N 770 2300 680 N
+preplace netloc Control_Unit_BLTU 1 6 6 870 810 1210 760 N 760 N 760 2310 720 N
+preplace netloc Control_Unit_BNE 1 6 6 820 880 N 880 N 880 N 880 N 880 2530
+preplace netloc Control_Unit_B_Src 1 6 4 N 290 N 290 N 290 1860
+preplace netloc Control_Unit_Immediate 1 1 9 -640 800 N 800 N 800 N 800 N 800 790 820 1220 780 N 780 1940
+preplace netloc Control_Unit_JAL 1 6 5 830 660 1140 790 N 790 1950 780 2290
+preplace netloc Control_Unit_JALR 1 6 2 850J 640 1230
+preplace netloc Control_Unit_LUI 1 6 4 810 850 N 850 N 850 1930
+preplace netloc Control_Unit_MemRead 1 6 8 800 240 N 240 N 240 N 240 N 240 2550 210 3020 180 3260
+preplace netloc Control_Unit_MemSigned 1 6 7 790 300 N 300 N 300 1850 230 N 230 2560 240 3000
+preplace netloc Control_Unit_MemSize 1 6 7 880 310 N 310 N 310 1840 220 N 220 N 220 2960
+preplace netloc Control_Unit_MemWrite 1 6 7 870 320 N 320 N 320 1870 300 2250 280 N 280 2950
+preplace netloc Control_Unit_RegWrite 1 6 3 N 270 N 270 1470
 preplace netloc Data_Memory_RAM_dout 1 13 1 N 310
+preplace netloc PC_Adder_sum 1 3 8 -130 770 N 770 370 810 780 830 1170 330 N 330 1880 310 2260
+preplace netloc PC_mux_concat_dout 1 7 1 1190 650n
+preplace netloc PC_mux_out 1 8 1 1460 470n
+preplace netloc Program_Memory_ROM_spo 1 5 2 470 950 930
+preplace netloc Register_File_PC_Out 1 2 8 -370 960 N 960 N 960 N 960 N 960 N 960 N 960 1820
+preplace netloc Register_File_rs1 1 9 1 1900 370n
+preplace netloc Register_File_rs2 1 9 4 1910 290 N 290 N 290 2940
+preplace netloc alu_mem_mux_out 1 5 10 490 970 N 970 1200 570 1450J 600 1920J 470 2250J 460 2530J 480 NJ 480 NJ 480 3510
+preplace netloc auipc_jal_or_Res 1 10 1 2260 390n
+preplace netloc b_plus4_mux_out 1 11 1 2590 380n
+preplace netloc b_src_mux_out 1 10 1 2270 520n
+preplace netloc clk_1 1 0 13 NJ 90 N 90 N 90 N 90 N 90 460 170 N 170 N 170 1570 270 N 270 N 270 2570 230 3010
+preplace netloc constant_4_dout 1 1 10 -650 780 N 780 N 780 N 780 360 980 N 980 N 980 N 980 N 980 2280
+preplace netloc constant_5_dout 1 1 6 N 520 -380 760 N 760 N 760 480 780 940
+preplace netloc lui_constant_0_dout 1 9 1 1890 160n
+preplace netloc lui_mux_out 1 10 1 2250 350n
+preplace netloc mux_d32_s1_0_out 1 11 1 2560 360n
+preplace netloc negate_1 1 6 6 N 250 N 250 N 250 N 250 N 250 2580
+preplace netloc pc_slice_Dout 1 4 1 N 430
 preplace netloc pc_src_mux_out 1 2 1 N 420
-preplace netloc ALU_Negative 1 11 2 2660 282 2880
-preplace netloc ALU_Zero 1 11 2 2640 262 2890
-preplace netloc ALU_Carry 1 11 2 2630 486 2900
-preplace netloc ALU_Overflow 1 11 2 2650 496 2880
-preplace netloc Control_Unit_BEQ 1 6 6 750 0 N 0 N 0 N 0 N 0 2550
-preplace netloc Control_Unit_BNE 1 6 6 800 60 N 60 N 60 N 60 N 60 2480
-preplace netloc Control_Unit_BLT 1 6 6 790 50 N 50 N 50 N 50 N 50 2490
-preplace netloc Control_Unit_BGE 1 6 6 770 10 N 10 N 10 N 10 N 10 2530
-preplace netloc Control_Unit_BLTU 1 6 6 860 40 N 40 N 40 N 40 N 40 2460
-preplace netloc Control_Unit_BGEU 1 6 6 850 30 N 30 N 30 N 30 N 30 2470
-preplace netloc Branch_Block_Res 1 1 12 -640 -20 N -20 N -20 N -20 N -20 N -20 N -20 N -20 N -20 N -20 N -20 2910
-preplace netloc Control_Unit_LUI 1 6 4 910 320 N 320 N 320 1844
-preplace netloc lui_constant_0_dout 1 9 1 1884 160n
-preplace netloc Control_Unit_AUIPC 1 6 4 880 20 N 20 N 20 1864
-preplace netloc Control_Unit_JAL 1 6 5 900 240 N 240 N 240 1834 470 2200
-preplace netloc b_src_mux_out 1 10 1 2240 520n
-preplace netloc b_plus4_mux_out 1 11 1 2540 380n
-preplace netloc auipc_jal_or_Res 1 10 1 2230 390n
-preplace netloc mux_d32_s1_0_out 1 11 1 2520 360n
-preplace netloc lui_mux_out 1 10 1 2200 350n
-preplace netloc wData_mux_out 1 8 1 N 450
-preplace netloc alu_mem_mux_out 1 5 10 460 80 N 80 1180 80 NJ 80 NJ 80 NJ 80 NJ 80 NJ 80 NJ 80 3460
-preplace netloc Control_Unit_JALR 1 6 2 920J 310 1140
-preplace netloc PC_mux_out 1 8 1 1430 470n
-preplace netloc PC_mux_concat_dout 1 7 1 1180 650n
+preplace netloc rd_slice_Dout 1 7 2 1140 370 1450
 preplace netloc res_pc_slice_Dout 1 6 1 N 720
-levelinfo -pg 1 -840 -740 -520 -280 -70 340 600 1020 1290 1680 2044 2350 2770 3108 3350 3480
-pagesize -pg 1 -db -bbox -sgen -920 -160 7600 5960
+preplace netloc reset_1 1 0 13 NJ 110 N 110 N 110 N 110 N 110 N 110 N 110 N 110 1580 260 N 260 N 260 N 260 N
+preplace netloc rs1_slice_Dout 1 7 2 1220 530 N
+preplace netloc rs2_slice_Dout 1 7 2 1140 550 N
+preplace netloc wData_mux_out 1 8 1 N 450
+levelinfo -pg 1 -840 -740 -520 -260 -30 250 630 1040 1340 1700 2100 2420 2800 3140 3400 3540
+pagesize -pg 1 -db -bbox -sgen -930 -400 7600 5960
 "
 }
 {

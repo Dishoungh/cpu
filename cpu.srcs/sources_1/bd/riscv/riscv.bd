@@ -7,7 +7,8 @@
       "name": "riscv",
       "rev_ctrl_bd_flag": "RevCtrlBdOff",
       "synth_flow_mode": "Hierarchical",
-      "tool_version": "2024.1"
+      "tool_version": "2024.1",
+      "validated": "true"
     },
     "design_tree": {
       "Data_Memory_RAM": "",
@@ -123,12 +124,35 @@
       "wData_mux": "",
       "PC_mux": "",
       "PC_mux_concat": "",
-      "res_pc_slice": ""
+      "res_pc_slice": "",
+      "ila_instr": ""
     },
     "ports": {
       "clk": {
         "type": "clk",
-        "direction": "I"
+        "direction": "I",
+        "parameters": {
+          "CLK_DOMAIN": {
+            "value": "riscv_clk",
+            "value_src": "default"
+          },
+          "FREQ_HZ": {
+            "value": "100000000",
+            "value_src": "default"
+          },
+          "FREQ_TOLERANCE_HZ": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "INSERT_VIP": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "PHASE": {
+            "value": "0.0",
+            "value_src": "default"
+          }
+        }
       },
       "reset": {
         "direction": "I"
@@ -149,7 +173,13 @@
         "ports": {
           "clk": {
             "type": "clk",
-            "direction": "I"
+            "direction": "I",
+            "parameters": {
+              "CLK_DOMAIN": {
+                "value": "riscv_clk",
+                "value_src": "default_prop"
+              }
+            }
           },
           "arst": {
             "direction": "I"
@@ -2853,13 +2883,19 @@
             "direction": "O"
           },
           "Negative": {
-            "direction": "O"
+            "direction": "O",
+            "left": "0",
+            "right": "0"
           },
           "Zero": {
-            "direction": "O"
+            "direction": "O",
+            "left": "0",
+            "right": "0"
           },
           "Overflow": {
-            "direction": "O"
+            "direction": "O",
+            "left": "0",
+            "right": "0"
           }
         },
         "components": {
@@ -2878,7 +2914,17 @@
               "a": {
                 "direction": "I",
                 "left": "31",
-                "right": "0"
+                "right": "0",
+                "parameters": {
+                  "PortType": {
+                    "value": "undef",
+                    "value_src": "ip_prop"
+                  },
+                  "PortType.PROP_SRC": {
+                    "value": "false",
+                    "value_src": "ip_prop"
+                  }
+                }
               },
               "b": {
                 "direction": "I",
@@ -2886,10 +2932,30 @@
                 "right": "0"
               },
               "cin": {
-                "direction": "I"
+                "direction": "I",
+                "parameters": {
+                  "PortType": {
+                    "value": "undef",
+                    "value_src": "ip_prop"
+                  },
+                  "PortType.PROP_SRC": {
+                    "value": "false",
+                    "value_src": "ip_prop"
+                  }
+                }
               },
               "cout": {
-                "direction": "O"
+                "direction": "O",
+                "parameters": {
+                  "PortType": {
+                    "value": "undef",
+                    "value_src": "ip_prop"
+                  },
+                  "PortType.PROP_SRC": {
+                    "value": "false",
+                    "value_src": "ip_prop"
+                  }
+                }
               },
               "sum": {
                 "direction": "O",
@@ -2913,15 +2979,45 @@
               "in0": {
                 "direction": "I",
                 "left": "31",
-                "right": "0"
+                "right": "0",
+                "parameters": {
+                  "PortType": {
+                    "value": "undef",
+                    "value_src": "ip_prop"
+                  },
+                  "PortType.PROP_SRC": {
+                    "value": "false",
+                    "value_src": "ip_prop"
+                  }
+                }
               },
               "in1": {
                 "direction": "I",
                 "left": "31",
-                "right": "0"
+                "right": "0",
+                "parameters": {
+                  "PortType": {
+                    "value": "undef",
+                    "value_src": "ip_prop"
+                  },
+                  "PortType.PROP_SRC": {
+                    "value": "false",
+                    "value_src": "ip_prop"
+                  }
+                }
               },
               "sel": {
-                "direction": "I"
+                "direction": "I",
+                "parameters": {
+                  "PortType": {
+                    "value": "undef",
+                    "value_src": "ip_prop"
+                  },
+                  "PortType.PROP_SRC": {
+                    "value": "false",
+                    "value_src": "ip_prop"
+                  }
+                }
               },
               "out": {
                 "direction": "O",
@@ -2945,7 +3041,17 @@
               "a": {
                 "direction": "I",
                 "left": "31",
-                "right": "0"
+                "right": "0",
+                "parameters": {
+                  "PortType": {
+                    "value": "undef",
+                    "value_src": "ip_prop"
+                  },
+                  "PortType.PROP_SRC": {
+                    "value": "false",
+                    "value_src": "ip_prop"
+                  }
+                }
               },
               "b": {
                 "direction": "I",
@@ -3091,7 +3197,17 @@
               "a": {
                 "direction": "I",
                 "left": "31",
-                "right": "0"
+                "right": "0",
+                "parameters": {
+                  "PortType": {
+                    "value": "undef",
+                    "value_src": "ip_prop"
+                  },
+                  "PortType.PROP_SRC": {
+                    "value": "false",
+                    "value_src": "ip_prop"
+                  }
+                }
               },
               "b": {
                 "direction": "I",
@@ -3120,7 +3236,17 @@
               "a": {
                 "direction": "I",
                 "left": "31",
-                "right": "0"
+                "right": "0",
+                "parameters": {
+                  "PortType": {
+                    "value": "undef",
+                    "value_src": "ip_prop"
+                  },
+                  "PortType.PROP_SRC": {
+                    "value": "false",
+                    "value_src": "ip_prop"
+                  }
+                }
               },
               "b": {
                 "direction": "I",
@@ -3157,7 +3283,17 @@
                 "right": "0"
               },
               "sel": {
-                "direction": "I"
+                "direction": "I",
+                "parameters": {
+                  "PortType": {
+                    "value": "undef",
+                    "value_src": "ip_prop"
+                  },
+                  "PortType.PROP_SRC": {
+                    "value": "false",
+                    "value_src": "ip_prop"
+                  }
+                }
               },
               "out": {
                 "direction": "O",
@@ -3218,17 +3354,39 @@
               "in2": {
                 "direction": "I",
                 "left": "31",
-                "right": "0"
+                "right": "0",
+                "parameters": {
+                  "PortWidth": {
+                    "value": "32",
+                    "value_src": "ip_prop"
+                  }
+                }
               },
               "in3": {
                 "direction": "I",
                 "left": "31",
-                "right": "0"
+                "right": "0",
+                "parameters": {
+                  "PortWidth": {
+                    "value": "32",
+                    "value_src": "ip_prop"
+                  }
+                }
               },
               "in4": {
                 "direction": "I",
                 "left": "31",
-                "right": "0"
+                "right": "0",
+                "parameters": {
+                  "PortType": {
+                    "value": "undef",
+                    "value_src": "ip_prop"
+                  },
+                  "PortType.PROP_SRC": {
+                    "value": "false",
+                    "value_src": "ip_prop"
+                  }
+                }
               },
               "in5": {
                 "direction": "I",
@@ -3238,12 +3396,32 @@
               "in6": {
                 "direction": "I",
                 "left": "31",
-                "right": "0"
+                "right": "0",
+                "parameters": {
+                  "PortType": {
+                    "value": "undef",
+                    "value_src": "ip_prop"
+                  },
+                  "PortType.PROP_SRC": {
+                    "value": "false",
+                    "value_src": "ip_prop"
+                  }
+                }
               },
               "in7": {
                 "direction": "I",
                 "left": "31",
-                "right": "0"
+                "right": "0",
+                "parameters": {
+                  "PortType": {
+                    "value": "undef",
+                    "value_src": "ip_prop"
+                  },
+                  "PortType.PROP_SRC": {
+                    "value": "false",
+                    "value_src": "ip_prop"
+                  }
+                }
               },
               "sel": {
                 "direction": "I",
@@ -3321,6 +3499,11 @@
               },
               "ov": {
                 "direction": "O",
+                "left": "0",
+                "right": "0"
+              },
+              "negate": {
+                "direction": "I",
                 "left": "0",
                 "right": "0"
               }
@@ -3465,6 +3648,7 @@
             "nets": {
               "Net": {
                 "ports": [
+                  "negate",
                   "util_vector_logic_6/Op2",
                   "util_vector_logic_3/Op1"
                 ]
@@ -3688,7 +3872,8 @@
               "negate",
               "mux_d32_s1_0/sel",
               "mux_srl_sra/sel",
-              "cla32_0/cin"
+              "cla32_0/cin",
+              "overflow_block/negate"
             ]
           },
           "sel_2": {
@@ -3800,6 +3985,9 @@
         "xci_path": "ip/riscv_dist_mem_gen_0_0/riscv_dist_mem_gen_0_0.xci",
         "inst_hier_path": "Program_Memory_ROM",
         "parameters": {
+          "coefficient_file": {
+            "value": "../../../../../../Program/rv32i-addi-test.coe"
+          },
           "data_width": {
             "value": "32"
           },
@@ -3834,7 +4022,17 @@
             "right": "0"
           },
           "Negate": {
-            "direction": "O"
+            "direction": "O",
+            "parameters": {
+              "PortType": {
+                "value": "undef",
+                "value_src": "ip_prop"
+              },
+              "PortType.PROP_SRC": {
+                "value": "false",
+                "value_src": "ip_prop"
+              }
+            }
           },
           "RegWrite": {
             "direction": "O"
@@ -3857,31 +4055,111 @@
             "right": "0"
           },
           "BEQ": {
-            "direction": "O"
+            "direction": "O",
+            "parameters": {
+              "PortType": {
+                "value": "undef",
+                "value_src": "ip_prop"
+              },
+              "PortType.PROP_SRC": {
+                "value": "false",
+                "value_src": "ip_prop"
+              }
+            }
           },
           "BNE": {
-            "direction": "O"
+            "direction": "O",
+            "parameters": {
+              "PortType": {
+                "value": "undef",
+                "value_src": "ip_prop"
+              },
+              "PortType.PROP_SRC": {
+                "value": "false",
+                "value_src": "ip_prop"
+              }
+            }
           },
           "BLT": {
-            "direction": "O"
+            "direction": "O",
+            "parameters": {
+              "PortType": {
+                "value": "undef",
+                "value_src": "ip_prop"
+              },
+              "PortType.PROP_SRC": {
+                "value": "false",
+                "value_src": "ip_prop"
+              }
+            }
           },
           "BGE": {
-            "direction": "O"
+            "direction": "O",
+            "parameters": {
+              "PortType": {
+                "value": "undef",
+                "value_src": "ip_prop"
+              },
+              "PortType.PROP_SRC": {
+                "value": "false",
+                "value_src": "ip_prop"
+              }
+            }
           },
           "BLTU": {
-            "direction": "O"
+            "direction": "O",
+            "parameters": {
+              "PortType": {
+                "value": "undef",
+                "value_src": "ip_prop"
+              },
+              "PortType.PROP_SRC": {
+                "value": "false",
+                "value_src": "ip_prop"
+              }
+            }
           },
           "BGEU": {
-            "direction": "O"
+            "direction": "O",
+            "parameters": {
+              "PortType": {
+                "value": "undef",
+                "value_src": "ip_prop"
+              },
+              "PortType.PROP_SRC": {
+                "value": "false",
+                "value_src": "ip_prop"
+              }
+            }
           },
           "LUI": {
             "direction": "O"
           },
           "AUIPC": {
-            "direction": "O"
+            "direction": "O",
+            "parameters": {
+              "PortType": {
+                "value": "undef",
+                "value_src": "ip_prop"
+              },
+              "PortType.PROP_SRC": {
+                "value": "false",
+                "value_src": "ip_prop"
+              }
+            }
           },
           "JAL": {
-            "direction": "O"
+            "direction": "O",
+            "parameters": {
+              "PortType": {
+                "value": "undef",
+                "value_src": "ip_prop"
+              },
+              "PortType.PROP_SRC": {
+                "value": "false",
+                "value_src": "ip_prop"
+              }
+            }
           },
           "JALR": {
             "direction": "O"
@@ -4537,12 +4815,32 @@
             "right": "0"
           },
           "sel": {
-            "direction": "I"
+            "direction": "I",
+            "parameters": {
+              "PortType": {
+                "value": "undef",
+                "value_src": "ip_prop"
+              },
+              "PortType.PROP_SRC": {
+                "value": "false",
+                "value_src": "ip_prop"
+              }
+            }
           },
           "out": {
             "direction": "O",
             "left": "31",
-            "right": "0"
+            "right": "0",
+            "parameters": {
+              "PortType": {
+                "value": "undef",
+                "value_src": "ip_prop"
+              },
+              "PortType.PROP_SRC": {
+                "value": "false",
+                "value_src": "ip_prop"
+              }
+            }
           }
         }
       },
@@ -4569,12 +4867,32 @@
             "right": "0"
           },
           "sel": {
-            "direction": "I"
+            "direction": "I",
+            "parameters": {
+              "PortType": {
+                "value": "undef",
+                "value_src": "ip_prop"
+              },
+              "PortType.PROP_SRC": {
+                "value": "false",
+                "value_src": "ip_prop"
+              }
+            }
           },
           "out": {
             "direction": "O",
             "left": "31",
-            "right": "0"
+            "right": "0",
+            "parameters": {
+              "PortType": {
+                "value": "undef",
+                "value_src": "ip_prop"
+              },
+              "PortType.PROP_SRC": {
+                "value": "false",
+                "value_src": "ip_prop"
+              }
+            }
           }
         }
       },
@@ -4630,7 +4948,13 @@
           "in1": {
             "direction": "I",
             "left": "31",
-            "right": "0"
+            "right": "0",
+            "parameters": {
+              "PortWidth": {
+                "value": "32",
+                "value_src": "ip_prop"
+              }
+            }
           },
           "sel": {
             "direction": "I"
@@ -4671,6 +4995,21 @@
             "value": "1"
           }
         }
+      },
+      "ila_instr": {
+        "vlnv": "xilinx.com:ip:ila:6.2",
+        "ip_revision": "15",
+        "xci_name": "riscv_ila_0_3",
+        "xci_path": "ip/riscv_ila_0_3/riscv_ila_0_3.xci",
+        "inst_hier_path": "ila_instr",
+        "parameters": {
+          "C_MONITOR_TYPE": {
+            "value": "Native"
+          },
+          "C_PROBE0_WIDTH": {
+            "value": "32"
+          }
+        }
       }
     },
     "nets": {
@@ -4701,8 +5040,8 @@
       "ALU_result": {
         "ports": [
           "ALU/result",
-          "Data_Memory_RAM/addr",
-          "alu_mem_mux/in0"
+          "alu_mem_mux/in0",
+          "Data_Memory_RAM/addr"
         ]
       },
       "Branch_Block_Res": {
@@ -4795,8 +5134,8 @@
       "Control_Unit_MemRead": {
         "ports": [
           "Control_Unit/MemRead",
-          "Data_Memory_RAM/load",
-          "alu_mem_mux/sel"
+          "alu_mem_mux/sel",
+          "Data_Memory_RAM/load"
         ]
       },
       "Control_Unit_MemSigned": {
@@ -4856,7 +5195,8 @@
           "rd_slice/Din",
           "rs1_slice/Din",
           "Control_Unit/instr",
-          "rs2_slice/Din"
+          "rs2_slice/Din",
+          "ila_instr/probe0"
         ]
       },
       "Register_File_PC_Out": {
@@ -4907,7 +5247,8 @@
         "ports": [
           "clk",
           "Register_File/clk",
-          "Data_Memory_RAM/clk"
+          "Data_Memory_RAM/clk",
+          "ila_instr/clk"
         ]
       },
       "constant_4_dout": {
@@ -4975,8 +5316,8 @@
       "reset_1": {
         "ports": [
           "reset",
-          "Data_Memory_RAM/arst",
-          "Register_File/arst"
+          "Register_File/arst",
+          "Data_Memory_RAM/arst"
         ]
       },
       "rs1_slice_Dout": {

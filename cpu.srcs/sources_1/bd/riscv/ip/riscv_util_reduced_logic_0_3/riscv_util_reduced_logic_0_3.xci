@@ -2,7 +2,7 @@
   "schema": "xilinx.com:schema:json_instance:1.0",
   "ip_inst": {
     "xci_name": "riscv_util_reduced_logic_0_3",
-    "cell_name": "branch_or",
+    "cell_name": "Branch_Block/branch_or",
     "component_reference": "xilinx.com:ip:util_reduced_logic:2.0",
     "ip_revision": "6",
     "gen_directory": "../../../../../../cpu.gen/sources_1/bd/riscv/ip/riscv_util_reduced_logic_0_3",

@@ -2,7 +2,7 @@
   "schema": "xilinx.com:schema:json_instance:1.0",
   "ip_inst": {
     "xci_name": "riscv_beq_0",
-    "cell_name": "bne",
+    "cell_name": "Branch_Block/bne",
     "component_reference": "xilinx.com:ip:util_vector_logic:2.0",
     "ip_revision": "4",
     "gen_directory": "../../../../../../cpu.gen/sources_1/bd/riscv/ip/riscv_beq_0",
