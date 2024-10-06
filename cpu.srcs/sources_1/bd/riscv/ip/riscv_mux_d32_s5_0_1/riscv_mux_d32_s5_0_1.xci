@@ -2,7 +2,7 @@
   "schema": "xilinx.com:schema:json_instance:1.0",
   "ip_inst": {
     "xci_name": "riscv_mux_d32_s5_0_1",
-    "cell_name": "rs2_mux",
+    "cell_name": "Register_File/rs2_mux",
     "component_reference": "xilinx.com:module_ref:mux_d32_s5:1.0",
     "ip_revision": "1",
     "gen_directory": "../../../../../../cpu.gen/sources_1/bd/riscv/ip/riscv_mux_d32_s5_0_1",

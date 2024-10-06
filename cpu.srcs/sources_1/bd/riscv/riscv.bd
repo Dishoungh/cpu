@@ -3986,7 +3986,7 @@
         "inst_hier_path": "Program_Memory_ROM",
         "parameters": {
           "coefficient_file": {
-            "value": "../../../../../../Program/rv32i-addi-test.coe"
+            "value": "Test_Programs/RV32I/rv32ui-p-addi.coe"
           },
           "data_width": {
             "value": "32"
