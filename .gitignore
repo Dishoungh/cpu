@@ -1,4 +1,9 @@
-# Ignore all generated Vivado log files
-*.jou
-*.log
-*.str
+# Ignore useless files and directories
+**/*.jou
+**/*.log
+**/*.str
+**/.Xil/
+
+# Ignore everything in WorkingDir except for .xpr file
+WorkingDir/*
+!WorkingDir/*.xpr
