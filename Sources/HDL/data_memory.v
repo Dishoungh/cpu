@@ -13,18 +13,18 @@ module data_memory
     output reg[31:0] dout   // Output Data
 );
 
-reg[7:0] mem[0:1023];
+reg[7:0] mem[0:4095];
 integer i;
 
-wire[9:0] address;
-assign address = addr[9:0]; // 10 bits (1KB)
+wire[11:0] address;
+assign address = addr[11:0]; // 12 bits (4KB)
 
 // Store Data Logic
 always @(posedge clk or posedge arst)
 begin
     if (arst)   // Asynchronous Reset
         begin
-            for (i = 0; i < 1024; i = i + 1)
+            for (i = 0; i < 4096; i = i + 1)
             begin
                 mem[i] <= 8'b00000000;
             end
