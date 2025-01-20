@@ -60,6 +60,10 @@ Right now, I have 4 buttons as input, 4 LEDs as output, 2 RGB LEDs as output, an
 
 I don't know of a particular use case for them yet, but they might come in handy for debugging purposes.
 
+For inputs (buttons and switches), I need to debounce the signals. I'm making a custom HDL module to debounce the signals.
+
+[TASK: Test Bench Debounce Module]
+
 
 ## Special Thanks
 
