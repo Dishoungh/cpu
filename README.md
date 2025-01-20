@@ -4,6 +4,10 @@ This README will be an in-depth breakdown of my RISC-V soft processor design in 
 
 I like to document every little step 
 
+## Table of Contents
+
+[Fill in later]
+
 ### <ins>Directories</ins>
 
 Sources - Contains user source files for Vivado project and is divided into the following sub-directories:
@@ -30,12 +34,31 @@ At this point, I have an empty block design:
 
 ### <ins>My Design Plans</ins>
 
-My plan is to practice Yocto and practice CPU design at the same time. So, what I'll do is create my soft CPU core as AXI IP. This way, I can get a way to interface with my CPU by giving it instructions and to read statuses to make sure it's functioning properly.
+My plan is to practice Yocto and practice CPU design at the same time. So, what I'll do is create my soft CPU core as AXI IP. This way, I can get a way to interface with my CPU by giving it instructions and to read statuses to make sure it's functioning properly. **Yes, I'm using the ARM cores to control and debug a RISC-V core lol.**
 
 ## Part II: Top Block Design
 
+To start, I add the `ZYNQ7 Processing System`, `AXI Interconnect`, and `Processor System Reset`:
 
+![Image](./Sources/IMG/PartII-Adding_Zynq7.png)
 
+After running Block Automation and Connection Automation, this is what my block design looks like:
+
+![Image](./Sources/IMG/PartII-Connections.png)
+
+## Part III: Creating My RISC-V IP
+
+I want a lot of registers so I created 128 AXI slave registers for debugging and core implementation of the CPU. I also created an `AXI GPIO` block to interface with the Z7's LEDs, Buttons, and Switches.
+
+![Image](./Sources/IMG/PartII-Finishing-Touches.png)
+
+After that, I attached a constraints file and created a block wrapper as the top file.
+
+## Part IV: Debouncing Input Signals
+
+Right now, I have 4 buttons as input, 4 LEDs as output, 2 RGB LEDs as output, and 2 switches as input.<br>
+
+I don't know of a particular use case for them yet, but they might come in handy for debugging purposes.
 
 
 ## Special Thanks

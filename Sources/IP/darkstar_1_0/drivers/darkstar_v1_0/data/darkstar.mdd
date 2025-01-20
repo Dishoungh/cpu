@@ -1,0 +1,10 @@
+
+
+OPTION psf_version = 2.1;
+
+BEGIN DRIVER darkstar
+	OPTION supported_peripherals = (darkstar);
+	OPTION copyfiles = all;
+	OPTION VERSION = 1.0;
+	OPTION NAME = darkstar;
+END DRIVER
