@@ -4,17 +4,15 @@ module Debounce
 (
     input wire clk,
     input wire rst,
+    input wire[23:0] width,
     input wire dirty,
     output reg clean
 );
 
-parameter LIMIT = 16'd1000;
-
 // Internal Registers
-reg current_input;
 reg[1:0] current_state;
 reg[1:0] next_state;
-reg[15:0] counter;
+reg[23:0] counter;
 
 wire changed;
 assign changed = dirty ^ clean; // changed is high when dirty is different from clean
@@ -53,7 +51,7 @@ begin
                     end
                 COUNT:
                     begin
-                        if (counter >= (LIMIT - 1))        // Update Clean Output
+                        if (counter >= (width - 1))        // Update Clean Output
                             next_state <= UPDATE;
                         else if (!changed)                 // Input Failed to Stabilize Long Enough
                             next_state <= WAIT_FOR_CHANGE;
@@ -61,7 +59,7 @@ begin
                             next_state <= COUNT;
                     end
                 UPDATE:
-                    next_state <= UPDATE;
+                    next_state <= WAIT_FOR_CHANGE;
                 default:
                     next_state <= INIT;
             endcase

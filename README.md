@@ -50,7 +50,7 @@ After running Block Automation and Connection Automation, this is what my block 
 
 I want a lot of registers so I created 128 AXI slave registers for debugging and core implementation of the CPU. I also created an `AXI GPIO` block to interface with the Z7's LEDs, Buttons, and Switches.
 
-![Image](./Sources/IMG/PartII-Finishing-Touches.png)
+![Image](./Sources/IMG/PartIII-Finishing-Touches.png)
 
 After that, I attached a constraints file and created a block wrapper as the top file.
 
@@ -62,7 +62,7 @@ I don't know of a particular use case for them yet, but they might come in handy
 
 For inputs (buttons and switches), I need to debounce the signals. I'm making a custom HDL module to debounce the signals.
 
-[TASK: Test Bench Debounce Module]
+![Image](./Sources/IMG/PartIV-Debounce-Testbench.png)
 
 
 ## Special Thanks

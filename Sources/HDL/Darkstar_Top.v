@@ -71,6 +71,7 @@ generate
             (
                 .clk(clk),
                 .rst(1'b0),
+                .width(24'd6250000),
                 .dirty(btn[i]),
                 .clean(btn_debounced[i])
             );
@@ -84,6 +85,7 @@ generate
             (
                 .clk(clk),
                 .rst(1'b0),
+                .width(24'd6250000),
                 .dirty(sw[i]),
                 .clean(sw_debounced[i])
             );
