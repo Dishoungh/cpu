@@ -4,6 +4,7 @@
 **/*.str
 **/.Xil/
 
-# Ignore everything in WorkingDir except for .xpr file
+# Ignore everything in WorkingDir except for .xpr file and .srcs
 WorkingDir/*
+!WorkingDir/risc-v.srcs
 !WorkingDir/*.xpr

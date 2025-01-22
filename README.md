@@ -64,6 +64,9 @@ For inputs (buttons and switches), I need to debounce the signals. I'm making a 
 
 ![Image](./Sources/IMG/PartIV-Debounce-Testbench.png)
 
+## Part V: Modifying IP
+
+Apparently, in Vivado 2024.1, there is a [bug where the AXI code generator creates faulty code](https://adaptivesupport.amd.com/s/article/000037171?language=en_US). I could try to fix this myself by manually adding in the code, but I'm just going to upgrade to 2024.2.
 
 ## Special Thanks
 
