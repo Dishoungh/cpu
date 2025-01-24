@@ -70,6 +70,8 @@ Apparently, in Vivado 2024.1, there is a [bug where the AXI code generator creat
 
 After migrating to 2024.2, I deleted the AXI Interconnect IP for the [AXI Smartconnect](https://www.xilinx.com/products/intellectual-property/smartconnect.html). According to Xilinx, it is now a drop-in replacement for the AXI Interconnect.
 
+![Image](./Sources/IMG/PartV-Smartconnect.png)
+
 I also created a new block design for the IP, `darkstar_bd`.
 
 ## Special Thanks
