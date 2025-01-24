@@ -1,18 +1,18 @@
 {
   "schema": "xilinx.com:schema:json_instance:1.0",
   "ip_inst": {
-    "xci_name": "cpu_darkstar_0_1",
+    "xci_name": "cpu_Darkstar_0_2",
     "cell_name": "CPU",
-    "component_reference": "user.org:user:darkstar:1.0",
+    "component_reference": "user.org:user:Darkstar:1.0",
     "ip_revision": "1",
-    "gen_directory": "../../../../../../risc-v.gen/sources_1/bd/cpu/ip/cpu_darkstar_0_1",
+    "gen_directory": "../../../../../../risc-v.gen/sources_1/bd/cpu/ip/cpu_Darkstar_0_2",
     "parameters": {
       "component_parameters": {
         "C_S00_AXI_DATA_WIDTH": [ { "value": "32", "resolve_type": "user", "format": "long", "enabled": false, "usage": "all" } ],
         "C_S00_AXI_ADDR_WIDTH": [ { "value": "9", "resolve_type": "user", "format": "long", "enabled": false, "usage": "all" } ],
         "C_S00_AXI_BASEADDR": [ { "value": "0xFFFFFFFF", "resolve_type": "user", "format": "bitString", "enabled": false, "usage": "all" } ],
         "C_S00_AXI_HIGHADDR": [ { "value": "0x00000000", "resolve_type": "user", "format": "bitString", "enabled": false, "usage": "all" } ],
-        "Component_Name": [ { "value": "cpu_darkstar_0_1", "resolve_type": "user", "usage": "all" } ]
+        "Component_Name": [ { "value": "cpu_Darkstar_0_2", "resolve_type": "user", "usage": "all" } ]
       },
       "model_parameters": {
         "C_S00_AXI_DATA_WIDTH": [ { "value": "32", "resolve_type": "generated", "format": "long", "usage": "all" } ],
@@ -23,7 +23,6 @@
         "BASE_BOARD_PART": [ { "value": "digilentinc.com:arty-z7-20:part0:1.1" } ],
         "BOARD_CONNECTIONS": [ { "value": "" } ],
         "DEVICE": [ { "value": "xc7z020" } ],
-        "NEXTGEN_VERSAL": [ { "value": "0" } ],
         "PACKAGE": [ { "value": "clg400" } ],
         "PREFHDL": [ { "value": "VERILOG" } ],
         "SILICON_REVISION": [ { "value": "" } ],
@@ -36,10 +35,10 @@
         "IPCONTEXT": [ { "value": "IP_Integrator" } ],
         "IPREVISION": [ { "value": "1" } ],
         "MANAGED": [ { "value": "TRUE" } ],
-        "OUTPUTDIR": [ { "value": "../../../../../../risc-v.gen/sources_1/bd/cpu/ip/cpu_darkstar_0_1" } ],
+        "OUTPUTDIR": [ { "value": "../../../../../../risc-v.gen/sources_1/bd/cpu/ip/cpu_Darkstar_0_2" } ],
         "SELECTEDSIMMODEL": [ { "value": "" } ],
         "SHAREDDIR": [ { "value": "../../ipshared" } ],
-        "SWVERSION": [ { "value": "2024.1" } ],
+        "SWVERSION": [ { "value": "2024.2" } ],
         "SYNTHESISFLOW": [ { "value": "OUT_OF_CONTEXT" } ]
       }
     },

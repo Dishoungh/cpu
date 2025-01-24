@@ -68,6 +68,10 @@ For inputs (buttons and switches), I need to debounce the signals. I'm making a 
 
 Apparently, in Vivado 2024.1, there is a [bug where the AXI code generator creates faulty code](https://adaptivesupport.amd.com/s/article/000037171?language=en_US). I could try to fix this myself by manually adding in the code, but I'm just going to upgrade to 2024.2.
 
+After migrating to 2024.2, I deleted the AXI Interconnect IP for the [AXI Smartconnect](https://www.xilinx.com/products/intellectual-property/smartconnect.html). According to Xilinx, it is now a drop-in replacement for the AXI Interconnect.
+
+I also created a new block design for the IP, `darkstar_bd`.
+
 ## Special Thanks
 
 I'm dedicating this section to the wonderful people at the [Digital Design HQ discord](https://discord.gg/4YWKUryprY) who have helped me build this project.
