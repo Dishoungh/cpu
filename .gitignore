@@ -13,6 +13,8 @@ Sources/PetaLinux/images/linux/
 !Sources/PetaLinux/images/linux/BOOT.BIN
 !Sources/PetaLinux/images/linux/boot.scr
 !Sources/PetaLinux/images/linux/image.ub
+!Sources/PetaLinux/images/linux/zynq_fsbl.elf
+!Sources/PetaLinux/images/linux/petalinux-sdimage.wic
 Sources/PetaLinux/pre-built/linux/
 Sources/PetaLinux/.petalinux/*
 !Sources/PetaLinux/.petalinux/metadata
