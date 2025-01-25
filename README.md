@@ -64,7 +64,7 @@ For inputs (buttons and switches), I need to debounce the signals. I'm making a 
 
 ![Image](./Sources/IMG/PartIV-Debounce-Testbench.png)
 
-## Part V: Modifying IP
+## Part V: Generating First Bitstream
 
 Apparently, in Vivado 2024.1, there is a [bug where the AXI code generator creates faulty code](https://adaptivesupport.amd.com/s/article/000037171?language=en_US). I could try to fix this myself by manually adding in the code, but I'm just going to upgrade to 2024.2.
 
@@ -72,7 +72,12 @@ After migrating to 2024.2, I deleted the AXI Interconnect IP for the [AXI Smartc
 
 ![Image](./Sources/IMG/PartV-Smartconnect.png)
 
-I also created a new block design for the IP, `darkstar_bd`.
+I want to generate a bitstream just to test out a barebones image and establish my cache for the block design modules.
+
+## Part VI: Creating PetaLinux Project
+
+I'm using PetaLinux to see if an image can run on the Arty Z7. To create a PetaLinux project for Zynq:
+`petalinux-create --type project --template zynq --name PetaLinux`
 
 ## Special Thanks
 

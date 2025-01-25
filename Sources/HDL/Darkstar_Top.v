@@ -10,7 +10,7 @@
 //--------------------------------------------------------------------------------
 `timescale 1 ps / 1 ps
 
-module Darkstar_Top
+module Darkstar
 (
     // 125 MHz Clock
     input wire clk,

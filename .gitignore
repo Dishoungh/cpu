@@ -1,10 +1,25 @@
-# Ignore useless files and directories
+# General Ignores
 **/*.jou
 **/*.log
 **/*.str
+**/*.o
 **/.Xil/
 
-# Ignore everything in WorkingDir except for .xpr file and .srcs
+# PetaLinux
+Sources/PetaLinux/*/*/config.old
+Sources/PetaLinux/*/*/rootfs_config.old
+Sources/PetaLinux/build/
+Sources/PetaLinux/images/linux/
+!Sources/PetaLinux/images/linux/BOOT.BIN
+!Sources/PetaLinux/images/linux/boot.scr
+!Sources/PetaLinux/images/linux/image.ub
+Sources/PetaLinux/pre-built/linux/
+Sources/PetaLinux/.petalinux/*
+!Sources/PetaLinux/.petalinux/metadata
+Sources/PetaLinux/components/plnx_workspace
+Sources/PetaLinux/components/yocto
+
+# Vivado
 WorkingDir/*
 !WorkingDir/risc-v.srcs
 !WorkingDir/*.xpr
