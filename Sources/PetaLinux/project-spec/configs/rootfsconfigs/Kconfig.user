@@ -1,6 +1,2 @@
 menu "user packages " 
-config darkstar  
-	 bool "darkstar"
-	 help
-	
 endmenu

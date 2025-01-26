@@ -1,14 +1,14 @@
-2025-01-25 10:02:13,216 - [DEBUG] Using xsct from : /opt/Xilinx/PetaLinux/2024.2/components/xsct/bin/xsct
-2025-01-25 10:02:13,216 - [INFO] Getting Platform info from HW file
-2025-01-25 10:02:13,216 - [DEBUG] Using the soc_family specified by user:zynq
-2025-01-25 10:02:13,225 - [DEBUG] Hardware Configuration:
-2025-01-25 10:02:13,225 - [DEBUG] MACHINE     = "None"
-2025-01-25 10:02:13,225 - [DEBUG] DEVICE_ID   = "7z020"
-2025-01-25 10:02:13,225 - [DEBUG] SOC_FAMILY  = "zynq"
-2025-01-25 10:02:13,225 - [DEBUG] SOC_VARIANT = ""
-2025-01-25 10:02:13,225 - [INFO] Silentconfig project
-2025-01-25 10:02:13,225 - [DEBUG] Running CMD: yes "" | env KCONFIG_CONFIG=/home/dishoungh/workspace/cpu/Sources/PetaLinux/project-spec/configs/config conf /home/dishoungh/workspace/cpu/Sources/PetaLinux/project-spec/configs/configs/Kconfig
-2025-01-25 10:02:13,229 - [DEBUG] *
+2025-01-26 01:22:35,523 - [DEBUG] Using xsct from : /opt/Xilinx/PetaLinux/2024.2/components/xsct/bin/xsct
+2025-01-26 01:22:35,523 - [INFO] Getting Platform info from HW file
+2025-01-26 01:22:35,524 - [DEBUG] Using the soc_family specified by user:zynq
+2025-01-26 01:22:35,533 - [DEBUG] Hardware Configuration:
+2025-01-26 01:22:35,533 - [DEBUG] MACHINE     = "None"
+2025-01-26 01:22:35,533 - [DEBUG] DEVICE_ID   = "7z020"
+2025-01-26 01:22:35,533 - [DEBUG] SOC_FAMILY  = "zynq"
+2025-01-26 01:22:35,533 - [DEBUG] SOC_VARIANT = ""
+2025-01-26 01:22:35,533 - [INFO] Silentconfig project
+2025-01-26 01:22:35,533 - [DEBUG] Running CMD: yes "" | env KCONFIG_CONFIG=/home/dishoungh/workspace/cpu/Sources/PetaLinux/project-spec/configs/config conf /home/dishoungh/workspace/cpu/Sources/PetaLinux/project-spec/configs/configs/Kconfig
+2025-01-26 01:22:35,537 - [DEBUG] *
 * PetaLinux System Configuration
 *
 ZYNQ Configuration (SYSTEM_ZYNQ) [Y/?] y
@@ -243,9 +243,9 @@ user layer 0 (USER_LAYER_0) []
 #
 # configuration written to /home/dishoungh/workspace/cpu/Sources/PetaLinux/project-spec/configs/config
 #
-2025-01-25 10:02:13,260 - [INFO] Silentconfig rootfs
-2025-01-25 10:02:13,260 - [DEBUG] Running CMD: yes "" | env KCONFIG_CONFIG=/home/dishoungh/workspace/cpu/Sources/PetaLinux/project-spec/configs/rootfs_config conf /home/dishoungh/workspace/cpu/Sources/PetaLinux/project-spec/configs/rootfsconfigs/Kconfig
-2025-01-25 10:02:13,268 - [DEBUG] *
+2025-01-26 01:22:35,570 - [INFO] Silentconfig rootfs
+2025-01-26 01:22:35,570 - [DEBUG] Running CMD: yes "" | env KCONFIG_CONFIG=/home/dishoungh/workspace/cpu/Sources/PetaLinux/project-spec/configs/rootfs_config conf /home/dishoungh/workspace/cpu/Sources/PetaLinux/project-spec/configs/rootfsconfigs/Kconfig
+2025-01-26 01:22:35,578 - [DEBUG] *
 * Configuration
 *
 *
@@ -3542,7 +3542,7 @@ Add Users to Sudo users (ADD_USERS_TO_SUDOERS) [petalinux]
 #
 # configuration written to /home/dishoungh/workspace/cpu/Sources/PetaLinux/project-spec/configs/rootfs_config
 #
-2025-01-25 10:02:13,272 - [INFO] Generating configuration files
-2025-01-25 10:02:13,272 - [DEBUG] No multilibs enabled.
-2025-01-25 10:02:13,272 - [DEBUG] No multilibs enabled.
-2025-01-25 10:02:13,282 - [DEBUG] Shutting down bitbake
+2025-01-26 01:22:35,582 - [INFO] Generating configuration files
+2025-01-26 01:22:35,583 - [DEBUG] No multilibs enabled.
+2025-01-26 01:22:35,583 - [DEBUG] No multilibs enabled.
+2025-01-26 01:22:35,593 - [DEBUG] Shutting down bitbake

@@ -3769,7 +3769,6 @@ CONFIG_Init-manager-systemd=y
 #
 # user packages 
 #
-CONFIG_darkstar=y
 
 #
 # PetaLinux RootFS Settings
