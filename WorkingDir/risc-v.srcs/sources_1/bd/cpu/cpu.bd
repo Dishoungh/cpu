@@ -7,8 +7,7 @@
       "name": "cpu",
       "rev_ctrl_bd_flag": "RevCtrlBdOff",
       "synth_flow_mode": "Hierarchical",
-      "tool_version": "2024.2",
-      "validated": "true"
+      "tool_version": "2024.2"
     },
     "design_tree": {
       "Z7": "",
@@ -2244,7 +2243,7 @@
       },
       "CPU": {
         "vlnv": "user.org:user:Darkstar:1.0",
-        "ip_revision": "2",
+        "ip_revision": "3",
         "xci_name": "cpu_Darkstar_0_2",
         "xci_path": "ip/cpu_Darkstar_0_2/cpu_Darkstar_0_2.xci",
         "inst_hier_path": "CPU"
@@ -2506,8 +2505,8 @@
           "GPIO_Block/s_axi_aclk",
           "Processor_Reset/slowest_sync_clk",
           "Z7/M_AXI_GP0_ACLK",
-          "CPU/s00_axi_aclk",
-          "smartconnect_0/aclk"
+          "smartconnect_0/aclk",
+          "CPU/s00_axi_aclk"
         ]
       },
       "processing_system7_0_FCLK_RESET0_N": {

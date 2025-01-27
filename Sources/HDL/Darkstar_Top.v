@@ -5,7 +5,7 @@
 //Date        : Sun Jan 19 21:59:07 2025
 //Host        : trinity running 64-bit Gentoo Linux
 //Command     : generate_target cpu_wrapper.bd
-//Design      : Darkstar_Top
+//Design      : Darkstar
 //Purpose     : IP block netlist
 //--------------------------------------------------------------------------------
 `timescale 1 ps / 1 ps

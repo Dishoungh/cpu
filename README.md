@@ -79,11 +79,20 @@ I want to generate a bitstream just to test out a barebones image and establish 
 I'm using PetaLinux to see if an image can run on the Arty Z7. To create a PetaLinux project for Zynq:
 `petalinux-create --type project --template zynq --name PetaLinux`
 
-I built the project and created a .wic file with this string of commands: petalinux-build && petalinux-package --boot --fsbl ./images/linux/zynq_fsbl.elf --fpga ./images/linux/system.bit --u-boot --force && petalinux-package --wic --bootfiles "BOOT.BIN image.ub system.dtb boot.scr" --rootfs-file ./images/linux/rootfs.tar.gz && doas dd if=./images/linux/petalinux-sdimage.wic of=/dev/sdd status=progress conv=fsync bs=512M`
+I built the project and created a .wic file with this string of commands: `petalinux-build && petalinux-package --boot --fsbl ./images/linux/zynq_fsbl.elf --fpga ./images/linux/system.bit --u-boot --force && petalinux-package --wic --bootfiles "BOOT.BIN image.ub system.dtb boot.scr" --rootfs-file ./images/linux/rootfs.tar.gz && doas dd if=./images/linux/petalinux-sdimage.wic of=/dev/sdd status=progress conv=fsync bs=512M`
 
 To install the .wic image to an SD card: `doas dd if=./images/linux/petalinux-sdimage.wic of=/dev/sd(X) status=progress conv=fsync bs=512M` or `sudo dd if=./petalinux-sdimage.wic of=/dev/sd(X) status=progress conv=fsync bs=512M`
 
-[INSERT IMAGE HERE LATER]
+![Image](./Sources/IMG/PartVI-Booting-Arty.png)
+
+## Part VII: Making Simple Soft CPU
+
+I created a new package called "cpu-tests": `petalinux-create -t apps --name cpu-tests --enable`. This package will just write and read from AXI registers to control my CPU.
+
+In this part, I will now actually get started with designing my RISC-V CPU:
+
+
+
 
 ## Special Thanks
 
