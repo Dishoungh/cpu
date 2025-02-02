@@ -1,0 +1,207 @@
+{
+  "design": {
+    "design_info": {
+      "boundary_crc": "0x7964EE55006B5A8C",
+      "device": "xc7z020clg400-1",
+      "name": "cpu_bd",
+      "rev_ctrl_bd_flag": "RevCtrlBdOff",
+      "synth_flow_mode": "Hierarchical",
+      "tool_version": "2024.2"
+    },
+    "design_tree": {
+      "data_memory": "",
+      "util_vector_logic_0": "",
+      "xlconcat_0": ""
+    },
+    "ports": {
+      "din": {
+        "direction": "I",
+        "left": "31",
+        "right": "0"
+      },
+      "clk": {
+        "type": "clk",
+        "direction": "I",
+        "parameters": {
+          "ASSOCIATED_RESET": {
+            "value": "rst"
+          }
+        }
+      },
+      "addr": {
+        "direction": "I",
+        "left": "11",
+        "right": "0"
+      },
+      "size": {
+        "direction": "I",
+        "left": "3",
+        "right": "0"
+      },
+      "rst": {
+        "type": "rst",
+        "direction": "I",
+        "parameters": {
+          "POLARITY": {
+            "value": "ACTIVE_HIGH"
+          }
+        }
+      },
+      "en": {
+        "direction": "I"
+      },
+      "dout": {
+        "direction": "O",
+        "left": "31",
+        "right": "0"
+      },
+      "rst_busy": {
+        "direction": "O"
+      },
+      "wr": {
+        "type": "data",
+        "direction": "I"
+      }
+    },
+    "components": {
+      "data_memory": {
+        "vlnv": "xilinx.com:ip:blk_mem_gen:8.4",
+        "ip_revision": "9",
+        "xci_name": "cpu_bd_blk_mem_gen_0_1",
+        "xci_path": "ip/cpu_bd_blk_mem_gen_0_1/cpu_bd_blk_mem_gen_0_1.xci",
+        "inst_hier_path": "data_memory",
+        "parameters": {
+          "Algorithm": {
+            "value": "Minimum_Area"
+          },
+          "Byte_Size": {
+            "value": "8"
+          },
+          "Fill_Remaining_Memory_Locations": {
+            "value": "true"
+          },
+          "Memory_Type": {
+            "value": "Single_Port_RAM"
+          },
+          "Operating_Mode_A": {
+            "value": "WRITE_FIRST"
+          },
+          "Register_PortA_Output_of_Memory_Core": {
+            "value": "false"
+          },
+          "Register_PortA_Output_of_Memory_Primitives": {
+            "value": "false"
+          },
+          "Use_Byte_Write_Enable": {
+            "value": "true"
+          },
+          "Use_RSTA_Pin": {
+            "value": "true"
+          },
+          "Write_Depth_A": {
+            "value": "4096"
+          },
+          "Write_Width_A": {
+            "value": "32"
+          },
+          "use_bram_block": {
+            "value": "Stand_Alone"
+          }
+        }
+      },
+      "util_vector_logic_0": {
+        "vlnv": "xilinx.com:ip:util_vector_logic:2.0",
+        "ip_revision": "4",
+        "xci_name": "cpu_bd_util_vector_logic_0_0",
+        "xci_path": "ip/cpu_bd_util_vector_logic_0_0/cpu_bd_util_vector_logic_0_0.xci",
+        "inst_hier_path": "util_vector_logic_0",
+        "parameters": {
+          "C_SIZE": {
+            "value": "4"
+          }
+        }
+      },
+      "xlconcat_0": {
+        "vlnv": "xilinx.com:ip:xlconcat:2.1",
+        "ip_revision": "6",
+        "xci_name": "cpu_bd_xlconcat_0_0",
+        "xci_path": "ip/cpu_bd_xlconcat_0_0/cpu_bd_xlconcat_0_0.xci",
+        "inst_hier_path": "xlconcat_0",
+        "parameters": {
+          "NUM_PORTS": {
+            "value": "4"
+          }
+        }
+      }
+    },
+    "nets": {
+      "addra_0_1": {
+        "ports": [
+          "addr",
+          "data_memory/addra"
+        ]
+      },
+      "clka_0_1": {
+        "ports": [
+          "clk",
+          "data_memory/clka"
+        ]
+      },
+      "data_memory_douta": {
+        "ports": [
+          "data_memory/douta",
+          "dout"
+        ]
+      },
+      "data_memory_rsta_busy": {
+        "ports": [
+          "data_memory/rsta_busy",
+          "rst_busy"
+        ]
+      },
+      "dina_0_1": {
+        "ports": [
+          "din",
+          "data_memory/dina"
+        ]
+      },
+      "ena_0_1": {
+        "ports": [
+          "en",
+          "data_memory/ena"
+        ]
+      },
+      "rsta_0_1": {
+        "ports": [
+          "rst",
+          "data_memory/rsta"
+        ]
+      },
+      "size_1": {
+        "ports": [
+          "size",
+          "util_vector_logic_0/Op2"
+        ]
+      },
+      "util_vector_logic_0_Res": {
+        "ports": [
+          "util_vector_logic_0/Res",
+          "data_memory/wea"
+        ]
+      },
+      "wr_1": {
+        "ports": [
+          "wr",
+          "xlconcat_0/In0",
+          "xlconcat_0/In1"
+        ]
+      },
+      "xlconcat_0_dout": {
+        "ports": [
+          "xlconcat_0/dout",
+          "util_vector_logic_0/Op1"
+        ]
+      }
+    }
+  }
+}

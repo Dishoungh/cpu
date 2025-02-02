@@ -36,8 +36,8 @@
         "PCW_SDIO0_HIGHADDR": [ { "value": "0xE0100FFF", "value_src": "user", "resolve_type": "user", "format": "bitString", "usage": "all" } ],
         "PCW_SDIO1_BASEADDR": [ { "value": "0xE0101000", "resolve_type": "user", "format": "bitString", "enabled": false, "usage": "all" } ],
         "PCW_SDIO1_HIGHADDR": [ { "value": "0xE0101FFF", "resolve_type": "user", "format": "bitString", "enabled": false, "usage": "all" } ],
-        "PCW_USB0_BASEADDR": [ { "value": "0xE0102000", "value_src": "user", "resolve_type": "user", "format": "bitString", "usage": "all" } ],
-        "PCW_USB0_HIGHADDR": [ { "value": "0xE0102fff", "value_src": "user", "resolve_type": "user", "format": "bitString", "usage": "all" } ],
+        "PCW_USB0_BASEADDR": [ { "value": "0xE0102000", "resolve_type": "user", "format": "bitString", "enabled": false, "usage": "all" } ],
+        "PCW_USB0_HIGHADDR": [ { "value": "0xE0102fff", "resolve_type": "user", "format": "bitString", "enabled": false, "usage": "all" } ],
         "PCW_USB1_BASEADDR": [ { "value": "0xE0103000", "resolve_type": "user", "format": "bitString", "enabled": false, "usage": "all" } ],
         "PCW_USB1_HIGHADDR": [ { "value": "0xE0103fff", "resolve_type": "user", "format": "bitString", "enabled": false, "usage": "all" } ],
         "PCW_TTC0_BASEADDR": [ { "value": "0xE0104000", "resolve_type": "user", "format": "bitString", "enabled": false, "usage": "all" } ],
@@ -350,7 +350,7 @@
         "PCW_EN_TTC1": [ { "value": "0", "value_src": "user", "resolve_type": "user", "format": "long", "usage": "all" } ],
         "PCW_EN_WDT": [ { "value": "0", "value_src": "user", "resolve_type": "user", "format": "long", "usage": "all" } ],
         "PCW_EN_TRACE": [ { "value": "0", "value_src": "user", "resolve_type": "user", "format": "long", "usage": "all" } ],
-        "PCW_EN_USB0": [ { "value": "1", "value_src": "user", "resolve_type": "user", "format": "long", "usage": "all" } ],
+        "PCW_EN_USB0": [ { "value": "0", "value_src": "user", "resolve_type": "user", "format": "long", "usage": "all" } ],
         "PCW_EN_USB1": [ { "value": "0", "value_src": "user", "resolve_type": "user", "format": "long", "usage": "all" } ],
         "PCW_DQ_WIDTH": [ { "value": "32", "value_src": "user", "resolve_type": "user", "format": "long", "usage": "all" } ],
         "PCW_DQS_WIDTH": [ { "value": "4", "value_src": "user", "resolve_type": "user", "format": "long", "usage": "all" } ],
@@ -555,10 +555,10 @@
         "PCW_TTC1_TTC1_IO": [ { "value": "<Select>", "resolve_type": "user", "enabled": false, "usage": "all" } ],
         "PCW_PJTAG_PERIPHERAL_ENABLE": [ { "value": "0", "value_src": "user", "resolve_type": "user", "usage": "all" } ],
         "PCW_PJTAG_PJTAG_IO": [ { "value": "<Select>", "resolve_type": "user", "enabled": false, "usage": "all" } ],
-        "PCW_USB0_PERIPHERAL_ENABLE": [ { "value": "1", "value_src": "user", "resolve_type": "user", "usage": "all" } ],
-        "PCW_USB0_USB0_IO": [ { "value": "MIO 28 .. 39", "value_src": "user", "resolve_type": "user", "usage": "all" } ],
+        "PCW_USB0_PERIPHERAL_ENABLE": [ { "value": "0", "value_src": "user", "resolve_type": "user", "usage": "all" } ],
+        "PCW_USB0_USB0_IO": [ { "value": "<Select>", "resolve_type": "user", "enabled": false, "usage": "all" } ],
         "PCW_USB_RESET_ENABLE": [ { "value": "1", "value_src": "user", "resolve_type": "user", "usage": "all" } ],
-        "PCW_USB_RESET_SELECT": [ { "value": "Share reset pin", "value_src": "user", "resolve_type": "user", "usage": "all" } ],
+        "PCW_USB_RESET_SELECT": [ { "value": "<Select>", "resolve_type": "user", "enabled": false, "usage": "all" } ],
         "PCW_USB0_RESET_ENABLE": [ { "value": "1", "value_src": "user", "resolve_type": "user", "usage": "all" } ],
         "PCW_USB0_RESET_IO": [ { "value": "MIO 46", "value_src": "user", "resolve_type": "user", "usage": "all" } ],
         "PCW_USB1_PERIPHERAL_ENABLE": [ { "value": "0", "value_src": "user", "resolve_type": "user", "usage": "all" } ],
@@ -834,8 +834,8 @@
         "PCW_MIO_53_SLEW": [ { "value": "slow", "value_src": "user", "resolve_type": "user", "usage": "all" } ],
         "preset": [ { "value": "None", "value_src": "user", "resolve_type": "user", "usage": "all" } ],
         "PCW_UIPARAM_GENERATE_SUMMARY": [ { "value": "NA", "value_src": "user", "resolve_type": "user", "usage": "all" } ],
-        "PCW_MIO_TREE_PERIPHERALS": [ { "value": "GPIO#Quad SPI Flash#Quad SPI Flash#Quad SPI Flash#Quad SPI Flash#Quad SPI Flash#Quad SPI Flash#GPIO#Quad SPI Flash#ENET Reset#GPIO#GPIO#GPIO#GPIO#UART 0#UART 0#Enet 0#Enet 0#Enet 0#Enet 0#Enet 0#Enet 0#Enet 0#Enet 0#Enet 0#Enet 0#Enet 0#Enet 0#USB 0#USB 0#USB 0#USB 0#USB 0#USB 0#USB 0#USB 0#USB 0#USB 0#USB 0#USB 0#SD 0#SD 0#SD 0#SD 0#SD 0#SD 0#USB Reset#SD 0#GPIO#GPIO#GPIO#GPIO#Enet 0#Enet 0", "value_src": "user", "resolve_type": "user", "usage": "all" } ],
-        "PCW_MIO_TREE_SIGNALS": [ { "value": "gpio[0]#qspi0_ss_b#qspi0_io[0]#qspi0_io[1]#qspi0_io[2]#qspi0_io[3]/HOLD_B#qspi0_sclk#gpio[7]#qspi_fbclk#reset#gpio[10]#gpio[11]#gpio[12]#gpio[13]#rx#tx#tx_clk#txd[0]#txd[1]#txd[2]#txd[3]#tx_ctl#rx_clk#rxd[0]#rxd[1]#rxd[2]#rxd[3]#rx_ctl#data[4]#dir#stp#nxt#data[0]#data[1]#data[2]#data[3]#clk#data[5]#data[6]#data[7]#clk#cmd#data[0]#data[1]#data[2]#data[3]#reset#cd#gpio[48]#gpio[49]#gpio[50]#gpio[51]#mdc#mdio", "value_src": "user", "resolve_type": "user", "usage": "all" } ],
+        "PCW_MIO_TREE_PERIPHERALS": [ { "value": "GPIO#Quad SPI Flash#Quad SPI Flash#Quad SPI Flash#Quad SPI Flash#Quad SPI Flash#Quad SPI Flash#GPIO#Quad SPI Flash#ENET Reset#GPIO#GPIO#GPIO#GPIO#UART 0#UART 0#Enet 0#Enet 0#Enet 0#Enet 0#Enet 0#Enet 0#Enet 0#Enet 0#Enet 0#Enet 0#Enet 0#Enet 0#GPIO#GPIO#GPIO#GPIO#GPIO#GPIO#GPIO#GPIO#GPIO#GPIO#GPIO#GPIO#SD 0#SD 0#SD 0#SD 0#SD 0#SD 0#GPIO#SD 0#GPIO#GPIO#GPIO#GPIO#Enet 0#Enet 0", "value_src": "user", "resolve_type": "user", "usage": "all" } ],
+        "PCW_MIO_TREE_SIGNALS": [ { "value": "gpio[0]#qspi0_ss_b#qspi0_io[0]#qspi0_io[1]#qspi0_io[2]#qspi0_io[3]/HOLD_B#qspi0_sclk#gpio[7]#qspi_fbclk#reset#gpio[10]#gpio[11]#gpio[12]#gpio[13]#rx#tx#tx_clk#txd[0]#txd[1]#txd[2]#txd[3]#tx_ctl#rx_clk#rxd[0]#rxd[1]#rxd[2]#rxd[3]#rx_ctl#gpio[28]#gpio[29]#gpio[30]#gpio[31]#gpio[32]#gpio[33]#gpio[34]#gpio[35]#gpio[36]#gpio[37]#gpio[38]#gpio[39]#clk#cmd#data[0]#data[1]#data[2]#data[3]#gpio[46]#cd#gpio[48]#gpio[49]#gpio[50]#gpio[51]#mdc#mdio", "value_src": "user", "resolve_type": "user", "usage": "all" } ],
         "PCW_PS7_SI_REV": [ { "value": "PRODUCTION", "value_src": "user", "resolve_type": "user", "usage": "all" } ],
         "PCW_FPGA_FCLK0_ENABLE": [ { "value": "1", "value_src": "user", "resolve_type": "user", "usage": "all" } ],
         "PCW_FPGA_FCLK1_ENABLE": [ { "value": "0", "resolve_type": "user", "enabled": false, "usage": "all" } ],
@@ -972,9 +972,6 @@
     },
     "boundary": {
       "ports": {
-        "USB0_PORT_INDCTL": [ { "direction": "out", "size_left": "1", "size_right": "0" } ],
-        "USB0_VBUS_PWRSELECT": [ { "direction": "out" } ],
-        "USB0_VBUS_PWRFAULT": [ { "direction": "in", "driver_value": "0" } ],
         "M_AXI_GP0_ARVALID": [ { "direction": "out" } ],
         "M_AXI_GP0_AWVALID": [ { "direction": "out" } ],
         "M_AXI_GP0_BREADY": [ { "direction": "out" } ],
@@ -1093,16 +1090,6 @@
             "PS_PORB": [ { "physical_name": "PS_PORB" } ]
           }
         },
-        "USBIND_0": {
-          "vlnv": "xilinx.com:display_processing_system7:usbctrl:1.0",
-          "abstraction_type": "xilinx.com:display_processing_system7:usbctrl_rtl:1.0",
-          "mode": "master",
-          "port_maps": {
-            "PORT_INDCTL": [ { "physical_name": "USB0_PORT_INDCTL" } ],
-            "VBUS_PWRSELECT": [ { "physical_name": "USB0_VBUS_PWRSELECT" } ],
-            "VBUS_PWRFAULT": [ { "physical_name": "USB0_VBUS_PWRFAULT" } ]
-          }
-        },
         "M_AXI_GP0": {
           "vlnv": "xilinx.com:interface:aximm:1.0",
           "abstraction_type": "xilinx.com:interface:aximm_rtl:1.0",
@@ -1114,7 +1101,7 @@
             "NUM_READ_OUTSTANDING": [ { "value": "8", "value_src": "constant", "value_permission": "bd", "format": "long", "usage": "all" } ],
             "DATA_WIDTH": [ { "value": "32", "value_src": "auto", "value_permission": "bd", "resolve_type": "generated", "format": "long", "usage": "simulation.tlm", "is_ips_inferred": true, "is_static_object": false } ],
             "PROTOCOL": [ { "value": "AXI3", "value_src": "auto", "value_permission": "bd", "resolve_type": "generated", "usage": "simulation.tlm", "is_ips_inferred": true, "is_static_object": false } ],
-            "FREQ_HZ": [ { "value": "1e+08", "value_src": "user_prop", "value_permission": "bd", "resolve_type": "generated", "format": "long", "usage": "simulation.tlm", "is_ips_inferred": true, "is_static_object": false } ],
+            "FREQ_HZ": [ { "value": "100000000", "value_src": "user_prop", "value_permission": "bd", "resolve_type": "generated", "format": "long", "usage": "simulation.tlm", "is_ips_inferred": true, "is_static_object": false } ],
             "ID_WIDTH": [ { "value": "12", "value_src": "auto", "value_permission": "bd", "resolve_type": "generated", "format": "long", "usage": "simulation.tlm", "is_ips_inferred": true, "is_static_object": false } ],
             "ADDR_WIDTH": [ { "value": "32", "value_src": "auto", "value_permission": "bd", "resolve_type": "generated", "format": "long", "usage": "simulation.tlm", "is_ips_inferred": true, "is_static_object": false } ],
             "AWUSER_WIDTH": [ { "value": "0", "value_src": "constant", "value_permission": "bd", "resolve_type": "generated", "format": "long", "usage": "simulation.tlm", "is_ips_inferred": true, "is_static_object": false } ],
@@ -1187,7 +1174,7 @@
           "abstraction_type": "xilinx.com:signal:clock_rtl:1.0",
           "mode": "master",
           "parameters": {
-            "FREQ_HZ": [ { "value": "1e+08", "value_src": "user", "value_permission": "bd", "resolve_type": "generated", "format": "float", "usage": "all" } ],
+            "FREQ_HZ": [ { "value": "100000000", "value_src": "user", "value_permission": "bd", "resolve_type": "generated", "format": "float", "usage": "all" } ],
             "FREQ_TOLERANCE_HZ": [ { "value": "0", "value_permission": "bd", "resolve_type": "generated", "format": "long", "is_ips_inferred": true, "is_static_object": false } ],
             "PHASE": [ { "value": "0.0", "value_permission": "bd", "resolve_type": "generated", "format": "float", "is_ips_inferred": true, "is_static_object": false } ],
             "CLK_DOMAIN": [ { "value": "cpu_processing_system7_0_0_FCLK_CLK0", "value_permission": "bd", "resolve_type": "generated", "is_ips_inferred": true, "is_static_object": false } ],
@@ -1218,7 +1205,7 @@
           "mode": "slave",
           "parameters": {
             "ASSOCIATED_BUSIF": [ { "value": "M_AXI_GP0", "value_src": "constant", "value_permission": "bd", "usage": "all" } ],
-            "FREQ_HZ": [ { "value": "1e+08", "value_src": "user_prop", "value_permission": "bd", "resolve_type": "generated", "format": "long", "is_ips_inferred": true, "is_static_object": false } ],
+            "FREQ_HZ": [ { "value": "100000000", "value_src": "user_prop", "value_permission": "bd", "resolve_type": "generated", "format": "long", "is_ips_inferred": true, "is_static_object": false } ],
             "FREQ_TOLERANCE_HZ": [ { "value": "0", "value_permission": "bd", "resolve_type": "generated", "format": "long", "is_ips_inferred": true, "is_static_object": false } ],
             "PHASE": [ { "value": "0.0", "value_permission": "bd", "resolve_type": "generated", "format": "float", "is_ips_inferred": true, "is_static_object": false } ],
             "CLK_DOMAIN": [ { "value": "cpu_processing_system7_0_0_FCLK_CLK0", "value_src": "default_prop", "value_permission": "bd", "resolve_type": "generated", "is_ips_inferred": true, "is_static_object": false } ],

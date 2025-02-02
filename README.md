@@ -91,6 +91,18 @@ I created a new package called "cpu-tests": `petalinux-create -t apps --name cpu
 
 In this part, I will now actually get started with designing my RISC-V CPU:
 
+### Memory Controller
+
+The first thing I want to implement the memory elements: data memory and instruction memory.
+
+For the data memory, I'll create a block memory generator to create 16KB of data memory.
+
+![Image](./Sources/IMG/PartVII-Data-BRAM.png)
+
+To make things easier for myself, I'll create a giant test bench to test the CPU block design so I don't have to keep creating bitstreams every single time.
+
+
+
 
 
 
