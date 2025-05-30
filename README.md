@@ -102,10 +102,6 @@ For the data memory, I'll create a block memory generator to create 16KB of data
 To make things easier for myself, I'll create a giant test bench to test the CPU block design so I don't have to keep creating bitstreams every single time.
 
 
-
-
-
-
 ## Special Thanks
 
 I'm dedicating this section to the wonderful people at the [Digital Design HQ discord](https://discord.gg/4YWKUryprY) who have helped me build this project.
