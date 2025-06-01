@@ -22,6 +22,8 @@ WorkingDir - Working directory of Vivado workspace.
 I'll set up the project with a basic block design. What I want to do is just create a basic non-pipelined RV64I processor and build from there. Here is the block design:
     - ![Block Design](./Sources/IMG/part-1-block-design.png)
 
+In the Darkstar IP, there are 128 AXI registers. I want to have just enough to test everything step by step. To start, I want to set up the register file in the core, where the internal registers reside. I'm following the [released unprivileged spec from May 8, 2025](./riscv-unprivileged-spec-may-8-2025.pdf).
+
 
 # Special Thanks
 
