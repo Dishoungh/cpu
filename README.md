@@ -24,6 +24,10 @@ I'll set up the project with a basic block design. What I want to do is just cre
 
 In the Darkstar IP, there are 128 AXI registers. I want to have just enough to test everything step by step. To start, I want to set up the register file in the core, where the internal registers reside. I'm following the [released unprivileged spec from May 8, 2025](./riscv-unprivileged-spec-may-8-2025.pdf).
 
+# Part II - Regfile
+
+For this next part, I'll create the regfile, which is a block containing the 32 general purpose registers internal to the CPU core including a register holding the current Program Counter (pc) value. This functionality is relatively simple.
+
 
 # Special Thanks
 
