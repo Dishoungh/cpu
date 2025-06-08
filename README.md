@@ -1,6 +1,6 @@
 # Introduction
 
-This README will serve as a journal for my work on my RISC-V CPU. For now, I'm attempting to build a basic RISC-V CPU as a side hobby. I used to do some of this on Logisim, but I want to try this on my Arty Zynq board. We'll see where I take this.
+This README will serve as a journal for my work on my RISC-V CPU. For now, I'm attempting to build a basic RISC-V CPU as a side hobby. I used to do some of this on Logisim, but I want to try this on my Arty Zynq board. We'll see where I take this. Why am I calling this *Project Darkstar*? Because it sounds cool.
 
 # Directories
 
@@ -28,6 +28,9 @@ In the Darkstar IP, there are 128 AXI registers. I want to have just enough to t
 
 For this next part, I'll create the regfile, which is a block containing the 32 general purpose registers internal to the CPU core including a register holding the current Program Counter (pc) value. This functionality is relatively simple.
 
+# Part III - Memory
+
+I want to create 512 bytes and I'll set up this architecture as a Harvard style architecture, separating data and instruction memory into two separate blocks. I want to make this as simple as possible so I'll upgrade it later.
 
 # Special Thanks
 
