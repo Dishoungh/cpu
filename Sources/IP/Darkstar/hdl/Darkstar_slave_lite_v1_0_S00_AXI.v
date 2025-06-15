@@ -1541,9 +1541,11 @@
 	        end                                         
 	// Implement memory mapped register select and read logic generation
 	assign S_AXI_RDATA = (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h0) ? slv_reg0    :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h1) ? slv_reg1    :
+	                     //(axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h1) ? slv_reg1    :
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h1) ? 32'hDEADBEEF    : // Remove this line
 	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h2) ? slv_reg2    :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h3) ? slv_reg3    :
+	                     //(axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h3) ? slv_reg3    :
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h3) ? 32'h3377AACC    : // Remove this line
 	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h4) ? slv_reg4    :
 	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h5) ? slv_reg5    :
 	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h6) ? slv_reg6    :
@@ -1671,9 +1673,7 @@
 
 	
 	// Add user logic here
-    riscv bd
-    (
-    );
+    
 	// User logic ends
 
 	endmodule
