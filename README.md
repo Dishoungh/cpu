@@ -74,6 +74,7 @@ For Part V, I'm going to behaviorally model the control unit for the different o
 - JAL: Instruction is a JAL instruction
 - JALR: Instruction is a JALR instruction
 - Valid: Instruction is valid
+- Immediate: Provides 32-bit immediate value (sign-extended)
 
 
 # Special Thanks

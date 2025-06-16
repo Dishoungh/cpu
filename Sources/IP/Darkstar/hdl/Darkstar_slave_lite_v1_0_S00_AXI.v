@@ -1541,11 +1541,9 @@
 	        end                                         
 	// Implement memory mapped register select and read logic generation
 	assign S_AXI_RDATA = (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h0) ? slv_reg0    :
-	                     //(axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h1) ? slv_reg1    :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h1) ? 32'hDEADBEEF    : // Remove this line
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h1) ? slv_reg1    :
 	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h2) ? slv_reg2    :
-	                     //(axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h3) ? slv_reg3    :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h3) ? 32'h3377AACC    : // Remove this line
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h3) ? slv_reg3    :
 	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h4) ? slv_reg4    :
 	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h5) ? slv_reg5    :
 	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h6) ? slv_reg6    :
@@ -1673,6 +1671,229 @@
 
 	
 	// Add user logic here
+	
+	// CPU Signals
+	wire clock_select; // 0 = For AXI 100 MHz clock | 1 = For manual clock
+	wire cpu_clock;
+	wire cpu_reset;
+	
+    // Phase 1: Instruction Fetch
+    wire store_instruct;
+    wire load_instruct;
+    
+    wire[31:0] pc_temp; // This comes out of the Regfile
+    reg[31:0] program_counter;
+    
+    wire[31:0] instruction_debug;
+    wire[31:0] instruction_phase1;
+    
+    //      Program Counter Increment
+    always @(posedge cpu_clock or posedge cpu_reset)
+    begin
+        if (cpu_reset)
+            program_counter <= 32'd0;
+        else
+            program_counter <= program_counter + 32'd4;
+    end
+    
+    memory program_mem
+    (
+        .clk(cpu_clock),
+        .arst(cpu_reset),
+        .store(store_instruct),
+        .load(load_instruct),
+        .signext(1'b0),
+        .size(2'b00),
+        .addr(program_counter),
+        .dataIn(instruction_debug),
+        .dataOut(instruction_phase1),
+        .invalid()
+
+    );
+    
+    // Phase 2: Instruction Decoding
+    //      (Control Unit)
+    wire[2:0] ALU_Opcode;
+    wire Negation;
+    wire RegWrite_Phase2;
+    wire B_Src;
+    wire MemSigned_Phase2;
+    wire MemWrite_Phase2;
+    wire MemRead_Phase2;
+    wire[1:0] MemSize_Phase2;
+    wire BEQ_Flag;
+    wire BNE_Flag;
+    wire BLT_Flag;
+    wire BGE_Flag;
+    wire BLTU_Flag;
+    wire BGEU_Flag;
+    wire LUI_Flag;
+    wire AUIPC_Flag;
+    wire JAL_Flag;
+    wire JALR_Flag;
+    wire[31:0] Immediate;
+    
+    control cu
+    (
+        .clk(cpu_clock),
+        .arst(cpu_reset),
+        .instruction(instruction),
+        .ALU_Op(ALU_Opcode),
+        .Negate(Negation),
+        .RegWrite(RegWrite_Phase2),
+        .B_Src(B_Src),
+        .MemSigned(MemSigned_Phase2),
+        .MemWrite(MemWrite_Phase2),
+        .MemRead(MemRead_Phase2),
+        .MemSize(MemSize_Phase2),
+        .BEQ(BEQ_Flag),
+        .BNE(BNE_Flag),
+        .BLT(BLT_Flag),
+        .BGE(BGE_Flag),
+        .BLTU(BLTU_Flag),
+        .BGEU(BGEU_Flag),
+        .LUI(LUI_Flag),
+        .AUIPC(AUIPC_Flag),
+        .JAL(JAL_Flag),
+        .JALR(JALR_Flag),
+        .Immediate(Immediate)
+    );
+    
+    //      (Register File)
+    reg[4:0] rAddr1;
+    reg[4:0] rAddr2;
+    
+    reg RegWrite_Phase5; // This is controlled in Phase 5
+    reg[4:0] rd_Phase5; // This is controlled in Phase 5
+    reg[31:0] writeData_Phase5; // This is controlled in Phase 5
+    
+    //              (Debug Signals)
+    wire[31:0] x0_regfile;
+    wire[31:0] x1_regfile;
+    wire[31:0] x2_regfile;
+    wire[31:0] x3_regfile;
+    wire[31:0] x4_regfile;
+    wire[31:0] x5_regfile;
+    wire[31:0] x6_regfile;
+    wire[31:0] x7_regfile;
+    wire[31:0] x8_regfile;
+    wire[31:0] x9_regfile;
+    wire[31:0] x10_regfile;
+    wire[31:0] x11_regfile;
+    wire[31:0] x12_regfile;
+    wire[31:0] x13_regfile;
+    wire[31:0] x14_regfile;
+    wire[31:0] x15_regfile;
+    wire[31:0] x16_regfile;
+    wire[31:0] x17_regfile;
+    wire[31:0] x18_regfile;
+    wire[31:0] x19_regfile;
+    wire[31:0] x20_regfile;
+    wire[31:0] x21_regfile;
+    wire[31:0] x22_regfile;
+    wire[31:0] x23_regfile;
+    wire[31:0] x24_regfile;
+    wire[31:0] x25_regfile;
+    wire[31:0] x26_regfile;
+    wire[31:0] x27_regfile;
+    wire[31:0] x28_regfile;
+    wire[31:0] x29_regfile;
+    wire[31:0] x30_regfile;
+    wire[31:0] x31_regfile;
+    wire[31:0] pc_regfile;
+    
+    regfile rf
+    (
+        .clk(cpu_clock),
+        .arst(cpu_reset),
+        .we(RegWrite_Phase5),
+        .rd(rd_Phase5),
+        .rAddr1(),
+        .rAddr2(),
+        .wData(writeData_Phase5),
+        .PC_In(program_counter),
+        .PC_Out(pc_temp),
+        .rs1(),
+        .rs2()
+        
+        ,
+        .x0(x0_regfile),
+        .x1(x1_regfile),
+        .x2(x2_regfile),
+        .x3(x3_regfile),
+        .x4(x4_regfile),
+        .x5(x5_regfile),
+        .x6(x6_regfile),
+        .x7(x7_regfile),
+        .x8(x8_regfile),
+        .x9(x9_regfile),
+        .x10(x10_regfile),
+        .x11(x11_regfile),
+        .x12(x12_regfile),
+        .x13(x13_regfile),
+        .x14(x14_regfile),
+        .x15(x15_regfile),
+        .x16(x16_regfile),
+        .x17(x17_regfile),
+        .x18(x18_regfile),
+        .x19(x19_regfile),
+        .x20(x20_regfile),
+        .x21(x21_regfile),
+        .x22(x22_regfile),
+        .x23(x23_regfile),
+        .x24(x24_regfile),
+        .x25(x25_regfile),
+        .x26(x26_regfile),
+        .x27(x27_regfile),
+        .x28(x28_regfile),
+        .x29(x29_regfile),
+        .x30(x30_regfile),
+        .x31(x31_regfile),
+        .pc(pc_regfile)
+    );
+    
+    // Phase 3: Execution
+    reg[31:0] a_operand;
+    reg[31:0] b_operand;
+    reg[2:0] op_phase3;
+    reg negate;
+    
+    wire[31:0] res;
+    wire zero_status;
+    wire negative_status;
+    wire carry_status;
+    wire overflow_status;
+    
+    alu arithmetic_logic_unit
+    (
+        .a(a_operand),
+        .b(b_operand),
+        .op(op_phase3),
+        .negate(negate),
+        .result(res),
+        .zero(zero_status),
+        .negative(negative_status),
+        .carry(carry_status),
+        .overflow(overflow_status)
+    );
+    
+    // Phase 4: Data Memory
+    
+    memory data_mem
+    (
+        .clk(cpu_clock),
+        .arst(cpu_reset),
+        .store(MemWrite_Phase4),
+        .load(MemRead_Phase4),
+        .signext(),
+        .size(),
+        .addr(),
+        .dataIn(),
+        .invalid(),
+        .dataOut()
+    );
+    
+    // Phase 5: Write Back
     
 	// User logic ends
 
