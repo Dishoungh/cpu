@@ -13,7 +13,6 @@ module memory
     input wire[1:0] size,       // Byte Enable (00 = Full Word | 01 = Half Word | 10 = Byte | 11 = Invalid)
     input wire[31:0] addr,      // Address Pointer
     input wire[31:0] dataIn,
-    output reg invalid,
     output reg[31:0] dataOut
 );
 
@@ -24,19 +23,6 @@ assign address = addr[8:0];
 
 // Array
 reg[7:0] mem[0:511];
-
-// Invalid Logic
-always @(negedge clk)
-begin
-    if (size == 2'b11)
-        invalid <= 1'b1;
-    else if ((address > 9'd510) && (size == 2'b01))
-        invalid <= 1'b1;
-    else if ((address > 9'd508) && (size == 2'b00))
-        invalid <= 1'b1;
-    else
-        invalid <= 1'b0;
-end
 
 // Data Storing Logic
 always @(posedge clk or posedge arst)
@@ -79,9 +65,9 @@ begin
 end
 
 // Data Loading Logic
-always @(posedge clk or posedge arst)
+always @(posedge clk or posedge arst or negedge load)
 begin
-    if (arst || !load || invalid || (load && store))
+    if (arst || !load)
         dataOut <= 32'd0;
     else
         begin

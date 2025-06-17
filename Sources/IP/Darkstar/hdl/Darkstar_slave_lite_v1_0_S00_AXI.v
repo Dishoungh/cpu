@@ -1539,152 +1539,55 @@
 	           endcase                                       
 	          end                                       
 	        end                                         
-	// Implement memory mapped register select and read logic generation
-	assign S_AXI_RDATA = (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h0) ? slv_reg0    :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h1) ? slv_reg1    :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h2) ? slv_reg2    :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h3) ? slv_reg3    :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h4) ? slv_reg4    :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h5) ? slv_reg5    :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h6) ? slv_reg6    :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h7) ? slv_reg7    :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h8) ? slv_reg8    :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h9) ? slv_reg9    :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'hA) ? slv_reg10   :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'hB) ? slv_reg11   :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'hC) ? slv_reg12   :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'hD) ? slv_reg13   :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'hE) ? slv_reg14   :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'hF) ? slv_reg15   :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h10) ? slv_reg16  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h11) ? slv_reg17  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h12) ? slv_reg18  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h13) ? slv_reg19  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h14) ? slv_reg20  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h15) ? slv_reg21  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h16) ? slv_reg22  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h17) ? slv_reg23  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h18) ? slv_reg24  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h19) ? slv_reg25  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h1A) ? slv_reg26  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h1B) ? slv_reg27  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h1C) ? slv_reg28  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h1D) ? slv_reg29  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h1E) ? slv_reg30  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h1F) ? slv_reg31  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h20) ? slv_reg32  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h21) ? slv_reg33  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h22) ? slv_reg34  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h23) ? slv_reg35  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h24) ? slv_reg36  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h25) ? slv_reg37  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h26) ? slv_reg38  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h27) ? slv_reg39  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h28) ? slv_reg40  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h29) ? slv_reg41  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h2A) ? slv_reg42  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h2B) ? slv_reg43  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h2C) ? slv_reg44  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h2D) ? slv_reg45  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h2E) ? slv_reg46  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h2F) ? slv_reg47  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h30) ? slv_reg48  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h31) ? slv_reg49  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h32) ? slv_reg50  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h33) ? slv_reg51  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h34) ? slv_reg52  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h35) ? slv_reg53  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h36) ? slv_reg54  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h37) ? slv_reg55  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h38) ? slv_reg56  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h39) ? slv_reg57  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h3A) ? slv_reg58  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h3B) ? slv_reg59  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h3C) ? slv_reg60  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h3D) ? slv_reg61  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h3E) ? slv_reg62  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h3F) ? slv_reg63  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h40) ? slv_reg64  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h41) ? slv_reg65  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h42) ? slv_reg66  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h43) ? slv_reg67  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h44) ? slv_reg68  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h45) ? slv_reg69  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h46) ? slv_reg70  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h47) ? slv_reg71  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h48) ? slv_reg72  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h49) ? slv_reg73  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h4A) ? slv_reg74  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h4B) ? slv_reg75  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h4C) ? slv_reg76  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h4D) ? slv_reg77  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h4E) ? slv_reg78  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h4F) ? slv_reg79  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h50) ? slv_reg80  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h51) ? slv_reg81  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h52) ? slv_reg82  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h53) ? slv_reg83  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h54) ? slv_reg84  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h55) ? slv_reg85  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h56) ? slv_reg86  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h57) ? slv_reg87  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h58) ? slv_reg88  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h59) ? slv_reg89  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h5A) ? slv_reg90  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h5B) ? slv_reg91  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h5C) ? slv_reg92  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h5D) ? slv_reg93  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h5E) ? slv_reg94  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h5F) ? slv_reg95  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h60) ? slv_reg96  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h61) ? slv_reg97  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h62) ? slv_reg98  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h63) ? slv_reg99  :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h64) ? slv_reg100 :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h65) ? slv_reg101 :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h66) ? slv_reg102 :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h67) ? slv_reg103 :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h68) ? slv_reg104 :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h69) ? slv_reg105 :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h6A) ? slv_reg106 :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h6B) ? slv_reg107 :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h6C) ? slv_reg108 :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h6D) ? slv_reg109 :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h6E) ? slv_reg110 :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h6F) ? slv_reg111 :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h70) ? slv_reg112 :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h71) ? slv_reg113 :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h72) ? slv_reg114 :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h73) ? slv_reg115 :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h74) ? slv_reg116 :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h75) ? slv_reg117 :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h76) ? slv_reg118 :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h77) ? slv_reg119 :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h78) ? slv_reg120 :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h79) ? slv_reg121 :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h7A) ? slv_reg122 :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h7B) ? slv_reg123 :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h7C) ? slv_reg124 :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h7D) ? slv_reg125 :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h7E) ? slv_reg126 :
-	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h7F) ? slv_reg127 : 0;
-
 	
 	// Add user logic here
 	
+	/*
+	       // Slave Register Mapping
+	           - slv_reg0: Control Register
+	               - Bit 4: Load Instruction
+	               - Bit 3: Store Instruction
+	               - Bit 2: Clock Select
+	               - Bit 1: CPU Reset
+	               - Bit 0: Manual Clock
+	           
+	           - slv_reg1: Status Register
+	               - Bit 31-0: Program Counter (Address input for Program Memory)
+	           
+	           - slv_reg2: Control Register
+	               - Bit 31-0: Instruction Input
+	           
+	           - slv_reg3: Status Register
+	               - Bit 31-0: Instruction (Coming straight from Program Memory)
+	   
+    */
+	
+	
 	// CPU Signals
-	wire clock_select; // 0 = For AXI 100 MHz clock | 1 = For manual clock
-	wire cpu_clock;
+	wire manual_clock;
+	assign manual_clock = slv_reg0[0];
+	
 	wire cpu_reset;
+	assign cpu_reset = slv_reg0[1];
+	
+	wire clock_select; // 0 = For AXI 100 MHz clock | 1 = For manual clock
+	assign clock_select = slv_reg0[2];
+	
+	wire cpu_clock;
+	assign cpu_clock = manual_clock;
+	
 	
     // Phase 1: Instruction Fetch
     wire store_instruct;
+    assign store_instruct = slv_reg0[3];
     wire load_instruct;
+    assign load_instruct = slv_reg0[4];
     
-    wire[31:0] pc_temp; // This comes out of the Regfile
     reg[31:0] program_counter;
     
-    wire[31:0] instruction_debug;
+    wire[31:0] user_instruction;
+    assign user_instruction = slv_reg2;
+    
     wire[31:0] instruction_phase1;
     
     //      Program Counter Increment
@@ -1703,14 +1606,13 @@
         .store(store_instruct),
         .load(load_instruct),
         .signext(1'b0),
-        .size(2'b00),
+        .size(2'b00), // Full Word
         .addr(program_counter),
-        .dataIn(instruction_debug),
-        .dataOut(instruction_phase1),
-        .invalid()
-
+        .dataIn(user_instruction),
+        .dataOut(instruction_phase1)
     );
     
+    /*
     // Phase 2: Instruction Decoding
     //      (Control Unit)
     wire[2:0] ALU_Opcode;
@@ -1894,7 +1796,139 @@
     );
     
     // Phase 5: Write Back
+    */
     
 	// User logic ends
+	
+	// Implement memory mapped register select and read logic generation
+	assign S_AXI_RDATA = (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h0) ? slv_reg0              : // Offset = 0
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h1) ? program_counter       : // Offset = 4
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h2) ? slv_reg2              : // Offset = 8
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h3) ? instruction_phase1    : // Offset = 12
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h4) ? slv_reg4    : // Offset = 16
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h5) ? slv_reg5    : // Offset = 20
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h6) ? slv_reg6    : // Offset = 24
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h7) ? slv_reg7    : // Offset = 28
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h8) ? slv_reg8    : // Offset = 32
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h9) ? slv_reg9    : // Offset = 36
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'hA) ? slv_reg10   : // Offset = 40
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'hB) ? slv_reg11   : // Offset = 44
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'hC) ? slv_reg12   : // Offset = 48
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'hD) ? slv_reg13   : // Offset = 52
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'hE) ? slv_reg14   : // Offset = 56
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'hF) ? slv_reg15   : // Offset = 60
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h10) ? slv_reg16  : // Offset = 64
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h11) ? slv_reg17  : // Offset = 68
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h12) ? slv_reg18  : // Offset = 72
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h13) ? slv_reg19  : // Offset = 76
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h14) ? slv_reg20  : // Offset = 80
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h15) ? slv_reg21  : // Offset = 84
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h16) ? slv_reg22  : // Offset = 88
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h17) ? slv_reg23  : // Offset = 92
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h18) ? slv_reg24  : // Offset = 96
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h19) ? slv_reg25  : // Offset = 100
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h1A) ? slv_reg26  : // Offset = 104
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h1B) ? slv_reg27  : // Offset = 108
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h1C) ? slv_reg28  : // Offset = 112
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h1D) ? slv_reg29  : // Offset = 116
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h1E) ? slv_reg30  : // Offset = 120
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h1F) ? slv_reg31  : // Offset = 124
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h20) ? slv_reg32  : // Offset = 128
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h21) ? slv_reg33  : // Offset = 132
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h22) ? slv_reg34  : // Offset = 136
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h23) ? slv_reg35  : // Offset = 140
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h24) ? slv_reg36  : // Offset = 144
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h25) ? slv_reg37  : // Offset = 148
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h26) ? slv_reg38  : // Offset = 152
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h27) ? slv_reg39  : // Offset = 156
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h28) ? slv_reg40  : // Offset = 160
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h29) ? slv_reg41  : // Offset = 164
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h2A) ? slv_reg42  : // Offset = 168
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h2B) ? slv_reg43  : // Offset = 172
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h2C) ? slv_reg44  : // Offset = 176
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h2D) ? slv_reg45  : // Offset = 180
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h2E) ? slv_reg46  : // Offset = 184
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h2F) ? slv_reg47  : // Offset = 188
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h30) ? slv_reg48  : // Offset = 192
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h31) ? slv_reg49  : // Offset = 196
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h32) ? slv_reg50  : // Offset = 200
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h33) ? slv_reg51  : // Offset = 204
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h34) ? slv_reg52  : // Offset = 208
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h35) ? slv_reg53  : // Offset = 212
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h36) ? slv_reg54  : // Offset = 216
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h37) ? slv_reg55  : // Offset = 220
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h38) ? slv_reg56  : // Offset = 224
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h39) ? slv_reg57  : // Offset = 228
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h3A) ? slv_reg58  : // Offset = 232
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h3B) ? slv_reg59  : // Offset = 236
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h3C) ? slv_reg60  : // Offset = 240
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h3D) ? slv_reg61  : // Offset = 244
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h3E) ? slv_reg62  : // Offset = 248
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h3F) ? slv_reg63  : // Offset = 252
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h40) ? slv_reg64  : // Offset = 256
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h41) ? slv_reg65  : // Offset = 260
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h42) ? slv_reg66  : // Offset = 264
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h43) ? slv_reg67  : // Offset = 268
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h44) ? slv_reg68  : // Offset = 272
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h45) ? slv_reg69  : // Offset = 276
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h46) ? slv_reg70  : // Offset = 280
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h47) ? slv_reg71  : // Offset = 284
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h48) ? slv_reg72  : // Offset = 288
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h49) ? slv_reg73  : // Offset = 292
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h4A) ? slv_reg74  : // Offset = 296
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h4B) ? slv_reg75  : // Offset = 300
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h4C) ? slv_reg76  : // Offset = 304
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h4D) ? slv_reg77  : // Offset = 308
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h4E) ? slv_reg78  : // Offset = 312
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h4F) ? slv_reg79  : // Offset = 316
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h50) ? slv_reg80  : // Offset = 320
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h51) ? slv_reg81  : // Offset = 324
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h52) ? slv_reg82  : // Offset = 328
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h53) ? slv_reg83  : // Offset = 332
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h54) ? slv_reg84  : // Offset = 336
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h55) ? slv_reg85  : // Offset = 340
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h56) ? slv_reg86  : // Offset = 344
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h57) ? slv_reg87  : // Offset = 348
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h58) ? slv_reg88  : // Offset = 352
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h59) ? slv_reg89  : // Offset = 356
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h5A) ? slv_reg90  : // Offset = 360
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h5B) ? slv_reg91  : // Offset = 364
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h5C) ? slv_reg92  : // Offset = 368
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h5D) ? slv_reg93  : // Offset = 372
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h5E) ? slv_reg94  : // Offset = 376
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h5F) ? slv_reg95  : // Offset = 380
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h60) ? slv_reg96  : // Offset = 384
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h61) ? slv_reg97  : // Offset = 388
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h62) ? slv_reg98  : // Offset = 392
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h63) ? slv_reg99  : // Offset = 396
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h64) ? slv_reg100 : // Offset = 400
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h65) ? slv_reg101 : // Offset = 404
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h66) ? slv_reg102 : // Offset = 408
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h67) ? slv_reg103 : // Offset = 412
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h68) ? slv_reg104 : // Offset = 416
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h69) ? slv_reg105 : // Offset = 420
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h6A) ? slv_reg106 : // Offset = 424
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h6B) ? slv_reg107 : // Offset = 428
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h6C) ? slv_reg108 : // Offset = 432
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h6D) ? slv_reg109 : // Offset = 436
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h6E) ? slv_reg110 : // Offset = 440
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h6F) ? slv_reg111 : // Offset = 444
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h70) ? slv_reg112 : // Offset = 448
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h71) ? slv_reg113 : // Offset = 452
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h72) ? slv_reg114 : // Offset = 456
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h73) ? slv_reg115 : // Offset = 460
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h74) ? slv_reg116 : // Offset = 464
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h75) ? slv_reg117 : // Offset = 468
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h76) ? slv_reg118 : // Offset = 472
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h77) ? slv_reg119 : // Offset = 476
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h78) ? slv_reg120 : // Offset = 480
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h79) ? slv_reg121 : // Offset = 484
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h7A) ? slv_reg122 : // Offset = 488
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h7B) ? slv_reg123 : // Offset = 492
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h7C) ? slv_reg124 : // Offset = 496
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h7D) ? slv_reg125 : // Offset = 500
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h7E) ? slv_reg126 : // Offset = 504
+	                     (axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 7'h7F) ? slv_reg127 : // Offset = 508
+	                     0;
 
 	endmodule
