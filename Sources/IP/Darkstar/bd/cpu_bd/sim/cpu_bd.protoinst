@@ -1,9 +1,0 @@
-{
-	"version": "1.0",
-	"modules": {
-		"cpu_bd": {
-			"proto_instances": {
-			}
-		}
-	}
-}
